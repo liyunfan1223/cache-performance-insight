@@ -1,0 +1,10 @@
+.vscode/*
+.idea/*
+build/*
+local/*
+
+cmake-build-debug/
+
+*.log
+*.o
+
