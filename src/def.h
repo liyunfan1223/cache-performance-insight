@@ -20,7 +20,7 @@ enum class RC {
     HIT,
     MISS,
     FAILED,
-    UNIMPLEMENT
+    UNIMPLEMENT,
 };
 
 typedef int32_t Key;
