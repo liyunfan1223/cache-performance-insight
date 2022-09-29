@@ -25,8 +25,7 @@ public:
     std::string statics()
     {
         std::stringstream s;
-        s << "lru_cache"
-          << " buffer_size:" << buffer_size_
+        s << " buffer_size:" << buffer_size_
           << " hit_count:" <<  hit_count_
           << " miss_count:" << miss_count_
           << " hit_rate:" << float(hit_count_) / (hit_count_ + miss_count_) * 100 << "\%"
@@ -36,6 +35,9 @@ public:
 
     virtual RC get(const Key & key) = 0;
     virtual RC put(const Key & key, const Value &value) = 0;
+    virtual std::string get_name() = 0;
+    int32_t hit_count() const { return hit_count_; }
+    int32_t miss_count() const { return miss_count_; }
 
 protected:
     int32_t buffer_size_;

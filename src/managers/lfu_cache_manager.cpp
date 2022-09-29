@@ -1,0 +1,34 @@
+//
+// Created by l50029536 on 2022/9/29.
+//
+
+#include "lfu_cache_manager.h"
+
+RC LFUCacheManager::get(const Key & key) {
+    int32_t freq = 0;
+    if (u_map_.count(key) == 0) {
+        miss_count_++;
+        if (set_.size() >= buffer_size_) {
+            auto item = set_.begin();
+            u_map_.erase(item->key);
+            set_.erase(item);
+        }
+    } else {
+        hit_count_++;
+        auto item = u_map_[key];
+        freq = item->freq + 1;
+        set_.erase(item);
+    }
+    auto result = set_.insert(Status(freq, timestamp_++, key));
+    u_map_[key] = result.first;
+    return RC::SUCCESS;
+}
+
+RC LFUCacheManager::put(const Key &key, const Value & value) {
+    return RC::UNIMPLEMENT;
+}
+
+std::string LFUCacheManager::get_name()
+{
+    return std::string("LFU_CACHE_MANAGER");
+}
