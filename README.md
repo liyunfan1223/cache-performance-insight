@@ -1,8 +1,7 @@
 # Cache Performance Insight ![](https://img.shields.io/badge/build-passing-brightgreen) ![](https://img.shields.io/badge/coverage-96%25-brightgreen)
 
-
-> Cache performance insight is a framework aim at evaluating performance on different 
-> cache policy with different workloads and configurations.
+> Cache Performance Insight is a framework designed to evaluate the performance of different cache policies with 
+> different workloads and configurations.
 
 ## Build
 ```

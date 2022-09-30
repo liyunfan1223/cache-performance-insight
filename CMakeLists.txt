@@ -3,7 +3,7 @@ project(cache_performance_insight)
 
 set(CMAKE_CXX_STANDARD 14)
 
-SET(CMAKE_COMMON_FLAGS  -coverage)
+SET(CMAKE_COMMON_FLAGS -coverage)
 
 IF(DEBUG)
     MESSAGE("DEBUG has been set as TRUE ${DEBUG}")
