@@ -19,13 +19,13 @@ public:
 
     virtual ~CacheManager()
     {
-//        delete buffer_pool_;
     }
 
     std::string statics()
     {
         std::stringstream s;
-        s << " buffer_size:" << buffer_size_
+        s << get_name() << ": "
+          <<" buffer_size:" << buffer_size_
           << " hit_count:" <<  hit_count_
           << " miss_count:" << miss_count_
           << " hit_rate:" << float(hit_count_) / (hit_count_ + miss_count_) * 100 << "\%"

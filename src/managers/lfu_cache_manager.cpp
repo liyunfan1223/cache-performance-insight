@@ -24,9 +24,7 @@ RC LFUCacheManager::get(const Key & key) {
     return RC::SUCCESS;
 }
 
-RC LFUCacheManager::put(const Key &key, const Value & value) {
-    return RC::UNIMPLEMENT;
-}
+RC LFUCacheManager::put(const Key &key, const Value & value) { return RC::UNIMPLEMENT; }
 
 std::string LFUCacheManager::get_name()
 {
