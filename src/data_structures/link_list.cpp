@@ -29,19 +29,6 @@ RC LinkList::PushFront(Key key)
     return RC::SUCCESS;
 }
 
-RC LinkList::PushFront(Key key, Value value)
-{
-    LinkNode * new_node = new LinkNode(key, value);
-    head->pred = new_node;
-    new_node->next = head;
-    if (tail == nullptr) {
-        tail = new_node;
-    }
-    head = new_node;
-    size++;
-    return RC::SUCCESS;
-}
-
 RC LinkList::PopBack()
 {
     LinkNode * old_tail = tail;

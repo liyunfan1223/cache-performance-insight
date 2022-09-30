@@ -16,9 +16,7 @@ public:
     {}
 
     ~LRUCacheManager()
-    {
-
-    }
+    {}
     RC get(const Key & key) override;
     RC put(const Key & key, const Value & value) override;
     std::string get_name() override;

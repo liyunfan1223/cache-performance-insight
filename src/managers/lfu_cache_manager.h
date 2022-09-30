@@ -19,24 +19,15 @@ struct Status {
             freq < rhs.freq :
             timestamp < rhs.timestamp;
     }
-//    bool operator = (Status & rhs) const {
-//        return 0;
-//    }
-//    bool operator >= (Status & rhs) const {
-//        return 0;
-//    }
 };
 
 class LFUCacheManager: public CacheManager {
 public:
     LFUCacheManager(int32_t buffer_size): CacheManager(buffer_size)
-    {
-    }
+    {}
 
     ~LFUCacheManager()
-    {
-
-    }
+    {}
     RC get(const Key & key) override;
     RC put(const Key & key, const Value & value) override;
     std::string get_name() override;

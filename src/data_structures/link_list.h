@@ -10,8 +10,8 @@ struct LinkNode {
     LinkNode(){}
     LinkNode(Key key): key(key)
     {}
-    LinkNode(Key key, Value value): key(key), value(value)
-    {}
+//    LinkNode(Key key, Value value): key(key), value(value)
+//    {}
     LinkNode * pred = nullptr;
     LinkNode * next = nullptr;
     Key key;
@@ -23,7 +23,7 @@ public:
     LinkList(){}
     ~LinkList();
     RC PushFront(Key key);
-    RC PushFront(Key key, Value value);
+//    RC PushFront(Key key, Value value);
     RC PopBack();
     RC Remove(LinkNode * node);
 
