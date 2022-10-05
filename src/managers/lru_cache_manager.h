@@ -9,6 +9,7 @@
 #include "def.h"
 #include "cache_manager.h"
 #include "data_structures/link_list.h"
+#include "data_structures/lru_list.h"
 
 class LRUCacheManager: public CacheManager {
 public:
@@ -16,13 +17,10 @@ public:
     {}
 
     ~LRUCacheManager()
-    {
-
-    }
+    {}
     RC get(const Key & key) override;
     RC put(const Key & key, const Value & value) override;
     std::string get_name() override;
 private:
-    std::unordered_map<Key, LinkNode *> u_map_;
-    LinkList linkList_;
+    LRUList lruList_;
 };

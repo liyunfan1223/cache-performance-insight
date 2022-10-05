@@ -6,25 +6,9 @@
 #include <cassert>
 
 #include "managers/lfu_cache_manager.h"
+#include "utils/unittest_utils.h"
 
 int main() {
-    CacheManager * cacheManager = new LFUCacheManager(100);
-    int hit_count1 = 0, hit_count2 = 0;
-    for (int i = 0; i < 100; i++) {
-        cacheManager->get(i);
-    }
-
-    hit_count1 = cacheManager->hit_count();
-    cacheManager->get(0);
-    hit_count2 = cacheManager->hit_count();
-    assert(hit_count1 + 1 == hit_count2);
-
-    cacheManager->get(100);
-    hit_count1 = cacheManager->hit_count();
-    cacheManager->get(1);
-    hit_count2 = cacheManager->hit_count();
-    assert(hit_count1 == hit_count2);
-
-    std::cout << "LFU TEST SUCCESS." << std::endl;
+    UnittestUtils::make_test("../traces/P1.lis", std::shared_ptr<CacheManager>(new LFUCacheManager(100)));
     return 0;
 }

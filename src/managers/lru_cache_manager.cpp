@@ -2,29 +2,23 @@
 // Created by MorphLing on 2022/9/28.
 //
 
-#include <cassert>
 #include "lru_cache_manager.h"
 
 RC LRUCacheManager::get(const Key & key) {
-    if (u_map_.count(key) == 0) {
+    if (lruList_.count(key) == 0) {
         miss_count_ += 1;
-        if (linkList_.size == buffer_size_) {
-            assert(u_map_.count(linkList_.tail->key) != 0);
-            u_map_.erase(linkList_.tail->key);
-            linkList_.PopBack();
+        if (lruList_.size() == buffer_size_) {
+            lruList_.pop_back();
         }
     } else {
         hit_count_ += 1;
-        linkList_.Remove(u_map_[key]);
+        lruList_.remove(key);
     }
-    linkList_.PushFront(key);
-    u_map_[key] = linkList_.head;
+    lruList_.push_front(key);
     return RC::SUCCESS;
 }
 
-RC LRUCacheManager::put(const Key &key, const Value & value) {
-    return RC::UNIMPLEMENT;
-}
+RC LRUCacheManager::put(const Key &key, const Value & value) { return RC::UNIMPLEMENT; }
 
 std::string LRUCacheManager::get_name()
 {
