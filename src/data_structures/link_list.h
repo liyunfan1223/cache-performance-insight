@@ -6,12 +6,14 @@
 
 #include <def.h>
 
+struct LinkNode;
+class LinkList;
+
 struct LinkNode {
     LinkNode(){}
-    LinkNode(Key key): key(key)
-    {}
-//    LinkNode(Key key, Value value): key(key), value(value)
-//    {}
+    LinkNode(Key key): key(key) {}
+    LinkNode(Key key, LinkList * belong): key(key), belong(belong) {}
+    LinkList * belong = nullptr;
     LinkNode * pred = nullptr;
     LinkNode * next = nullptr;
     Key key;
@@ -22,10 +24,9 @@ class LinkList {
 public:
     LinkList(){}
     ~LinkList();
-    RC PushFront(Key key);
-//    RC PushFront(Key key, Value value);
-    RC PopBack();
-    RC Remove(LinkNode * node);
+    RC push_front(Key key);
+    RC pop_back();
+    RC remove(LinkNode * node);
 
     LinkNode * head = nullptr;
     LinkNode * tail = nullptr;

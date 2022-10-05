@@ -3,7 +3,7 @@ project(cache_performance_insight)
 
 set(CMAKE_CXX_STANDARD 14)
 
-SET(CMAKE_COMMON_FLAGS -coverage)
+SET(CMAKE_COMMON_FLAGS "-coverage -frtti")
 
 IF(DEBUG)
     MESSAGE("DEBUG has been set as TRUE ${DEBUG}")
@@ -28,8 +28,9 @@ ADD_SUBDIRECTORY(unittest)
 
 
 enable_testing()
-add_test(NAME lfu_test COMMAND lfu_test)
 add_test(NAME lru_test COMMAND lru_test)
+add_test(NAME lfu_test COMMAND lfu_test)
+add_test(NAME arc_test COMMAND arc_test)
 
 find_program(LCOV lcov REQUIRED)
 find_program(GENHTML genhtml REQUIRED)
