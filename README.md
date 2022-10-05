@@ -19,6 +19,7 @@ cmake .. && make
 ./src/main 65536 ../traces/P1.lis
 LRU_CACHE_MANAGER:  buffer_size:65536 hit_count:11011495 miss_count:21043978 hit_rate:34.3514%
 LFU_CACHE_MANAGER:  buffer_size:65536 hit_count:12421166 miss_count:19634307 hit_rate:38.749%
+ARC_CACHE_MANAGER:  buffer_size:65536 hit_count:14235938 miss_count:17819535 hit_rate:44.4103%
 ```
 
 ## Unittest & Coverage
@@ -47,4 +48,5 @@ ctest && make coverage
 - [ ] runtime
 - [ ] actual memory allocation
 - [ ] concurrency
+- [ ] real time cache distribution
 - [ ] ...

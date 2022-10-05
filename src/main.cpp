@@ -6,8 +6,10 @@
 #include <memory>
 
 #include "def.h"
+#include "utils/unittest_utils.h"
 #include "managers/lru_cache_manager.h"
 #include "managers/lfu_cache_manager.h"
+#include "managers/arc_cache_manager.h"
 
 int32_t make_test(const char * filename,
                   std::shared_ptr<CacheManager> cacheManager)
@@ -30,8 +32,9 @@ int32_t make_test(const char * filename,
 }
 
 int main(int argc, char **argv) {
-    make_test(argv[2], std::shared_ptr<CacheManager>(new LRUCacheManager(std::stoi(argv[1]))));
-    make_test(argv[2], std::shared_ptr<CacheManager>(new LFUCacheManager(std::stoi(argv[1]))));
+    UnittestUtils::make_test(argv[2], std::shared_ptr<CacheManager>(new LRUCacheManager(std::stoi(argv[1]))));
+    UnittestUtils::make_test(argv[2], std::shared_ptr<CacheManager>(new LFUCacheManager(std::stoi(argv[1]))));
+    UnittestUtils::make_test(argv[2], std::shared_ptr<CacheManager>(new ARCCacheManager(std::stoi(argv[1]))));
     return 0;
 }
 
