@@ -22,8 +22,8 @@ RC ARCCacheManager::get(const Key &key) {
     // case#2
     if (lruList_b1_.count(key) != 0) {
         p_ = std::min(p_ + (lruList_b1_.size() >= lruList_b2_.size() ?
-                            1 : (int32_t)lruList_b2_.size() / lruList_b1_.size()),
-                      (int32_t)buffer_size_);
+                            1 : (double)lruList_b2_.size() / lruList_b1_.size()),
+                      (double)buffer_size_);
         replace_(key);
         lruList_b1_.remove(key);
         lruList_t2_.push_front(key);
@@ -32,8 +32,8 @@ RC ARCCacheManager::get(const Key &key) {
     // case#3
     if (lruList_b2_.count(key) != 0) {
         p_ = std::max(p_ - (lruList_b2_.size() >= lruList_b1_.size() ?
-                            1 : (int32_t)lruList_b1_.size() / lruList_b2_.size()),
-                      (int32_t)0);
+                            1 : (double)lruList_b1_.size() / lruList_b2_.size()),
+                      (double)0);
         replace_(key);
         lruList_b2_.remove(key);
         lruList_t2_.push_front(key);
