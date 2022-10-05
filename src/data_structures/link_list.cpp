@@ -14,7 +14,7 @@ LinkList::~LinkList()
     }
 }
 
-RC LinkList::PushFront(Key key)
+RC LinkList::push_front(Key key)
 {
     LinkNode * new_node = new LinkNode(key);
     if (head != nullptr) {
@@ -29,32 +29,12 @@ RC LinkList::PushFront(Key key)
     return RC::SUCCESS;
 }
 
-RC LinkList::PushFront(Key key, Value value)
+RC LinkList::pop_back()
 {
-    LinkNode * new_node = new LinkNode(key, value);
-    head->pred = new_node;
-    new_node->next = head;
-    if (tail == nullptr) {
-        tail = new_node;
-    }
-    head = new_node;
-    size++;
-    return RC::SUCCESS;
+    return remove(tail);
 }
 
-RC LinkList::PopBack()
-{
-    LinkNode * old_tail = tail;
-    tail = tail->pred;
-    if (tail->next != nullptr) {
-        tail->next = nullptr;
-    }
-    size--;
-    delete old_tail;
-    return RC::SUCCESS;
-}
-
-RC LinkList::Remove(LinkNode * node)
+RC LinkList::remove(LinkNode * node)
 {
     if (head == node) {
         head = node->next;

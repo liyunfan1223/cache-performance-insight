@@ -6,10 +6,12 @@
 #include <memory>
 
 #include "def.h"
+#include "utils/unittest_utils.h"
 #include "managers/lru_cache_manager.h"
 #include "managers/lfu_cache_manager.h"
+#include "managers/arc_cache_manager.h"
 
-int32_t make_test(int32_t buffer_size, const char * filename,
+int32_t make_test(const char * filename,
                   std::shared_ptr<CacheManager> cacheManager)
 {
     FILE * pFile;
@@ -25,19 +27,14 @@ int32_t make_test(int32_t buffer_size, const char * filename,
             cacheManager->get(i);
         }
     }
-    std::cout << cacheManager->get_name() << cacheManager->statics();
+    std::cout << cacheManager->statics();
     return 0;
 }
 
 int main(int argc, char **argv) {
-    make_test(std::stoi(argv[1]), argv[2],
-              std::shared_ptr<CacheManager>(new LRUCacheManager(std::stoi(argv[1]))));
-    make_test(std::stoi(argv[1]), argv[2],
-              std::shared_ptr<CacheManager>(new LFUCacheManager(std::stoi(argv[1]))));
-//    make_test(1000, "../traces/P1.lis");
-//    make_test(10000, "../traces/P1.lis");
-//    make_test(100000, "../traces/P1.lis");
-//    make_test(1000000, "../traces/P1.lis");
+    UnittestUtils::make_test(argv[2], std::shared_ptr<CacheManager>(new LRUCacheManager(std::stoi(argv[1]))));
+    UnittestUtils::make_test(argv[2], std::shared_ptr<CacheManager>(new LFUCacheManager(std::stoi(argv[1]))));
+    UnittestUtils::make_test(argv[2], std::shared_ptr<CacheManager>(new ARCCacheManager(std::stoi(argv[1]))));
     return 0;
 }
 

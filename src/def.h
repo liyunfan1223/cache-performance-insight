@@ -6,6 +6,9 @@
 
 #include <cstdint>
 #include <string>
+#include <iostream>
+#include <cassert>
+#include <memory>
 
 struct trace_line {
     int starting_block;
