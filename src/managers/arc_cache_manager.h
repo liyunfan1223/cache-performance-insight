@@ -25,6 +25,6 @@ public:
 private:
     RC replace_(const Key & key);
     LRUList lruList_t1_, lruList_t2_, lruList_b1_, lruList_b2_;
-    int32_t p_;
+    double p_;
 };
 
