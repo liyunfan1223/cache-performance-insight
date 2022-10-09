@@ -31,6 +31,7 @@ enable_testing()
 add_test(NAME lru_test COMMAND lru_test)
 add_test(NAME lfu_test COMMAND lfu_test)
 add_test(NAME arc_test COMMAND arc_test)
+add_test(NAME arc2_test COMMAND arc2_test)
 add_test(NAME ff_test COMMAND ff_test)
 
 find_program(LCOV lcov REQUIRED)
