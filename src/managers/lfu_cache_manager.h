@@ -8,18 +8,6 @@
 #include <unordered_map>
 #include "managers/cache_manager.h"
 
-struct Status {
-    Status(int32_t freq, int32_t timestamp, Key key)
-    : freq(freq), timestamp(timestamp), key(key) {}
-    int32_t freq;
-    int32_t timestamp;
-    Key key;
-    bool operator < (const Status & rhs) const {
-        return freq != rhs.freq ?
-            freq < rhs.freq :
-            timestamp < rhs.timestamp;
-    }
-};
 
 class LFUCacheManager: public CacheManager {
 public:
@@ -32,7 +20,19 @@ public:
     RC put(const Key & key, const Value & value) override;
     std::string get_name() override;
 private:
-    std::set<Status> set_;
+    struct Status {
+        Status(int32_t freq, int32_t timestamp, Key key)
+                : freq(freq), timestamp(timestamp), key(key) {}
+        int32_t freq;
+        int32_t timestamp;
+        Key key;
+        bool operator < (const Status & rhs) const {
+            return freq != rhs.freq ?
+                   freq < rhs.freq :
+                   timestamp < rhs.timestamp;
+        }
+    };
+    std::set<Status> buffer_set_;
     std::unordered_map<Key, std::set<Status>::iterator> u_map_;
     int32_t timestamp_ = 0;
 };

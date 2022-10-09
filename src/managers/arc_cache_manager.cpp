@@ -87,10 +87,12 @@ RC ARCCacheManager::replace_(const Key &key) {
     if ((lruList_t1_.size() != 0) &&
         ((lruList_t1_.size() > (int32_t)p_) ||
          (lruList_b1_.count(key) && lruList_t1_.size() == (int32_t)p_))) {
-        Key old_key = lruList_t1_.pop_back();
+        Key old_key;
+        lruList_t1_.pop_back(old_key);
         lruList_b1_.push_front(old_key);
     } else {
-        Key old_key = lruList_t2_.pop_back();
+        Key old_key;
+        lruList_t2_.pop_back(old_key);
         lruList_b2_.push_front(old_key);
     }
     return RC::SUCCESS;

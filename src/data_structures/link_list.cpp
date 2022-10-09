@@ -5,7 +5,8 @@
 
 #include "link_list.h"
 
-LinkList::~LinkList()
+template<typename T>
+LinkList<T>::~LinkList()
 {
     while (head != nullptr) {
         auto old = head;
@@ -14,9 +15,10 @@ LinkList::~LinkList()
     }
 }
 
-RC LinkList::push_front(Key key)
+template<typename T>
+RC LinkList<T>::push_front(T key)
 {
-    LinkNode * new_node = new LinkNode(key);
+    LinkNode<T> * new_node = new LinkNode<T>(key);
     if (head != nullptr) {
         head->pred = new_node;
     }
@@ -29,12 +31,36 @@ RC LinkList::push_front(Key key)
     return RC::SUCCESS;
 }
 
-RC LinkList::pop_back()
+template<typename T>
+RC LinkList<T>::push_back(T key)
+{
+    LinkNode<T> * new_node = new LinkNode<T>(key);
+    if (tail != nullptr) {
+        tail->next = new_node;
+    }
+    new_node->pred = tail;
+    if (head == nullptr) {
+        head = new_node;
+    }
+    tail = new_node;
+    size++;
+    return RC::SUCCESS;
+}
+
+template<typename T>
+RC LinkList<T>::pop_back()
 {
     return remove(tail);
 }
 
-RC LinkList::remove(LinkNode * node)
+template<typename T>
+RC LinkList<T>::pop_front()
+{
+    return remove(head);
+}
+
+template<typename T>
+RC LinkList<T>::remove(LinkNode<T> * node)
 {
     if (head == node) {
         head = node->next;
@@ -54,3 +80,5 @@ RC LinkList::remove(LinkNode * node)
     delete node;
     return RC::SUCCESS;
 }
+
+template class LinkList<Key>;

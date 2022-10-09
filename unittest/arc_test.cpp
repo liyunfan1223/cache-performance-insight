@@ -8,6 +8,6 @@
 #include "utils/unittest_utils.h"
 
 int main() {
-    UnittestUtils::make_test("../traces/P1.lis", std::shared_ptr<CacheManager>(new ARCCacheManager(100)));
+    UnittestUtils::make_test("../traces/P1.lis", std::shared_ptr<CacheManager>(new ARCCacheManager(65536)));
     return 0;
 }

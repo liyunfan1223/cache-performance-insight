@@ -11,15 +11,13 @@
 
 class CacheManager {
 public:
-    CacheManager(int32_t buffer_size): buffer_size_(buffer_size)
+    explicit CacheManager(int32_t buffer_size): buffer_size_(buffer_size)
     {
         hit_count_ = 0;
         miss_count_ = 0;
     }
 
-    virtual ~CacheManager()
-    {
-    }
+    virtual ~CacheManager() = default;
 
     std::string statics()
     {
@@ -28,7 +26,7 @@ public:
           <<" buffer_size:" << buffer_size_
           << " hit_count:" <<  hit_count_
           << " miss_count:" << miss_count_
-          << " hit_rate:" << float(hit_count_) / (hit_count_ + miss_count_) * 100 << "\%"
+          << " hit_rate:" << (float)hit_count_ / (float)(hit_count_ + miss_count_) * 100 << "\%"
           << std::endl;
         return s.str();
     }
