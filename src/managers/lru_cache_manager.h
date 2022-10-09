@@ -22,5 +22,5 @@ public:
     RC put(const Key & key, const Value & value) override;
     std::string get_name() override;
 private:
-    LRUList lruList_;
+    LRUList<Key> lruList_;
 };
