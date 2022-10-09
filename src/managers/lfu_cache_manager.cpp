@@ -8,18 +8,18 @@ RC LFUCacheManager::get(const Key & key) {
     int32_t freq = 0;
     if (u_map_.count(key) == 0) {
         miss_count_++;
-        if (set_.size() >= buffer_size_) {
-            auto item = set_.begin();
+        if (buffer_set_.size() >= buffer_size_) {
+            auto item = buffer_set_.begin();
             u_map_.erase(item->key);
-            set_.erase(item);
+            buffer_set_.erase(item);
         }
     } else {
         hit_count_++;
         auto item = u_map_[key];
         freq = item->freq + 1;
-        set_.erase(item);
+        buffer_set_.erase(item);
     }
-    auto result = set_.insert(Status(freq, timestamp_++, key));
+    auto result = buffer_set_.insert(Status(freq, timestamp_++, key));
     u_map_[key] = result.first;
     return RC::SUCCESS;
 }

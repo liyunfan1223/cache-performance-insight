@@ -9,6 +9,10 @@
 #include <iostream>
 #include <cassert>
 #include <memory>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <set>
 
 struct trace_line {
     int starting_block;

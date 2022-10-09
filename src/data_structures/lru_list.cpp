@@ -4,33 +4,46 @@
 
 #include "lru_list.h"
 
-RC LRUList::push_front(Key key) {
-    LinkList::push_front(key);
-    u_map[key] = LinkList::head;
-     assert(u_map.size() == LinkList::size);
+template<typename T>
+RC LRUList<T>::push_front(Key key) {
+    LinkList<T>::push_front(key);
+    u_map[key] = LinkList<T>::head;
     return RC::SUCCESS;
 }
 
-Key LRUList::pop_back() {
-    LinkNode * old_tail = tail;
+template<typename T>
+RC LRUList<T>::pop_back() {
+    LinkNode<T> * old_tail = LinkList<T>::tail;
     Key key = old_tail->key;
     u_map.erase(key);
-    LinkList::pop_back();
-    assert(u_map.size() == LinkList::size);
-    return key;
-}
-
-RC LRUList::remove(const Key &key) {
-    LinkList::remove(u_map.at(key));
-    u_map.erase(key);
-     assert(u_map.size() == LinkList::size);
+    LinkList<T>::pop_back();
     return RC::SUCCESS;
 }
 
-int32_t LRUList::count(const Key & key) {
+template<typename T>
+RC LRUList<T>::pop_back(Key & key) {
+    LinkNode<T> * old_tail = LinkList<T>::tail;
+    key = old_tail->key;
+    u_map.erase(key);
+    LinkList<T>::pop_back();
+    return RC::SUCCESS;
+}
+
+template<typename T>
+RC LRUList<T>::remove(const Key &key) {
+    LinkList<T>::remove(u_map.at(key));
+    u_map.erase(key);
+    return RC::SUCCESS;
+}
+
+template<typename T>
+int32_t LRUList<T>::count(const Key & key) {
     return u_map.count(key);
 }
 
-int32_t LRUList::size() {
-    return LinkList::size;
+template<typename T>
+int32_t LRUList<T>::size() {
+    return LinkList<T>::size;
 }
+
+template class LRUList<Key>;

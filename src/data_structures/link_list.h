@@ -6,30 +6,34 @@
 
 #include <def.h>
 
+template<typename T>
 struct LinkNode;
+
+template<typename T>
 class LinkList;
 
+template<typename T>
 struct LinkNode {
     LinkNode(){}
-    LinkNode(Key key): key(key) {}
-    LinkNode(Key key, LinkList * belong): key(key), belong(belong) {}
-    LinkList * belong = nullptr;
+    LinkNode(T key): key(key) {}
     LinkNode * pred = nullptr;
     LinkNode * next = nullptr;
-    Key key;
-    Value value;
+    T key;
 };
 
+template<typename T>
 class LinkList {
 public:
     LinkList(){}
     ~LinkList();
-    RC push_front(Key key);
+    RC push_front(T key);
+    RC push_back(T key);
     RC pop_back();
-    RC remove(LinkNode * node);
+    RC pop_front();
+    RC remove(LinkNode<T> * node);
 
-    LinkNode * head = nullptr;
-    LinkNode * tail = nullptr;
+    LinkNode<T> * head = nullptr;
+    LinkNode<T> * tail = nullptr;
     int32_t size = 0;
 };
 
