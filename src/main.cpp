@@ -12,21 +12,26 @@
 #include "managers/arc_cache_manager.h"
 #include "managers/arc2_cache_manager.h"
 #include "managers/ff_cache_manager.h"
+#include "managers/arc3_cache_manager.h"
 
 int main(int argc, char **argv) {
     std::vector<Key> access_list;
     UnittestUtils::get_access_list(argv[2], access_list);
 
-//    UnittestUtils::make_test(argv[2],
-//                             std::shared_ptr<CacheManager>(new LRUCacheManager(std::stoi(argv[1]))));
-//    UnittestUtils::make_test(argv[2],
-//                             std::shared_ptr<CacheManager>(new LFUCacheManager(std::stoi(argv[1]))));
+    UnittestUtils::make_test(argv[2],
+                             std::shared_ptr<CacheManager>(new LRUCacheManager(std::stoi(argv[1]))));
+    UnittestUtils::make_test(argv[2],
+                             std::shared_ptr<CacheManager>(new LFUCacheManager(std::stoi(argv[1]))));
     UnittestUtils::make_test(argv[2],
                              std::shared_ptr<CacheManager>(new ARCCacheManager(std::stoi(argv[1]))));
-    UnittestUtils::make_test(argv[2],
-                             std::shared_ptr<CacheManager>(new ARC2CacheManager(std::stoi(argv[1]), 0.02, access_list)));
 //    UnittestUtils::make_test(argv[2],
-//                             std::shared_ptr<CacheManager>(new FFCacheManager(std::stoi(argv[1]), access_list)));
+//                             std::shared_ptr<CacheManager>(new ARC2CacheManager(std::stoi(argv[1]), 0.02, access_list)));
+    UnittestUtils::make_test(argv[2],
+                             std::shared_ptr<CacheManager>(new ARC3CacheManager(std::stoi(argv[1]), std::stoi(argv[1]) / 2, access_list)));
+    UnittestUtils::make_test(argv[2],
+                             std::shared_ptr<CacheManager>(new ARC3CacheManager(std::stoi(argv[1]), std::stoi(argv[1]) - 1, access_list)));
+    UnittestUtils::make_test(argv[2],
+                             std::shared_ptr<CacheManager>(new FFCacheManager(std::stoi(argv[1]), access_list)));
     return 0;
 }
 

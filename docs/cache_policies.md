@@ -19,3 +19,13 @@ Farthest in Future
 
 **Reference:**
 - Introduction & Proof of Optimality: [算法复习笔记：贪心求最优Caching策略](https://blog.macromogic.xyz/2020/06/15/ff-cache/)
+
+## ARC2
+ARC based. With prior frequency.
+
+If key frequency over the bound, always move to T2 directly when cache miss occurs.
+
+## ARC3
+ARC based. With prior frequency.
+
+Reverse some place for high frequency key.

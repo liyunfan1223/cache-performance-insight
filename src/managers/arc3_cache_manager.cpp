@@ -1,10 +1,19 @@
 //
-// Created by MorphLing on 2022/10/9.
+// Created by l50029536 on 2022/10/13.
 //
 
-#include "arc2_cache_manager.h"
+#include "arc3_cache_manager.h"
 
-RC ARC2CacheManager::get(const Key &key) {
+RC ARC3CacheManager::get(const Key &key) {
+    if (hiFreqKey_.count(key) != 0) {
+        if (hiFreqSet_.count(key) == 0) {
+            miss_count_++;
+            hiFreqSet_.insert(key);
+        } else {
+            hit_count_++;
+        }
+        return RC::SUCCESS;
+    }
     int count_1, count_2;
     // case#1
     if ((count_1 = lruList_t1_.count(key)) != 0 || (count_2 = lruList_t2_.count(key)) != 0) {
@@ -23,7 +32,7 @@ RC ARC2CacheManager::get(const Key &key) {
     if (lruList_b1_.count(key) != 0) {
         p_ = std::min(p_ + (lruList_b1_.size() >= lruList_b2_.size() ?
                             1 : (double)lruList_b2_.size() / lruList_b1_.size()),
-                      (double)buffer_size_);
+                      (double)left_space_);
         replace_(key);
         lruList_b1_.remove(key);
         lruList_t2_.push_front(key);
@@ -40,8 +49,8 @@ RC ARC2CacheManager::get(const Key &key) {
         return RC::SUCCESS;
     }
     // case#4
-    if (lruList_t1_.size() + lruList_b1_.size() == buffer_size_) {
-        if (lruList_t1_.size() < buffer_size_) {
+    if (lruList_t1_.size() + lruList_b1_.size() == left_space_) {
+        if (lruList_t1_.size() < left_space_) {
             lruList_b1_.pop_back();
             replace_(key);
         } else {
@@ -49,9 +58,9 @@ RC ARC2CacheManager::get(const Key &key) {
         }
     } else {
         if (lruList_b1_.size() + lruList_t1_.size() +
-            lruList_b2_.size() + lruList_t2_.size() >= buffer_size_) {
+            lruList_b2_.size() + lruList_t2_.size() >= left_space_) {
             if (lruList_b1_.size() + lruList_t1_.size() +
-                lruList_b2_.size() + lruList_t2_.size() == 2 * buffer_size_) {
+                lruList_b2_.size() + lruList_t2_.size() == 2 * left_space_) {
                 lruList_b2_.pop_back();
             }
             replace_(key);
@@ -65,29 +74,29 @@ RC ARC2CacheManager::get(const Key &key) {
     return RC::SUCCESS;
 }
 
-RC ARC2CacheManager::put(const Key & key, const Value & value) { return RC::UNIMPLEMENT; }
+RC ARC3CacheManager::put(const Key & key, const Value & value) { return RC::UNIMPLEMENT; }
 
-std::string ARC2CacheManager::get_name()
+std::string ARC3CacheManager::get_name()
 {
-    return std::string("ARC2_CACHE_MANAGER");
+    return std::string("ARC3_CACHE_MANAGER");
 }
 
-RC ARC2CacheManager::check_consistency() {
-    if (lruList_t1_.size() + lruList_t2_.size() > buffer_size_) {
+RC ARC3CacheManager::check_consistency() {
+    if (lruList_t1_.size() + lruList_t2_.size() > left_space_) {
         return RC::FAILED;
     }
 
     if (lruList_t1_.size() + lruList_t2_.size() +
-        lruList_b1_.size() + lruList_b2_.size() > 2 * buffer_size_) {
+        lruList_b1_.size() + lruList_b2_.size() > 2 * left_space_) {
         return RC::FAILED;
     }
-    if (p_ < 0 || p_ > buffer_size_) {
+    if (p_ < 0 || p_ > left_space_) {
         return RC::FAILED;
     }
     return RC::SUCCESS;
 }
 
-RC ARC2CacheManager::replace_(const Key &key) {
+RC ARC3CacheManager::replace_(const Key &key) {
     if ((lruList_t1_.size() != 0) &&
         ((lruList_t1_.size() > (int32_t)p_) ||
          (lruList_b1_.count(key) && lruList_t1_.size() == (int32_t)p_))) {

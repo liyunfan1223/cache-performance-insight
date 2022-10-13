@@ -39,7 +39,7 @@ public:
     int32_t miss_count() const { return miss_count_; }
 
 protected:
-    int32_t buffer_size_;
+    const int32_t buffer_size_;
     int32_t hit_count_;
     int32_t miss_count_;
 };
