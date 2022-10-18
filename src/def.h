@@ -13,6 +13,9 @@
 #include <map>
 #include <unordered_map>
 #include <set>
+#include <unordered_set>
+#include <algorithm>
+#include <string.h>
 
 struct trace_line {
     int starting_block;
@@ -28,6 +31,15 @@ enum class RC {
     MISS,
     FAILED,
     UNIMPLEMENT,
+};
+
+enum class CachePolicy {
+    LRU,
+    LFU,
+    ARC,
+    ARC_2,
+    ARC_3,
+    FF
 };
 
 typedef int32_t Key;
