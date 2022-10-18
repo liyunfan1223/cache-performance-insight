@@ -32,6 +32,15 @@ enum class RC {
     UNIMPLEMENT,
 };
 
+enum class CachePolicy {
+    LRU,
+    LFU,
+    ARC,
+    ARC_2,
+    ARC_3,
+    FF
+};
+
 typedef int32_t Key;
 typedef std::string Value;
 
