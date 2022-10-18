@@ -25,11 +25,16 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
 
 void usage() {
     std::cout << "usage: ./src/main" << " <cache_policy> <buffer_size> <trace_file> <param_0>\n"
+              << "       <cache_policy> -- cache policy: [LRU, LFU, ARC, ARC_2, ARC_3, FF]\n"
               << "       <buffer_size>  -- buffer size\n"
               << "       <trace_file>   -- path of trace_file" << std::endl;
 }
 
 int main(int argc, char **argv) {
+    if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
+        usage();
+        return 0;
+    }
     std::vector<Key> access_list;
     UnittestUtils::get_access_list(argv[3], access_list);
 
