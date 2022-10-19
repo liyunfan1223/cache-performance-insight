@@ -33,11 +33,19 @@ ctest && make coverage
 ```
 
 ## Scripts & Visualization
+### Install
 ```
-./scripts/main.py
+pip install -r requirement
+```
+
+### Run
+```
+./scripts/test_runner.py
 ```
 Find plot in local/plot.png:
+
 ![](docs/pics/example_visualization.png)
+
 ## TODO
 
 ### Cache policies

@@ -55,7 +55,7 @@ BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 TRACE_FILE_LIST = [
     'traces/P1.lis'
 ]
-PARAMS_LIST = [None]
+PARAMS_LIST = [None] * len(BUFFER_SIZE_LIST)
 
 
 if __name__ == '__main__':
