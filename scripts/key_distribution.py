@@ -17,6 +17,7 @@ TRACES_LIST = [
     'DS1'
 ]
 
+
 class KeyInfoDriver:
 
     def __init__(self, trace_file_path = None):
@@ -33,6 +34,7 @@ class KeyInfoDriver:
                 else:
                     key_dict[idx] = 1
         return key_dict
+
 
 def get_key_distribution_plot(trace_name = None):
     print(f"STARTED. TRACE_NAME: {trace_name}")
@@ -116,7 +118,6 @@ def get_key_distribution_plot_both(trace_name=None):
     freq.reverse()
     down_sample_rate = len(freq) // 300
 
-    print('GENERATING...')
     freq = freq[slice(0, len(freq), down_sample_rate)]
     key_ticklabels = [i * down_sample_rate for i in range(len(freq))]
     ax[0].bar(key_ticklabels, freq, width = down_sample_rate / 3 * 2)
