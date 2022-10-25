@@ -55,6 +55,7 @@ Find plot in local/plot.png:
 - [x] FF
 - [x] ARC-2
 - [x] ARC-3
+- [x] MRF
 - [ ] hybrid LRU-LFU
 - [ ] ...
 

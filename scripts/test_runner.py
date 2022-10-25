@@ -66,6 +66,7 @@ if __name__ == '__main__':
     ax.set_yticklabels([20, 40, 60, 80, 100])
     ax.set_xlabel('BUFFER SIZE')
     ax.set_ylabel('HIT RATE(%)')
+    ax.set_title(TRACE_FILE_LIST[0])
     lru_runner = MultiTestRunner(['LRU'], BUFFER_SIZE_LIST, TRACE_FILE_LIST, [None] * len(BUFFER_SIZE_LIST))
     lru_result = lru_runner.get_hit_rate_list()
     ax.plot(BUFFER_SIZE_LIST, lru_result, label='LRU')
@@ -91,6 +92,10 @@ if __name__ == '__main__':
     arc_prior_freq_runner = MultiTestRunner(['ARC_3'], BUFFER_SIZE_LIST, TRACE_FILE_LIST, params_list)
     arc_prior_freq_result = arc_prior_freq_runner.get_hit_rate_list()
     ax.plot(BUFFER_SIZE_LIST, arc_prior_freq_result, label='ARC + PriorFreq')
+
+    mrf_runner = MultiTestRunner(['MRF'], BUFFER_SIZE_LIST, TRACE_FILE_LIST, [None] * len(BUFFER_SIZE_LIST))
+    mrf_result = mrf_runner.get_hit_rate_list()
+    ax.plot(BUFFER_SIZE_LIST, mrf_result, label='MRF')
 
     plt.legend()
     if not os.path.exists('local'):
