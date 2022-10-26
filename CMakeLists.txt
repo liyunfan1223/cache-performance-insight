@@ -34,6 +34,7 @@ add_test(NAME arc_test COMMAND arc_test)
 add_test(NAME arc2_test COMMAND arc2_test)
 add_test(NAME arc3_test COMMAND arc3_test)
 add_test(NAME ff_test COMMAND ff_test)
+add_test(NAME mrf_test COMMAND mrf_test)
 
 find_program(LCOV lcov REQUIRED)
 find_program(GENHTML genhtml REQUIRED)

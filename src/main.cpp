@@ -13,6 +13,7 @@
 #include "managers/arc2_cache_manager.h"
 #include "managers/ff_cache_manager.h"
 #include "managers/arc3_cache_manager.h"
+#include "managers/mrf_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -20,7 +21,8 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"ARC", CachePolicy::ARC},
         {"ARC_2", CachePolicy::ARC_2},
         {"ARC_3", CachePolicy::ARC_3},
-        {"FF", CachePolicy::FF}
+        {"FF", CachePolicy::FF},
+        {"MRF", CachePolicy::MRF}
 };
 
 void usage() {
@@ -68,6 +70,9 @@ int main(int argc, char **argv) {
             UnittestUtils::make_test(trace_file,std::shared_ptr<CacheManager>(new FFCacheManager(
                     buffer_size, access_list)));
             break;
+        case CachePolicy::MRF:
+            UnittestUtils::make_test(trace_file,std::shared_ptr<CacheManager>(new MRFCacheManager(
+                    buffer_size, access_list)));
         default:
             break;
     }

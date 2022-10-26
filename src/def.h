@@ -39,7 +39,9 @@ enum class CachePolicy {
     ARC,
     ARC_2,
     ARC_3,
-    FF
+    FF,
+    MRF,
+    UNKNOWN,
 };
 
 typedef int32_t Key;
