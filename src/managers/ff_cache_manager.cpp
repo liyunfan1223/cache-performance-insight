@@ -21,7 +21,7 @@ RC FFCacheManager::get(const Key &key) {
     int32_t future_access_timestamp = key_access_u_map_[key].size ? key_access_u_map_[key].head->key : INT32_MAX;
     auto result = buffer_set_.insert(Status(future_access_timestamp, key));
     u_map_[key] = result.first;
-    return RC::UNIMPLEMENT;
+    return RC::SUCCESS;
 }
 
 RC FFCacheManager::put(const Key &key, const Value &value) { return RC::UNIMPLEMENT; }
