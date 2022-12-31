@@ -29,3 +29,10 @@ If key frequency over the bound, always move to T2 directly when cache miss occu
 ARC based. With prior frequency.
 
 Reverse some place for high frequency key.
+
+## MRF
+Most Remained Frequency. With prior frequency.
+
+Reverse place for highest remained frequency key.
+
+
