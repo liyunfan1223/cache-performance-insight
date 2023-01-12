@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.5)
 PROJECT(unittest)
 
 MESSAGE("UNITTEST CMAKE_COMMON_FLAGS ${CMAKE_COMMON_FLAGS}")
