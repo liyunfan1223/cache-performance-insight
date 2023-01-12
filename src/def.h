@@ -6,16 +6,19 @@
 
 #include <cstdint>
 #include <string>
+#include <sstream>
 #include <iostream>
 #include <cassert>
 #include <memory>
 #include <vector>
 #include <map>
+#include <list>
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
 #include <algorithm>
-#include <string.h>
+#include <cstring>
+#include <cmath>
 
 struct trace_line {
     int starting_block;
@@ -39,12 +42,15 @@ enum class CachePolicy {
     ARC,
     ARC_2,
     ARC_3,
-    FF,
+    OPT,
     MRF,
+    STW,
+    STW2,
     UNKNOWN,
 };
 
 typedef int32_t Key;
 typedef std::string Value;
 
-
+const int32_t BASIC_MAIN_ARG_NUM = 4;
+const double EPSILON = 1e-10;

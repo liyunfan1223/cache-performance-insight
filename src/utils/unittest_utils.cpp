@@ -16,7 +16,7 @@ RC UnittestUtils::make_test(const char *filename, std::shared_ptr<CacheManager> 
     while (fscanf(pFile, "%d %d %d %d\n",
                   &l.starting_block, &l.number_of_blocks, &l.ignore, &l.request_number) != EOF) {
         for (auto i = l.starting_block; i < (l.starting_block + l.number_of_blocks); ++i) {
-            UnittestUtils::check_get(cacheManager.get(), i);
+            assert(UnittestUtils::check_get(cacheManager.get(), i) != RC::FAILED);
         }
     }
     std::cout << cacheManager->statics();
