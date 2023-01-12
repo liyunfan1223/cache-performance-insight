@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.16)
 project(cache_performance_insight)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -37,7 +37,7 @@ add_test(NAME opt_test COMMAND opt_test)
 add_test(NAME mrf_test COMMAND mrf_test)
 add_test(NAME stw_test COMMAND stw_test)
 add_test(NAME stw2_test COMMAND stw2_test)
-add_test(NAMEe srrip_test COMMAND sttrp_test)
+add_test(NAMEe srrip_test COMMAND srrip_test)
 
 find_program(LCOV lcov REQUIRED)
 find_program(GENHTML genhtml REQUIRED)

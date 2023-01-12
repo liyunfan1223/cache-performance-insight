@@ -17,6 +17,7 @@
 #include "managers/stw_cache_manager.h"
 #include "managers/stw2_cache_manager.h"
 #include "managers/srrip_cache_manager.h"
+#include "managers/drrip_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -29,6 +30,7 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"STW", CachePolicy::STW},
         {"STW2", CachePolicy::STW2},
         {"SRRIP", CachePolicy::SRRIP},
+        {"DRRIP", CachePolicy::DRRIP},
 };
 
 void usage() {
@@ -102,6 +104,15 @@ int main(int argc, char **argv) {
             } else {
                 UnittestUtils::make_test(trace_file,
                                          std::make_shared<SRRIPCacheManager>(buffer_size, std::stof(param_0)));
+            }
+            break;
+        case CachePolicy::DRRIP:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<DRRIPCacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<DRRIPCacheManager>(buffer_size, std::stof(param_0)));
             }
             break;
         default:

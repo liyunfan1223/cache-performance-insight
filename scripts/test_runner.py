@@ -11,7 +11,7 @@ MAX_BUFFER_SIZE = 18
 BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 
 TRACE_FILE_LIST = [
-    'P1',
+    'P4',
 ]
 
 if __name__ == '__main__':
@@ -34,9 +34,9 @@ if __name__ == '__main__':
         # lfu_result = lfu_runner.get_hit_rate_list()
         # ax.plot(BUFFER_SIZE_LIST, lfu_result, label='LFU')
 
-        # arc_runner = MultiTestRunner(['ARC'], BUFFER_SIZE_LIST, trace_file, None)
-        # arc_result = arc_runner.get_hit_rate_list()
-        # ax.plot(BUFFER_SIZE_LIST, arc_result, label='ARC', marker='+', linestyle='dashed')
+        arc_runner = MultiTestRunner(['ARC'], BUFFER_SIZE_LIST, trace_file, None)
+        arc_result = arc_runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, arc_result, label='ARC', marker='+', linestyle='dashed')
 
         # params_list = [5]
         # stw_runner = MultiTestRunner(['STW'], BUFFER_SIZE_LIST, trace_file, params_list)
@@ -48,25 +48,30 @@ if __name__ == '__main__':
         # stw_result = stw_runner.get_hit_rate_list()
         # ax.plot(BUFFER_SIZE_LIST, stw_result, label=f'STW, k={params_list[0]}', marker='+', linestyle='-')
 
-        params_list = [1]
-        srrip_runner = MultiTestRunner(['SRRIP'], BUFFER_SIZE_LIST, trace_file, params_list)
-        srrip_result = srrip_runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, srrip_result, label=f'SRRIP, m={params_list[0]}', marker='+', linestyle='dashed')
-
-        params_list = [2]
-        srrip_runner = MultiTestRunner(['SRRIP'], BUFFER_SIZE_LIST, trace_file, params_list)
-        srrip_result = srrip_runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, srrip_result, label=f'SRRIP, m={params_list[0]}', marker='+', linestyle='dashed')
+        # params_list = [2]
+        # srrip_runner = MultiTestRunner(['SRRIP'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # srrip_result = srrip_runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, srrip_result, label=f'SRRIP, m={params_list[0]}', marker='+', linestyle='dashed')
 
         params_list = [3]
         srrip_runner = MultiTestRunner(['SRRIP'], BUFFER_SIZE_LIST, trace_file, params_list)
         srrip_result = srrip_runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, srrip_result, label=f'SRRIP, m={params_list[0]}', marker='+', linestyle='dashed')
 
-        # params_list = [200]
-        # stw_runner = MultiTestRunner(['STW'], BUFFER_SIZE_LIST, trace_file, params_list)
-        # stw_result = stw_runner.get_hit_rate_list()
-        # ax.plot(BUFFER_SIZE_LIST, stw_result, label=f'STW, k={params_list[0]}', marker='+', linestyle='-')
+        params_list = [3]
+        drrip_runner = MultiTestRunner(['DRRIP'], BUFFER_SIZE_LIST, trace_file, params_list)
+        drrip_result = drrip_runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, drrip_result, label=f'DRRIP, m={params_list[0]}', marker='+', linestyle='dashed')
+
+        # params_list = [5]
+        # srrip_runner = MultiTestRunner(['SRRIP'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # srrip_result = srrip_runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, srrip_result, label=f'SRRIP, m={params_list[0]}', marker='+', linestyle='dashed')
+
+        params_list = [200]
+        stw_runner = MultiTestRunner(['STW'], BUFFER_SIZE_LIST, trace_file, params_list)
+        stw_result = stw_runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, stw_result, label=f'STW, k={params_list[0]}', marker='+', linestyle='-')
 
 
         # params_list = [20]
