@@ -1,6 +1,6 @@
-rm -rf build
+# rm -rf build
 mkdir build
 cd build
-cmake ..
-make
+cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+make -j4
 echo "build succeed."

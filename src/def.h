@@ -46,6 +46,7 @@ enum class CachePolicy {
     MRF,
     STW,
     STW2,
+    SRRIP,
     UNKNOWN,
 };
 
