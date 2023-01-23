@@ -2,9 +2,9 @@
 // Created by MorphLing on 2022/10/9.
 //
 
-#include "ff_cache_manager.h"
+#include "opt_cache_manager.h"
 
-RC FFCacheManager::get(const Key &key) {
+RC OPTCacheManager::get(const Key &key) {
     key_access_u_map_[key].pop_front();
     if (u_map_.count(key) == 0) {
         miss_count_++;
@@ -24,12 +24,12 @@ RC FFCacheManager::get(const Key &key) {
     return RC::SUCCESS;
 }
 
-RC FFCacheManager::put(const Key &key, const Value &value) { return RC::UNIMPLEMENT; }
+RC OPTCacheManager::put(const Key &key, const Value &value) { return RC::UNIMPLEMENT; }
 
-std::string FFCacheManager::get_name() {
-    return std::string("FF_CACHE_MANAGER");
+std::string OPTCacheManager::get_name() {
+    return std::string("OPT_CACHE_MANAGER");
 }
 
-RC FFCacheManager::check_consistency() {
+RC OPTCacheManager::check_consistency() {
     return CacheManager::check_consistency();
 }

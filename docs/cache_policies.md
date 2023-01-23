@@ -13,7 +13,7 @@ Adaptive Replacement Cache
 - Paper: [ARC: A SELF-TUNING, LOW OVERHEAD REPLACEMENT CACHE](https://www.usenix.org/conference/fast-03/arc-self-tuning-low-overhead-replacement-cache)
 - Notes: [Adaptive Replacement Cache(ARC) 缓存淘汰算法](https://zhuanlan.zhihu.com/p/522306900)
 
-## FF
+## OPT
 
 Farthest in Future
 
