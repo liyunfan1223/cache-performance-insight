@@ -7,9 +7,9 @@
 #include "managers/cache_manager.h"
 #include "data_structures/link_list.h"
 
-class FFCacheManager: public CacheManager {
+class OPTCacheManager: public CacheManager {
 public:
-    explicit FFCacheManager(int32_t bufferSize, std::vector<Key> & access_list)
+    explicit OPTCacheManager(int32_t bufferSize, std::vector<Key> & access_list)
     : CacheManager(bufferSize), access_list_(access_list)
     {
         int timeStamp = 0;
@@ -17,7 +17,7 @@ public:
             key_access_u_map_[key].push_back(timeStamp++);
         }
     }
-    ~FFCacheManager(){}
+    ~OPTCacheManager(){}
     RC get(const Key &key) override;
     RC put(const Key &key, const Value &value) override;
     std::string get_name() override;

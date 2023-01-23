@@ -18,7 +18,7 @@ cmake .. && make
 ```
 ./src/main -h
 usage: ./src/main <cache_policy> <buffer_size> <trace_file> <param_0>
-       <cache_policy> -- cache policy in {LRU, LFU, ARC, ARC_2, ARC_3, FF}
+       <cache_policy> -- cache policy in {LRU, LFU, ARC, ARC_2, ARC_3, OPT}
        <buffer_size>  -- buffer size
        <trace_file>   -- path of trace_file
 ```
@@ -52,7 +52,7 @@ Find plot in local/plot.png:
 - [x] LRU
 - [x] LFU
 - [x] ARC
-- [x] FF
+- [x] OPT
 - [x] ARC-2
 - [x] ARC-3
 - [x] MRF
