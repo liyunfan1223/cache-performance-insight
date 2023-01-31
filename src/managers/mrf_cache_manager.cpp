@@ -26,7 +26,7 @@ RC MRFCacheManager::get(const Key &key) {
 RC MRFCacheManager::put(const Key &key, const Value &value) { return RC::DEFAULT; }
 
 std::string MRFCacheManager::get_name() {
-    return std::string("MRFCacheManager");
+    return {"MRF"};
 }
 
 RC MRFCacheManager::check_consistency() {

@@ -28,5 +28,5 @@ RC LFUCacheManager::put(const Key &key, const Value & value) { return RC::UNIMPL
 
 std::string LFUCacheManager::get_name()
 {
-    return std::string("LFU_CACHE_MANAGER");
+    return std::string("LFU");
 }

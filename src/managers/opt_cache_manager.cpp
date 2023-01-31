@@ -27,7 +27,7 @@ RC OPTCacheManager::get(const Key &key) {
 RC OPTCacheManager::put(const Key &key, const Value &value) { return RC::UNIMPLEMENT; }
 
 std::string OPTCacheManager::get_name() {
-    return std::string("OPT_CACHE_MANAGER");
+    return {"OPT"};
 }
 
 RC OPTCacheManager::check_consistency() {

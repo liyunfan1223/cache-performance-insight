@@ -43,7 +43,7 @@ RC STWCacheManager::put(const Key &key, const Value &value) { return RC::UNIMPLE
 
 std::string STWCacheManager::get_name()
 {
-    return {"STWCacheManager"};
+    return {"STW"};
 }
 
 RC STWCacheManager::check_consistency()

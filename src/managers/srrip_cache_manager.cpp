@@ -39,7 +39,7 @@ RC SRRIPCacheManager::get(const Key &key) {
 }
 
 std::string SRRIPCacheManager::get_name() {
-    return {"SRRIPCacheManager"};
+    return {"SRRIP"};
 }
 
 RC SRRIPCacheManager::put(const Key &key, const Value &value) {
