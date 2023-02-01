@@ -32,7 +32,7 @@ public:
     virtual RC get(const Key & key) = 0;
     virtual RC put(const Key & key, const Value &value) = 0;
     virtual std::string get_name() = 0;
-    virtual RC print_configuration() { return RC::DEFAULT; }
+    virtual std::string get_configuration() { return {""}; }
     virtual RC check_consistency() { return RC::DEFAULT; }
     int32_t hit_count() const { return hit_count_; }
     int32_t miss_count() const { return miss_count_; }

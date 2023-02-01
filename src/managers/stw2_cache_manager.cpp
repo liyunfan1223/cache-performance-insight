@@ -46,7 +46,7 @@ RC STW2CacheManager::put(const Key &key, const Value &value) { return RC::UNIMPL
 
 std::string STW2CacheManager::get_name()
 {
-    return {"STW2CacheManager"};
+    return {"STW2"};
 }
 
 RC STW2CacheManager::check_consistency() { return RC::UNIMPLEMENT; }
