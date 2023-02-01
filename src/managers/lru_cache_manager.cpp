@@ -22,5 +22,5 @@ RC LRUCacheManager::put(const Key &key, const Value & value) { return RC::UNIMPL
 
 std::string LRUCacheManager::get_name()
 {
-    return std::string("LRU_CACHE_MANAGER");
+    return std::string("LRU");
 }
