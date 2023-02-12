@@ -23,6 +23,14 @@ RC UnittestUtils::make_test(const char *filename, std::shared_ptr<CacheManager> 
     return RC::SUCCESS;
 }
 
+RC UnittestUtils::make_test(std::vector<int32_t> access_order, std::shared_ptr<CacheManager> cacheManager) {
+    for (int i : access_order) {
+        assert(UnittestUtils::check_get(cacheManager.get(), i) != RC::FAILED);
+    }
+    std::cout << cacheManager->statics();
+    return RC::SUCCESS;
+}
+
 RC UnittestUtils::check_get(CacheManager * cacheManager, Key &key) {
     cacheManager->get(key);
     RC status = cacheManager->check_consistency();
@@ -45,3 +53,5 @@ RC UnittestUtils::get_access_list(const char * filename, std::vector<Key> & acce
     }
     return RC::SUCCESS;
 }
+
+

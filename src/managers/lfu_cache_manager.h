@@ -27,9 +27,10 @@ private:
         int32_t timestamp;
         Key key;
         bool operator < (const Status & rhs) const {
-            return freq != rhs.freq ?
-                   freq < rhs.freq :
-                   timestamp < rhs.timestamp;
+            if (freq != rhs.freq) {
+                return freq < rhs.freq;
+            } else if (timestamp != rhs.timestamp) return timestamp < rhs.timestamp;
+            return key < rhs.key;
         }
     };
     std::set<Status> buffer_set_;

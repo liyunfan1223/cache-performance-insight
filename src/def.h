@@ -49,6 +49,9 @@ enum class CachePolicy {
     SRRIP,
     DRRIP,
     EFSW,
+    LRFU,
+    ALRFU,
+    ALRFU2,
     UNKNOWN,
 };
 
