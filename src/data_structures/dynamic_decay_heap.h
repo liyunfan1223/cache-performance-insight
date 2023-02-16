@@ -9,7 +9,8 @@
 
 class DDHeapEntry {
 public:
-    DDHeapEntry(Key key, double value, int ts_last_access, int ts_last_update): key(key), value(value) {
+    DDHeapEntry(Key key, double value, int ts_last_access, int ts_last_update, int access_count):
+    key(key), value(value), access_count(access_count) {
         this->ts_last_update = 0;
         this->ts_last_access = ts_last_access;
         this->ts_last_update = ts_last_update;
@@ -18,6 +19,7 @@ public:
     double value;
     int32_t ts_last_access;
     int32_t ts_last_update;
+    int32_t access_count;
     bool operator < (const DDHeapEntry &rhs) const {
         if (fabs(value - rhs.value) > EPSILON) {
             return value < rhs.value;
@@ -33,6 +35,12 @@ public:
     void Add(Key key, double value, double decay_ratio);
     void Set(Key key, double value, double decay_ratio);
     double GetValue(Key key) { update_value(index_[key]); return heap_[index_[key]].value; }
+    double GetAccessCount(Key key) { update_value(index_[key]);
+        if (index_.find(key) != index_.end()) {
+            return heap_[index_[key]].access_count;
+        }
+        return 0;
+    }
     Key Pop();
     Key Peak() { return heap_[0].key; };
     int32_t Size() { return heap_.size(); }

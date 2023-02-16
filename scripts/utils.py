@@ -29,7 +29,7 @@ BUFFER_LIST_FOR_TRACES = {
     'P6': [2 ** k for k in range(11, 18 + 1)],
     'P7': [2 ** k for k in range(11, 18 + 1)],
     'P12': [2 ** k for k in range(11, 18 + 1)],
-    'OLTP': [2 ** k for k in range(6, 13 + 1)],
+    'OLTP': [2 ** k for k in range(3, 13 + 1)],
     'DS1': [2 ** k for k in range(18, 22 + 1)],
     'Home1': [2 ** k for k in range(4, 12 + 1)],
     'Home2': [2 ** k for k in range(4, 12 + 1)],

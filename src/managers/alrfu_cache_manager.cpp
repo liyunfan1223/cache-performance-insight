@@ -49,7 +49,7 @@ RC ALRFUCacheManager::get(const Key &key) {
 //        indicate_status_.pop_front();
 //    }
 
-//    if (indicate_dd_heap2_.InHeap(key)) {
+//    if (indicate_dd_heap2_.InList(key)) {
 //        // hit_count_++;
 //        indicate_hit_count2_++;
 //    } else {
@@ -76,7 +76,7 @@ RC ALRFUCacheManager::get(const Key &key) {
         indicate_dd_heap_.Add(key, indicate_store_heap_.GetValue(key), cur_decay_ratio_exp_ * (1 + delta_ratio_));
     }
 
-//    if (indicate_dd_heap2_.InHeap(key)) {
+//    if (indicate_dd_heap2_.InList(key)) {
 //        indicate_dd_heap2_.Add(key, 1, cur_decay_ratio_exp_ * (1 - delta_ratio_));
 //    } else {
 //        indicate_dd_heap2_.Add(key, indicate_store_heap2_.GetValue(key), cur_decay_ratio_exp_ * (1 - delta_ratio_));

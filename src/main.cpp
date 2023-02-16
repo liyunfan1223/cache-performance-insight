@@ -22,6 +22,9 @@
 #include "managers/lrfu_cache_manager.h"
 #include "managers/alrfu_cache_manager.h"
 #include "managers/alrfu2_cache_manager.h"
+#include "managers/alrfu3_cache_manager.h"
+#include "managers/alrfu4_cache_manager.h"
+#include "managers/alrfu5_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -39,6 +42,9 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRFU", CachePolicy::LRFU},
         {"ALRFU", CachePolicy::ALRFU},
         {"ALRFU2", CachePolicy::ALRFU2},
+        {"ALRFU3", CachePolicy::ALRFU3},
+        {"ALRFU4", CachePolicy::ALRFU4},
+        {"ALRFU5", CachePolicy::ALRFU5},
 };
 
 void usage() {
@@ -65,6 +71,9 @@ int main(int argc, char **argv) {
     char* param_1 = argv[5];
     char* param_2 = argv[6];
     char* param_3 = argv[7];
+    char* param_4 = argv[8];
+    char* param_5 = argv[9];
+    char* param_6 = argv[10];
     switch (cachePolicy.at(cache_policy)) {
         case CachePolicy::LRU:
             UnittestUtils::make_test(trace_file,std::make_shared<LRUCacheManager>(buffer_size));
@@ -168,6 +177,51 @@ int main(int argc, char **argv) {
                                                                              std::stof(param_1),
                                                                              std::stof(param_2),
                                                                              std::stof(param_3)));
+            }
+            break;
+        case CachePolicy::ALRFU3:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU3CacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU3CacheManager>(buffer_size,
+                                                                              std::stof(param_0),
+                                                                              std::stof(param_1),
+                                                                              std::stof(param_2),
+                                                                              std::stof(param_3)));
+            }
+            break;
+        case CachePolicy::ALRFU4:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU4CacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU4CacheManager>(buffer_size,
+                                                                              std::stof(param_0),
+                                                                              std::stof(param_1),
+                                                                              std::stof(param_2),
+                                                                              std::stof(param_3),
+                                                                              std::stof(param_4),
+                                                                              std::stof(param_5),
+                                                                               std::stof(param_6)));
+            }
+            break;
+        case CachePolicy::ALRFU5:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU5CacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU5CacheManager>(buffer_size,
+                                                                              std::stof(param_0),
+                                                                              std::stof(param_1),
+                                                                              std::stof(param_2),
+                                                                              std::stof(param_3),
+                                                                              std::stof(param_4),
+                                                                              std::stof(param_5),
+                                                                              std::stof(param_6)));
             }
             break;
         default:

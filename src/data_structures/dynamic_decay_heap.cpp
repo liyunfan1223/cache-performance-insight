@@ -6,7 +6,7 @@
 
 void DDHeap::Push(Key key, double value = 1, double decay_ratio = 0) {
     increase_ts(decay_ratio);
-    heap_.push_back(DDHeapEntry(key, value, ts_, ts_));
+    heap_.push_back(DDHeapEntry(key, value, ts_, ts_, 1));
     index_[key] = heap_.size() - 1;
     heapify_up(heap_.size() - 1);
 }
@@ -21,6 +21,7 @@ void DDHeap::Add(Key key, double value = 1, double decay_ratio = 0) {
     update_value(index);
     heap_[index].value += value;
     heap_[index].ts_last_access = ts_;
+    heap_[index].access_count += 1;
     if (value >= 0) {
         heapify_down(index);
     } else {
@@ -83,7 +84,7 @@ void DDHeap::update_value(int32_t index) {
         return;
     }
     heap_[index].value *= exp(decay_ratio_exp_suffix_sum_[ts_] - decay_ratio_exp_suffix_sum_[heap_[index].ts_last_update]);
-    // pow(decay_ratio_exp_suffix_sum_, (ts_ - heap_[index].ts_last_update));
+    // pow(decay_ratio_exp_suffix_sum_, (ts_ - list_[index].ts_last_update));
     heap_[index].ts_last_update = ts_;
 }
 

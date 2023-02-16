@@ -10,7 +10,7 @@ MIN_BUFFER_SIZE = 11
 MAX_BUFFER_SIZE = 18
 BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 
-SUFFIX = '212'
+SUFFIX = '216'
 # TRACE_FILE_LIST = [
 #     'P1',
 # ]
@@ -59,10 +59,10 @@ if __name__ == '__main__':
         # efsw_result = efsw_runner.get_hit_rate_list()
         # ax.plot(BUFFER_SIZE_LIST, efsw_result, label=f'EFSW, p={params_list}', marker='+', linestyle='-')
         #
-        # params_list = [8, 1, 1]
-        # efsw_runner = MultiTestRunner(['EFSW'], BUFFER_SIZE_LIST, trace_file, params_list)
-        # efsw_result = efsw_runner.get_hit_rate_list()
-        # ax.plot(BUFFER_SIZE_LIST, efsw_result, label=f'EFSW, p={params_list}', marker='+', linestyle='-')
+        params_list = [5, 1, 1]
+        efsw_runner = MultiTestRunner(['EFSW'], BUFFER_SIZE_LIST, trace_file, params_list)
+        efsw_result = efsw_runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, efsw_result, label=f'EFSW, p={params_list}', marker='+', linestyle='dashed')
         #
         # params_list = [20, 1, 1]
         # efsw_runner = MultiTestRunner(['EFSW'], BUFFER_SIZE_LIST, trace_file, params_list)
@@ -84,10 +84,85 @@ if __name__ == '__main__':
         # result = runner.get_hit_rate_list()
         # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU, p={params_list}', marker='+', linestyle='-')
 
+        # params_list = [20000, 5, 0.1, 5]
+        # runner = MultiTestRunner(['ALRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU2, p={params_list}', marker='+', linestyle='-')
+
+        # params_list = [2000, 5, 0.1, 1]
+        # runner = MultiTestRunner(['ALRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU3, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [5000, 5, 0.1, 1]
+        # runner = MultiTestRunner(['ALRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU3, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [10000, 5, 0.1, 1]
+        # runner = MultiTestRunner(['ALRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU3, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [10000, 5, 0.1, 0.1]
+        # runner = MultiTestRunner(['ALRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU3, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [10000, 5, 0.1, 10]
+        # runner = MultiTestRunner(['ALRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU3, p={params_list}', marker='+', linestyle='-')
+
         params_list = [20000, 5, 0.1, 5]
-        runner = MultiTestRunner(['ALRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        runner = MultiTestRunner(['ALRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
         result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU2, p={params_list}', marker='+', linestyle='-')
+        ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU3, p={params_list}', marker='+', linestyle='-')
+
+        # params_list = [20000, 5, 0.1, 5, -1, 1, 2]
+        # runner = MultiTestRunner(['ALRFU4'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU4, p={params_list}', marker='+', linestyle='-')
+
+        # params_list = [20000, 5, 0.1, 5, 8, 1, 1]
+        # runner = MultiTestRunner(['ALRFU4'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU4, p={params_list}', marker='+', linestyle='-')
+
+        params_list = [20000, 5, 0.1, 5, -1, 1, 1]
+        runner = MultiTestRunner(['ALRFU5'], BUFFER_SIZE_LIST, trace_file, params_list)
+        result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU5, p={params_list}', marker='+', linestyle='-')
+
+        # params_list = [20000, 5, 0.1, 5, 8, 1, 4]
+        # runner = MultiTestRunner(['ALRFU4'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU4, p={params_list}', marker='+', linestyle='-')
+
+        # params_list = [20000, 5, 0.1, 1]
+        # runner = MultiTestRunner(['ALRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU2, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [20000, 5, 0.05, 5]
+        # runner = MultiTestRunner(['ALRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU2, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [20000, 5, 0.2, 5]
+        # runner = MultiTestRunner(['ALRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU2, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [20000, 50, 0.1, 5]
+        # runner = MultiTestRunner(['ALRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU2, p={params_list}', marker='+', linestyle='-')
+        #
+        # params_list = [20000, 50, 0.05, 5]
+        # runner = MultiTestRunner(['ALRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU2, p={params_list}', marker='+', linestyle='-')
 
         opt_runner = MultiTestRunner(['OPT'], BUFFER_SIZE_LIST, trace_file, None)
         opt_result = opt_runner.get_hit_rate_list()
