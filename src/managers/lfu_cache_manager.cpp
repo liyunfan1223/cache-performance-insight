@@ -5,7 +5,7 @@
 #include "lfu_cache_manager.h"
 
 RC LFUCacheManager::get(const Key & key) {
-    int32_t freq = 0;
+    int32_t freq = 1;
     if (u_map_.count(key) == 0) {
         miss_count_++;
         if (buffer_set_.size() >= buffer_size_) {
@@ -17,6 +17,7 @@ RC LFUCacheManager::get(const Key & key) {
         hit_count_++;
         auto item = u_map_[key];
         freq = item->freq + 1;
+        u_map_.erase(item->key);
         buffer_set_.erase(item);
     }
     auto result = buffer_set_.insert(Status(freq, timestamp_++, key));

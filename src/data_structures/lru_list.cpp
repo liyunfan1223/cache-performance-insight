@@ -6,6 +6,9 @@
 
 template<typename T>
 RC LRUList<T>::push_front(Key key) {
+    if (u_map.count(key) != 0) {
+        remove(key);
+    }
     LinkList<T>::push_front(key);
     u_map[key] = LinkList<T>::head;
     return RC::SUCCESS;

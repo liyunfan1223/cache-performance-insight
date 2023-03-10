@@ -21,18 +21,18 @@ Farthest in Future
 - Introduction & Proof of Optimality: [算法复习笔记：贪心求最优Caching策略](https://blog.macromogic.xyz/2020/06/15/ff-cache/)
 
 ## ARC2
-ARC based. With prior frequency.
+ARC based. With prior score.
 
-If key frequency over the bound, always move to T2 directly when cache miss occurs.
+If key score over the bound, always move to T2 directly when cache miss occurs.
 
 ## ARC3
-ARC based. With prior frequency.
+ARC based. With prior score.
 
-Reverse some place for high frequency key.
+Reverse some place for high score key.
 
 ## MRF
-Most Remained Frequency. With prior frequency.
+Most Remained Frequency. With prior score.
 
-Reverse place for highest remained frequency key.
+Reverse place for highest remained score key.
 
 
