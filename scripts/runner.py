@@ -11,7 +11,7 @@ MAX_BUFFER_SIZE = 25
 BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 
 TRACE_FILE_LIST = [
-    'Rocks1_s',
+    'Rocks1',
     # 'Home2',
 ]
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
         result = runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, result, label='SRRIP', marker='+', linestyle='dashed')
 
-        params_list = [20000, 5, 0.1, 5, -1, 1, 1]
+        params_list = [20000, 5, 0.1, 5, 8, 1, 1]
         runner = MultiTestRunner(['ALRFU4'], BUFFER_SIZE_LIST, trace_file, params_list)
         result = runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU4, p={params_list}', marker='+', linestyle='-')

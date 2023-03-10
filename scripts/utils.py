@@ -66,7 +66,7 @@ class SingleTestRunner:
                 cmdline += f" {param}"
         print('cmdline: ', cmdline)
         res = os.popen(cmdline).read().strip()
-        print('Not use cache. Result: ', res)
+        print('No cache used. Result: ', res)
         if write_cache:
             if os.path.exists(self.CACHE_FILE_PATH):
                 with open(self.CACHE_FILE_PATH, 'r') as f:
