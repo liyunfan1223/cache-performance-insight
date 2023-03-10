@@ -13,6 +13,8 @@ class UnittestUtils {
 public:
     static RC make_test(const char * filename,
                       std::shared_ptr<CacheManager> cacheManager);
+    static RC make_test(std::vector<int32_t> access_order,
+                        std::shared_ptr<CacheManager> cacheManager);
     static RC check_get(CacheManager * cacheManager, Key & key);
     static RC get_access_list(const char * filename, std::vector<Key> & access_list);
     const char * DEFAULT_TRACE_PATH = "../traces/P1.lis";

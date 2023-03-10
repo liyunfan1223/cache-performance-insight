@@ -19,6 +19,12 @@
 #include "managers/srrip_cache_manager.h"
 #include "managers/drrip_cache_manager.h"
 #include "managers/efsw_cache_manager.h"
+#include "managers/lrfu_cache_manager.h"
+#include "managers/alrfu_cache_manager.h"
+#include "managers/alrfu2_cache_manager.h"
+#include "managers/alrfu3_cache_manager.h"
+#include "managers/alrfu4_cache_manager.h"
+#include "managers/alrfu5_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -33,6 +39,12 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"SRRIP", CachePolicy::SRRIP},
         {"DRRIP", CachePolicy::DRRIP},
         {"EFSW", CachePolicy::EFSW},
+        {"LRFU", CachePolicy::LRFU},
+        {"ALRFU", CachePolicy::ALRFU},
+        {"ALRFU2", CachePolicy::ALRFU2},
+        {"ALRFU3", CachePolicy::ALRFU3},
+        {"ALRFU4", CachePolicy::ALRFU4},
+        {"ALRFU5", CachePolicy::ALRFU5},
 };
 
 void usage() {
@@ -54,11 +66,14 @@ int main(int argc, char **argv) {
 
     std::string cache_policy(argv[1]);
     int32_t buffer_size = std::stoi(argv[2]);
-    char * trace_file = argv[3];
-    char * param_0 = argv[4];
-    char * param_1 = argv[5];
-    char * param_2 = argv[6];
-
+    char* trace_file = argv[3];
+    char* param_0 = argv[4];
+    char* param_1 = argv[5];
+    char* param_2 = argv[6];
+    char* param_3 = argv[7];
+    char* param_4 = argv[8];
+    char* param_5 = argv[9];
+    char* param_6 = argv[10];
     switch (cachePolicy.at(cache_policy)) {
         case CachePolicy::LRU:
             UnittestUtils::make_test(trace_file,std::make_shared<LRUCacheManager>(buffer_size));
@@ -127,6 +142,86 @@ int main(int argc, char **argv) {
                 UnittestUtils::make_test(trace_file,
                                          std::make_shared<EFSWCacheManager>(buffer_size, std::stof(param_0),
                                                                              std::stof(param_1),std::stof(param_2)));
+            }
+            break;
+        case CachePolicy::LRFU:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<LRFUCacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<LRFUCacheManager>(buffer_size, std::stof(param_0)));
+            }
+            break;
+        case CachePolicy::ALRFU:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFUCacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFUCacheManager>(buffer_size,
+                                                                             std::stof(param_0),
+                                                                             std::stof(param_1),
+                                                                             std::stof(param_2),
+                                                                             std::stof(param_3)));
+            }
+            break;
+        case CachePolicy::ALRFU2:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU2CacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU2CacheManager>(buffer_size,
+                                                                             std::stof(param_0),
+                                                                             std::stof(param_1),
+                                                                             std::stof(param_2),
+                                                                             std::stof(param_3)));
+            }
+            break;
+        case CachePolicy::ALRFU3:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU3CacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU3CacheManager>(buffer_size,
+                                                                              std::stof(param_0),
+                                                                              std::stof(param_1),
+                                                                              std::stof(param_2),
+                                                                              std::stof(param_3)));
+            }
+            break;
+        case CachePolicy::ALRFU4:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU4CacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU4CacheManager>(buffer_size,
+                                                                              std::stof(param_0),
+                                                                              std::stof(param_1),
+                                                                              std::stof(param_2),
+                                                                              std::stof(param_3),
+                                                                              std::stof(param_4),
+                                                                              std::stof(param_5),
+                                                                               std::stof(param_6)));
+            }
+            break;
+        case CachePolicy::ALRFU5:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU5CacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<ALRFU5CacheManager>(buffer_size,
+                                                                              std::stof(param_0),
+                                                                              std::stof(param_1),
+                                                                              std::stof(param_2),
+                                                                              std::stof(param_3),
+                                                                              std::stof(param_4),
+                                                                              std::stof(param_5),
+                                                                              std::stof(param_6)));
             }
             break;
         default:
