@@ -674,6 +674,14 @@
 			<Option target="main"/>
 			<Option target="main_static"/>
 		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/data_structures/multi_lru.cpp">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/data_structures/multi_lru.h">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
 		<Unit filename="/home/ubuntu22/cache-performance-insight/src/main.cpp">
 			<Option target="main"/>
 		</Unit>
@@ -754,6 +762,30 @@
 			<Option target="main_static"/>
 		</Unit>
 		<Unit filename="/home/ubuntu22/cache-performance-insight/src/managers/efsw_cache_manager.h">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/managers/glrfu2_cache_manager.cpp">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/managers/glrfu2_cache_manager.h">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/managers/glrfu3_cache_manager.cpp">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/managers/glrfu3_cache_manager.h">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/managers/glrfu_cache_manager.cpp">
+			<Option target="main"/>
+			<Option target="main_static"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/managers/glrfu_cache_manager.h">
 			<Option target="main"/>
 			<Option target="main_static"/>
 		</Unit>

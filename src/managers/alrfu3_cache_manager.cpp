@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/2/13.
 //
-//#define LOG
+#define LOG
 #include "alrfu3_cache_manager.h"
 
 RC ALRFU3CacheManager::get(const Key &key) {

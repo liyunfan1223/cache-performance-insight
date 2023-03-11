@@ -289,6 +289,33 @@ data_structures/lru_list.cpp.s:
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/data_structures/lru_list.cpp.s
 .PHONY : data_structures/lru_list.cpp.s
 
+data_structures/multi_lru.o: data_structures/multi_lru.cpp.o
+.PHONY : data_structures/multi_lru.o
+
+# target to build an object file
+data_structures/multi_lru.cpp.o:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/data_structures/multi_lru.cpp.o
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o
+.PHONY : data_structures/multi_lru.cpp.o
+
+data_structures/multi_lru.i: data_structures/multi_lru.cpp.i
+.PHONY : data_structures/multi_lru.i
+
+# target to preprocess a source file
+data_structures/multi_lru.cpp.i:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/data_structures/multi_lru.cpp.i
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.i
+.PHONY : data_structures/multi_lru.cpp.i
+
+data_structures/multi_lru.s: data_structures/multi_lru.cpp.s
+.PHONY : data_structures/multi_lru.s
+
+# target to generate assembly for a file
+data_structures/multi_lru.cpp.s:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/data_structures/multi_lru.cpp.s
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.s
+.PHONY : data_structures/multi_lru.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -583,6 +610,87 @@ managers/efsw_cache_manager.cpp.s:
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.s
 .PHONY : managers/efsw_cache_manager.cpp.s
 
+managers/glrfu2_cache_manager.o: managers/glrfu2_cache_manager.cpp.o
+.PHONY : managers/glrfu2_cache_manager.o
+
+# target to build an object file
+managers/glrfu2_cache_manager.cpp.o:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu2_cache_manager.cpp.o
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o
+.PHONY : managers/glrfu2_cache_manager.cpp.o
+
+managers/glrfu2_cache_manager.i: managers/glrfu2_cache_manager.cpp.i
+.PHONY : managers/glrfu2_cache_manager.i
+
+# target to preprocess a source file
+managers/glrfu2_cache_manager.cpp.i:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu2_cache_manager.cpp.i
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.i
+.PHONY : managers/glrfu2_cache_manager.cpp.i
+
+managers/glrfu2_cache_manager.s: managers/glrfu2_cache_manager.cpp.s
+.PHONY : managers/glrfu2_cache_manager.s
+
+# target to generate assembly for a file
+managers/glrfu2_cache_manager.cpp.s:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu2_cache_manager.cpp.s
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.s
+.PHONY : managers/glrfu2_cache_manager.cpp.s
+
+managers/glrfu3_cache_manager.o: managers/glrfu3_cache_manager.cpp.o
+.PHONY : managers/glrfu3_cache_manager.o
+
+# target to build an object file
+managers/glrfu3_cache_manager.cpp.o:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu3_cache_manager.cpp.o
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o
+.PHONY : managers/glrfu3_cache_manager.cpp.o
+
+managers/glrfu3_cache_manager.i: managers/glrfu3_cache_manager.cpp.i
+.PHONY : managers/glrfu3_cache_manager.i
+
+# target to preprocess a source file
+managers/glrfu3_cache_manager.cpp.i:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu3_cache_manager.cpp.i
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.i
+.PHONY : managers/glrfu3_cache_manager.cpp.i
+
+managers/glrfu3_cache_manager.s: managers/glrfu3_cache_manager.cpp.s
+.PHONY : managers/glrfu3_cache_manager.s
+
+# target to generate assembly for a file
+managers/glrfu3_cache_manager.cpp.s:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu3_cache_manager.cpp.s
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.s
+.PHONY : managers/glrfu3_cache_manager.cpp.s
+
+managers/glrfu_cache_manager.o: managers/glrfu_cache_manager.cpp.o
+.PHONY : managers/glrfu_cache_manager.o
+
+# target to build an object file
+managers/glrfu_cache_manager.cpp.o:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu_cache_manager.cpp.o
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o
+.PHONY : managers/glrfu_cache_manager.cpp.o
+
+managers/glrfu_cache_manager.i: managers/glrfu_cache_manager.cpp.i
+.PHONY : managers/glrfu_cache_manager.i
+
+# target to preprocess a source file
+managers/glrfu_cache_manager.cpp.i:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu_cache_manager.cpp.i
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.i
+.PHONY : managers/glrfu_cache_manager.cpp.i
+
+managers/glrfu_cache_manager.s: managers/glrfu_cache_manager.cpp.s
+.PHONY : managers/glrfu_cache_manager.s
+
+# target to generate assembly for a file
+managers/glrfu_cache_manager.cpp.s:
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/managers/glrfu_cache_manager.cpp.s
+	cd /home/ubuntu22/cache-performance-insight/cmake-build-release && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main_static.dir/build.make src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.s
+.PHONY : managers/glrfu_cache_manager.cpp.s
+
 managers/lfu_cache_manager.o: managers/lfu_cache_manager.cpp.o
 .PHONY : managers/lfu_cache_manager.o
 
@@ -852,6 +960,9 @@ help:
 	@echo "... data_structures/lru_list.o"
 	@echo "... data_structures/lru_list.i"
 	@echo "... data_structures/lru_list.s"
+	@echo "... data_structures/multi_lru.o"
+	@echo "... data_structures/multi_lru.i"
+	@echo "... data_structures/multi_lru.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -885,6 +996,15 @@ help:
 	@echo "... managers/efsw_cache_manager.o"
 	@echo "... managers/efsw_cache_manager.i"
 	@echo "... managers/efsw_cache_manager.s"
+	@echo "... managers/glrfu2_cache_manager.o"
+	@echo "... managers/glrfu2_cache_manager.i"
+	@echo "... managers/glrfu2_cache_manager.s"
+	@echo "... managers/glrfu3_cache_manager.o"
+	@echo "... managers/glrfu3_cache_manager.i"
+	@echo "... managers/glrfu3_cache_manager.s"
+	@echo "... managers/glrfu_cache_manager.o"
+	@echo "... managers/glrfu_cache_manager.i"
+	@echo "... managers/glrfu_cache_manager.s"
 	@echo "... managers/lfu_cache_manager.o"
 	@echo "... managers/lfu_cache_manager.i"
 	@echo "... managers/lfu_cache_manager.s"

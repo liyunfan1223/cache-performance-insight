@@ -97,7 +97,11 @@
 				20,
 				21,
 				22,
-				23
+				23,
+				24,
+				25,
+				26,
+				27
 			]
 		}
 	],
@@ -138,7 +142,11 @@
 				20,
 				21,
 				22,
-				23
+				23,
+				24,
+				25,
+				26,
+				27
 			]
 		}
 	],
@@ -172,6 +180,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/data_structures/lru_list.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/data_structures/multi_lru.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -232,6 +246,24 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/managers/efsw_cache_manager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/managers/glrfu2_cache_manager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/managers/glrfu3_cache_manager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/managers/glrfu_cache_manager.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

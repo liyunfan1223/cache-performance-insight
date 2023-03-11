@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/2/16.
 //
-//#define LOG
+#define LOG
 #include "alrfu5_cache_manager.h"
 
 RC ALRFU5CacheManager::get(const Key &key) {
@@ -87,18 +87,20 @@ RC ALRFU5CacheManager::check_consistency() {
 }
 
 void ALRFU5CacheManager::update_cur_decay_ratio() {
-    double cur_hit_ratio = (double)interval_hit_count_ / update_interval_;
-    double ind_hit_ratio = (double)indicate_hit_count_ / update_interval_;
+//    double cur_hit_ratio = (double)interval_hit_count_ / update_interval_;
+//    double ind_hit_ratio = (double)indicate_hit_count_ / update_interval_;
+    double cur_miss_ratio = (double)interval_miss_count_ / update_interval_;
+    double ind_miss_ratio = (double)indicate_miss_count_ / update_interval_;
 //    double ind_hit_ratio2 = (double)indicate_hit_count2_ / update_interval_;
-    if (cur_hit_ratio != 0 && ind_hit_ratio != 0) {
-        if (fabs(ind_hit_ratio - cur_hit_ratio) >= EPSILON) {
+    if (cur_miss_ratio != 0 && ind_miss_ratio != 0) {
+        if (fabs(ind_miss_ratio - cur_miss_ratio) >= EPSILON) {
             stable_count_ = 0;
-            if (ind_hit_ratio > cur_hit_ratio) {
-                double delta_ratio = ind_hit_ratio / cur_hit_ratio - 1;
-                cur_half_ /= 1 + delta_ratio * lambda_;
-            } else {
-                double delta_ratio = cur_hit_ratio / ind_hit_ratio - 1;
+            if (ind_miss_ratio > cur_miss_ratio) {
+                double delta_ratio = ind_miss_ratio / cur_miss_ratio - 1;
                 cur_half_ *= 1 + delta_ratio * lambda_;
+            } else {
+                double delta_ratio = cur_miss_ratio / ind_miss_ratio - 1;
+                cur_half_ /= 1 + delta_ratio * lambda_;
             }
         }
         else {
@@ -123,6 +125,6 @@ void ALRFU5CacheManager::update_cur_decay_ratio() {
     indicate_miss_count_ = 0;
     interval_count_ = 0;
 #ifdef LOG
-    printf("%.10f %.10f %.10f %.2f\n", ind_hit_ratio, cur_hit_ratio, (double)cur_half_, (double)hit_count_ / (hit_count_ + miss_count_) * 100);
+    printf("%.10f %.10f %.10f %.2f\n", ind_miss_ratio, cur_miss_ratio, (double)cur_half_, (double)hit_count_ / (hit_count_ + miss_count_) * 100);
 #endif
 }
