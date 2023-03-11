@@ -26,5 +26,7 @@ private:
     RC replace_(const Key & key);
     LRUList<Key> lruList_t1_, lruList_t2_, lruList_b1_, lruList_b2_;
     double p_;
+    // debug
+    int32_t ts = 0;
 };
 

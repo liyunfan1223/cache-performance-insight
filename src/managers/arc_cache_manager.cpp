@@ -1,11 +1,18 @@
 //
 // Created by l50029536 on 2022/9/30.
 //
+#define LOG
 
 #include "arc_cache_manager.h"
 
 RC ARCCacheManager::get(const Key &key) {
     int count_1, count_2;
+#ifdef LOG
+    ts++;
+    if (ts % 20000 == 0) {
+        std::cerr << p_ << " " << (double)hit_count() / (miss_count() + hit_count()) << std::endl;
+    }
+#endif
     // case#1
     if ((count_1 = lruList_t1_.count(key)) != 0 || (count_2 = lruList_t2_.count(key)) != 0) {
         hit_count_++;
@@ -21,8 +28,10 @@ RC ARCCacheManager::get(const Key &key) {
     miss_count_++;
     // case#2
     if (lruList_b1_.count(key) != 0) {
-        p_ = std::min(p_ + (lruList_b1_.size() >= lruList_b2_.size() ?
-                            1 : (double)lruList_b2_.size() / lruList_b1_.size()),
+//        p_ = std::min(p_ + (lruList_b1_.size() >= lruList_b2_.size() ?
+//                            1 : (double)lruList_b2_.size() / lruList_b1_.size()),
+//                      (double)buffer_size_);
+        p_ = std::min(p_ + 1,
                       (double)buffer_size_);
         replace_(key);
         lruList_b1_.remove(key);
@@ -31,8 +40,10 @@ RC ARCCacheManager::get(const Key &key) {
     }
     // case#3
     if (lruList_b2_.count(key) != 0) {
-        p_ = std::max(p_ - (lruList_b2_.size() >= lruList_b1_.size() ?
-                            1 : (double)lruList_b1_.size() / lruList_b2_.size()),
+//        p_ = std::max(p_ - (lruList_b2_.size() >= lruList_b1_.size() ?
+//                            1 : (double)lruList_b1_.size() / lruList_b2_.size()),
+//                      (double)0);
+        p_ = std::max(p_ - 1,
                       (double)0);
         replace_(key);
         lruList_b2_.remove(key);
