@@ -7,33 +7,23 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
-    # 'OLTP',
-    # 'P1',
-    # 'P2',
-    # 'P3',
-    # 'P4',
-    # 'P5',
-    # 'P6',
-    # 'P7',
-    # 'P12',
-    # 'DS1',
-    # 'readrandom_5',
-    # 'readrandom_6',
-    # 'readrandom_7',
-    # 'readseq_1',
-    # 'readseq_2',
-    'Rocks1',
-    'Rocks2',
-    'Rocks3',
-    'Rocks4',
-    'Rocks5',
-    'Rocks6',
-    'Rocks7',
-    'Rocks8',
-    # 'randseq_1',
+    'OLTP',
+    # 'Home1',
+    # 'Home2',
+    'P1',
+    'P2',
+    'P3',
+    'P4',
+    'P5',
+    'P6',
+    'P7',
+    'P12',
+    'DS1',
+    'readrandom_5',
+    'readrandom_6',
+    'readrandom_7',
 ]
-# 'Home1',
-# 'Home2',
+
 BUFFER_LIST_FOR_TRACES = {
     'P1': [2 ** k for k in range(11, 18 + 1)],
     'P2': [2 ** k for k in range(11, 18 + 1)],
@@ -50,19 +40,6 @@ BUFFER_LIST_FOR_TRACES = {
     'readrandom_5': [2 ** k for k in range(5, 13 + 1)],
     'readrandom_6': [2 ** k for k in range(5, 13 + 1)],
     'readrandom_7': [2 ** k for k in range(5, 13 + 1)],
-    'readseq_1': [2 ** k for k in range(3, 10 + 1)],
-    'readseq_2': [2 ** k for k in range(3, 10 + 1)],
-    'randseq_1': [2 ** k for k in range(5, 13 + 1)],
-    'Rocks1': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks2': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks3': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks4': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks5': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks6': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks7': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks8': [2 ** k for k in range(21, 25 + 1)],
-    # 'Rocks9': [2 ** k for k in range(21, 25 + 1)],
-    # 'Rocks10': [2 ** k for k in range(21, 25 + 1)],
 }
 
 class Recorder:
@@ -96,7 +73,7 @@ class SingleTestRunner:
                 cmdline += f" {param}"
         print('cmdline: ', cmdline)
         res = os.popen(cmdline).read().strip()
-        print('No cache can be used. Result: ', res)
+        print('No cache used. Result: ', res)
         if write_cache:
             if os.path.exists(self.CACHE_FILE_PATH):
                 with open(self.CACHE_FILE_PATH, 'r') as f:

@@ -139,24 +139,10 @@ src/CMakeFiles/main_static.dir/data_structures/lru_list.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main_static.dir/data_structures/lru_list.cpp.s"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu22/cache-performance-insight/src/data_structures/lru_list.cpp -o CMakeFiles/main_static.dir/data_structures/lru_list.cpp.s
 
-src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o: src/CMakeFiles/main_static.dir/flags.make
-src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o: ../src/data_structures/multi_lru.cpp
-src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o -MF CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o.d -o CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o -c /home/ubuntu22/cache-performance-insight/src/data_structures/multi_lru.cpp
-
-src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.i"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu22/cache-performance-insight/src/data_structures/multi_lru.cpp > CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.i
-
-src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.s"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu22/cache-performance-insight/src/data_structures/multi_lru.cpp -o CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.s
-
 src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o: ../src/managers/alrfu2_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/alrfu2_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.i: cmake_force
@@ -170,7 +156,7 @@ src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o: ../src/managers/alrfu3_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/alrfu3_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.i: cmake_force
@@ -184,7 +170,7 @@ src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o: ../src/managers/alrfu4_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/alrfu4_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.i: cmake_force
@@ -198,7 +184,7 @@ src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o: ../src/managers/alrfu5_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/alrfu5_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.i: cmake_force
@@ -212,7 +198,7 @@ src/CMakeFiles/main_static.dir/managers/alrfu5_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o: ../src/managers/alrfu_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/alrfu_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.i: cmake_force
@@ -226,7 +212,7 @@ src/CMakeFiles/main_static.dir/managers/alrfu_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o: ../src/managers/arc2_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/arc2_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.i: cmake_force
@@ -240,7 +226,7 @@ src/CMakeFiles/main_static.dir/managers/arc2_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o: ../src/managers/arc3_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/arc3_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.i: cmake_force
@@ -254,7 +240,7 @@ src/CMakeFiles/main_static.dir/managers/arc3_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o: ../src/managers/arc_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/arc_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.i: cmake_force
@@ -268,7 +254,7 @@ src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o: ../src/managers/drrip_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/drrip_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.i: cmake_force
@@ -282,7 +268,7 @@ src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o: ../src/managers/efsw_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/efsw_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.i: cmake_force
@@ -293,52 +279,10 @@ src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.s"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu22/cache-performance-insight/src/managers/efsw_cache_manager.cpp -o CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.s
 
-src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
-src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o: ../src/managers/glrfu2_cache_manager.cpp
-src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/glrfu2_cache_manager.cpp
-
-src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.i"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu22/cache-performance-insight/src/managers/glrfu2_cache_manager.cpp > CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.i
-
-src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.s"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu22/cache-performance-insight/src/managers/glrfu2_cache_manager.cpp -o CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.s
-
-src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
-src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o: ../src/managers/glrfu3_cache_manager.cpp
-src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/glrfu3_cache_manager.cpp
-
-src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.i"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu22/cache-performance-insight/src/managers/glrfu3_cache_manager.cpp > CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.i
-
-src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.s"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu22/cache-performance-insight/src/managers/glrfu3_cache_manager.cpp -o CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.s
-
-src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
-src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o: ../src/managers/glrfu_cache_manager.cpp
-src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/glrfu_cache_manager.cpp
-
-src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.i"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu22/cache-performance-insight/src/managers/glrfu_cache_manager.cpp > CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.i
-
-src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.s"
-	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu22/cache-performance-insight/src/managers/glrfu_cache_manager.cpp -o CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.s
-
 src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o: ../src/managers/lfu_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/lfu_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.i: cmake_force
@@ -352,7 +296,7 @@ src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o: ../src/managers/lrfu_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/lrfu_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.i: cmake_force
@@ -366,7 +310,7 @@ src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o: ../src/managers/lru_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/lru_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.i: cmake_force
@@ -380,7 +324,7 @@ src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o: ../src/managers/mrf_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/mrf_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.i: cmake_force
@@ -394,7 +338,7 @@ src/CMakeFiles/main_static.dir/managers/mrf_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o: ../src/managers/opt_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/opt_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.i: cmake_force
@@ -408,7 +352,7 @@ src/CMakeFiles/main_static.dir/managers/opt_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o: ../src/managers/srrip_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/srrip_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.i: cmake_force
@@ -422,7 +366,7 @@ src/CMakeFiles/main_static.dir/managers/srrip_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o: ../src/managers/stw2_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/stw2_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.i: cmake_force
@@ -436,7 +380,7 @@ src/CMakeFiles/main_static.dir/managers/stw2_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o: ../src/managers/stw_cache_manager.cpp
 src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o -MF CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o.d -o CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.o -c /home/ubuntu22/cache-performance-insight/src/managers/stw_cache_manager.cpp
 
 src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.i: cmake_force
@@ -450,7 +394,7 @@ src/CMakeFiles/main_static.dir/managers/stw_cache_manager.cpp.s: cmake_force
 src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o: src/CMakeFiles/main_static.dir/flags.make
 src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o: ../src/utils/unittest_utils.cpp
 src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o: src/CMakeFiles/main_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o -MF CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o.d -o CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o -c /home/ubuntu22/cache-performance-insight/src/utils/unittest_utils.cpp
 
 src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.i: cmake_force
@@ -468,7 +412,6 @@ main_static_OBJECTS = \
 "CMakeFiles/main_static.dir/data_structures/lazy_update_heap.cpp.o" \
 "CMakeFiles/main_static.dir/data_structures/link_list.cpp.o" \
 "CMakeFiles/main_static.dir/data_structures/lru_list.cpp.o" \
-"CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o" \
 "CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o" \
 "CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o" \
 "CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o" \
@@ -479,9 +422,6 @@ main_static_OBJECTS = \
 "CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o" \
 "CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o" \
 "CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o" \
-"CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o" \
-"CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o" \
-"CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o" \
 "CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o" \
 "CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o" \
 "CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o" \
@@ -500,7 +440,6 @@ src/libmain_static.a: src/CMakeFiles/main_static.dir/data_structures/dynamic_dec
 src/libmain_static.a: src/CMakeFiles/main_static.dir/data_structures/lazy_update_heap.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/data_structures/link_list.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/data_structures/lru_list.cpp.o
-src/libmain_static.a: src/CMakeFiles/main_static.dir/data_structures/multi_lru.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/alrfu2_cache_manager.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/alrfu3_cache_manager.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/alrfu4_cache_manager.cpp.o
@@ -511,9 +450,6 @@ src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/arc3_cache_manager
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/arc_cache_manager.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/drrip_cache_manager.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/efsw_cache_manager.cpp.o
-src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/glrfu2_cache_manager.cpp.o
-src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/glrfu3_cache_manager.cpp.o
-src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/glrfu_cache_manager.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/lfu_cache_manager.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/lrfu_cache_manager.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/lru_cache_manager.cpp.o
@@ -525,7 +461,7 @@ src/libmain_static.a: src/CMakeFiles/main_static.dir/managers/stw_cache_manager.
 src/libmain_static.a: src/CMakeFiles/main_static.dir/utils/unittest_utils.cpp.o
 src/libmain_static.a: src/CMakeFiles/main_static.dir/build.make
 src/libmain_static.a: src/CMakeFiles/main_static.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Linking CXX static library libmain_static.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX static library libmain_static.a"
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && $(CMAKE_COMMAND) -P CMakeFiles/main_static.dir/cmake_clean_target.cmake
 	cd /home/ubuntu22/cache-performance-insight/cmake-build-release/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main_static.dir/link.txt --verbose=$(VERBOSE)
 
