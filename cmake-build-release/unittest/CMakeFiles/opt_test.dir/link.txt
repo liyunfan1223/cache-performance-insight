@@ -1,0 +1,1 @@
+/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/opt_test.dir/opt_test.cpp.o -o opt_test  ../src/libmain_static.a 

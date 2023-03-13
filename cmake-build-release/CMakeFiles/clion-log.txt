@@ -1,0 +1,49 @@
+C:\WINDOWS\system32\wsl.exe --distribution Ubuntu-22.04 --exec /bin/bash -c "export CMAKE_COLOR_DIAGNOSTICS=ON && export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /home/ubuntu22/cache-performance-insight/cmake-build-release && /usr/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/clang '-DCMAKE_CXX_COMPILER=/usr/bin/clang++' -G 'CodeBlocks - Unix Makefiles' -S /home/ubuntu22/cache-performance-insight -B /home/ubuntu22/cache-performance-insight/cmake-build-release"
+Disable debug
+CMAKE_COMMON_FLAGS is  -O2
+CMAKE_CXX_FLAGS is  -O2
+MAIN CMAKE_COMMON_FLAGS -coverage
+MAIN SRC: /home/ubuntu22/cache-performance-insight/src/main.cpp
+Use /home/ubuntu22/cache-performance-insight/src/data_structures/dynamic_decay_heap.cpp
+Use /home/ubuntu22/cache-performance-insight/src/data_structures/dynamic_decay_lru.cpp
+Use /home/ubuntu22/cache-performance-insight/src/data_structures/lazy_update_heap.cpp
+Use /home/ubuntu22/cache-performance-insight/src/data_structures/link_list.cpp
+Use /home/ubuntu22/cache-performance-insight/src/data_structures/lru_list.cpp
+Use /home/ubuntu22/cache-performance-insight/src/main.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/alrfu2_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/alrfu3_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/alrfu4_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/alrfu5_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/alrfu_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/arc2_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/arc3_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/arc_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/drrip_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/efsw_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/lfu_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/lrfu_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/lru_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/mrf_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/opt_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/srrip_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/stw2_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/managers/stw_cache_manager.cpp
+Use /home/ubuntu22/cache-performance-insight/src/utils/unittest_utils.cpp
+LIB_SRC: /home/ubuntu22/cache-performance-insight/src/data_structures/dynamic_decay_heap.cpp;/home/ubuntu22/cache-performance-insight/src/data_structures/dynamic_decay_lru.cpp;/home/ubuntu22/cache-performance-insight/src/data_structures/lazy_update_heap.cpp;/home/ubuntu22/cache-performance-insight/src/data_structures/link_list.cpp;/home/ubuntu22/cache-performance-insight/src/data_structures/lru_list.cpp;/home/ubuntu22/cache-performance-insight/src/managers/alrfu2_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/alrfu3_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/alrfu4_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/alrfu5_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/alrfu_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/arc2_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/arc3_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/arc_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/drrip_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/efsw_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/lfu_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/lrfu_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/lru_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/mrf_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/opt_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/srrip_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/stw2_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/managers/stw_cache_manager.cpp;/home/ubuntu22/cache-performance-insight/src/utils/unittest_utils.cpp
+CMAKE_INSTALL_PREFIX /usr/local
+UNITTEST CMAKE_COMMON_FLAGS  -O2
+PROJECT_SOURCE_DIR: /home/ubuntu22/cache-performance-insight/unittest
+PROJECT_BINARY_DIR: /home/ubuntu22/cache-performance-insight/cmake-build-release/unittest
+-- Configuring done
+Build arc2_test according to /home/ubuntu22/cache-performance-insight/unittest/arc2_test.cpp
+Build arc3_test according to /home/ubuntu22/cache-performance-insight/unittest/arc3_test.cpp
+Build arc_test according to /home/ubuntu22/cache-performance-insight/unittest/arc_test.cpp
+Build lfu_test according to /home/ubuntu22/cache-performance-insight/unittest/lfu_test.cpp
+Build lru_test according to /home/ubuntu22/cache-performance-insight/unittest/lru_test.cpp
+Build mrf_test according to /home/ubuntu22/cache-performance-insight/unittest/mrf_test.cpp
+Build opt_test according to /home/ubuntu22/cache-performance-insight/unittest/opt_test.cpp
+Build srrip_test according to /home/ubuntu22/cache-performance-insight/unittest/srrip_test.cpp
+Build stw2_test according to /home/ubuntu22/cache-performance-insight/unittest/stw2_test.cpp
+Build stw_test according to /home/ubuntu22/cache-performance-insight/unittest/stw_test.cpp
+-- Generating done
+-- Build files have been written to: /home/ubuntu22/cache-performance-insight/cmake-build-release

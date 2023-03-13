@@ -50,8 +50,8 @@ public:
 private:
     int32_t get_father(int32_t index) { return index / 2; }
     void increase_ts(double decay_ratio);
-    int32_t get_lson(int32_t index) { return index * 2 + 1; }
-    int32_t get_rson(int32_t index) { return index * 2 + 2; }
+    int32_t get_lson(const int32_t &index) const { return index * 2 + 1; }
+    int32_t get_rson(const int32_t &index) const { return index * 2 + 2; }
     bool has_lson(int32_t index) { return get_lson(index) < heap_.size(); }
     bool has_rson(int32_t index) { return get_rson(index) < heap_.size(); }
     bool is_leaf(int32_t index) { return !has_lson(index) && !has_rson(index); }

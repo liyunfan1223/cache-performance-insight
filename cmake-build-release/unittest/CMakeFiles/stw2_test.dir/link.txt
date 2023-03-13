@@ -1,0 +1,1 @@
+/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/stw2_test.dir/stw2_test.cpp.o -o stw2_test  ../src/libmain_static.a 

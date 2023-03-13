@@ -36,7 +36,8 @@ public:
     virtual RC check_consistency() { return RC::DEFAULT; }
     int32_t hit_count() const { return hit_count_; }
     int32_t miss_count() const { return miss_count_; }
-
+    int32_t increase_miss_count() { miss_count_ += 1; return miss_count_; }
+    int32_t increase_hit_count() { hit_count_ += 1; return hit_count_; }
 protected:
     const int32_t buffer_size_;
     int32_t hit_count_;
