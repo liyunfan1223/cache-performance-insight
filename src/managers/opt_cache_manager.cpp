@@ -18,7 +18,7 @@ RC OPTCacheManager::get(const Key &key) {
         auto item = u_map_[key];
         buffer_set_.erase(item);
     }
-    int32_t future_access_timestamp = key_access_u_map_[key].size ? key_access_u_map_[key].head->key : INT32_MAX;
+    int32_t future_access_timestamp = key_access_u_map_[key].size ? key_access_u_map_[key].head->key: INT32_MAX;
     auto result = buffer_set_.insert(Status(future_access_timestamp, key));
     u_map_[key] = result.first;
     return RC::SUCCESS;

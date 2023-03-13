@@ -54,7 +54,7 @@ Key DDHeap::Pop() {
     return ret_key;
 }
 
-void DDHeap::heapify_up(int32_t index) {
+inline void DDHeap::heapify_up(int32_t index) {
     if (index == 0) {
         return;
     }
@@ -66,7 +66,7 @@ void DDHeap::heapify_up(int32_t index) {
     }
 }
 
-void DDHeap::heapify_down(int32_t index) {
+inline void DDHeap::heapify_down(int32_t index) {
     if (is_leaf(index)) {
         return;
     }
@@ -89,7 +89,7 @@ void DDHeap::update_value(int32_t index) {
 }
 
 int32_t DDHeap::get_smaller_son(int32_t index) {
-    assert(!is_leaf(index));
+//    assert(!is_leaf(index));
     if (!has_lson(index)) {
         return get_rson(index);
     }

@@ -4,11 +4,12 @@ import os
 import matplotlib.pyplot as plt
 import logging
 import json
+from collections import defaultdict
 
 TRACES_LIST = [
     'OLTP',
-    'Home1',
-    'Home2',
+    # 'Home1',
+    # 'Home2',
     'P1',
     'P2',
     'P3',
@@ -18,6 +19,9 @@ TRACES_LIST = [
     'P7',
     'P12',
     'DS1',
+    'readrandom_5',
+    'readrandom_6',
+    'readrandom_7',
 ]
 
 BUFFER_LIST_FOR_TRACES = {
@@ -29,10 +33,13 @@ BUFFER_LIST_FOR_TRACES = {
     'P6': [2 ** k for k in range(11, 18 + 1)],
     'P7': [2 ** k for k in range(11, 18 + 1)],
     'P12': [2 ** k for k in range(11, 18 + 1)],
-    'OLTP': [2 ** k for k in range(3, 13 + 1)],
+    'OLTP': [2 ** k for k in range(5, 15 + 1)],
     'DS1': [2 ** k for k in range(18, 22 + 1)],
     'Home1': [2 ** k for k in range(4, 12 + 1)],
     'Home2': [2 ** k for k in range(4, 12 + 1)],
+    'readrandom_5': [2 ** k for k in range(5, 13 + 1)],
+    'readrandom_6': [2 ** k for k in range(5, 13 + 1)],
+    'readrandom_7': [2 ** k for k in range(5, 13 + 1)],
 }
 
 class Recorder:
@@ -102,3 +109,23 @@ class MultiTestRunner:
               '\n\tparams params', self.params,
               '\n\thit rate list: ', hit_rate_list)
         return hit_rate_list
+
+class StatisticsCompareLRU:
+
+    def __init__(self):
+        self.data = defaultdict()
+        self.count = defaultdict()
+
+    def statistic(self, lru_result, compared_result, compared_label='default'):
+        for lru, compared in zip(lru_result, compared_result):
+            ratio = (compared - lru) / lru
+            if compared_label in self.data:
+                self.data[compared_label] += ratio
+                self.count[compared_label] += 1
+            else:
+                self.data[compared_label] = ratio
+                self.count[compared_label] = 1
+
+    def print_result(self):
+        for label in self.data.keys():
+            print(f"Hit rate of {label}: {self.data[label] / self.count[label] * 100}% average higher than lru.")

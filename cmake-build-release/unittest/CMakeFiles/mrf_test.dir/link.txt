@@ -1,0 +1,1 @@
+/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/mrf_test.dir/mrf_test.cpp.o -o mrf_test  ../src/libmain_static.a 

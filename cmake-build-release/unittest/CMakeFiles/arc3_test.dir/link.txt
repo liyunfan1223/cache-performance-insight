@@ -1,0 +1,1 @@
+/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/arc3_test.dir/arc3_test.cpp.o -o arc3_test  ../src/libmain_static.a 

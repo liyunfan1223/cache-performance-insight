@@ -1,6 +1,7 @@
 //
 // Created by MorphLing on 2022/9/28.
 //
+//#define LOG
 
 #include <iostream>
 #include <memory>
@@ -25,6 +26,8 @@
 #include "managers/alrfu3_cache_manager.h"
 #include "managers/alrfu4_cache_manager.h"
 #include "managers/alrfu5_cache_manager.h"
+#include "managers/glrfu_cache_manager.h"
+#include "managers/glrfu2_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -45,6 +48,8 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"ALRFU3", CachePolicy::ALRFU3},
         {"ALRFU4", CachePolicy::ALRFU4},
         {"ALRFU5", CachePolicy::ALRFU5},
+        {"GLRFU", CachePolicy::GLRFU},
+        {"GLRFU2", CachePolicy::GLRFU2},
 };
 
 void usage() {
@@ -74,6 +79,8 @@ int main(int argc, char **argv) {
     char* param_4 = argv[8];
     char* param_5 = argv[9];
     char* param_6 = argv[10];
+    timeval start_time;
+    gettimeofday(&start_time, NULL);
     switch (cachePolicy.at(cache_policy)) {
         case CachePolicy::LRU:
             UnittestUtils::make_test(trace_file,std::make_shared<LRUCacheManager>(buffer_size));
@@ -84,14 +91,6 @@ int main(int argc, char **argv) {
         case CachePolicy::ARC:
             UnittestUtils::make_test(trace_file,std::make_shared<ARCCacheManager>(buffer_size));
             break;
-        // case CachePolicy::ARC_2:
-        //     UnittestUtils::make_test(trace_file,std::shared_ptr<CacheManager>(new ARC2CacheManager(
-        //             buffer_size, std::stof(param_0), access_list)));
-        //     break;
-        // case CachePolicy::ARC_3:
-        //     UnittestUtils::make_test(trace_file,std::shared_ptr<CacheManager>(new ARC3CacheManager(
-        //             buffer_size, std::stoi(param_0), access_list)));
-            // break;
         case CachePolicy::OPT:
             UnittestUtils::make_test(trace_file,std::make_shared<OPTCacheManager>(buffer_size, access_list));
             break;
@@ -224,9 +223,45 @@ int main(int argc, char **argv) {
                                                                               std::stof(param_6)));
             }
             break;
+        case CachePolicy::GLRFU:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<GhostALRFUCacheManager>(buffer_size));
+            }else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<GhostALRFUCacheManager>(buffer_size,
+                                                                              std::stof(param_0),
+                                                                              std::stof(param_1),
+                                                                              std::stof(param_2),
+                                                                              std::stof(param_3),
+                                                                              std::stof(param_4),
+                                                                              std::stof(param_5)));
+            }
+            break;
+        case CachePolicy::GLRFU2:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<glruf2::GhostALRFU2CacheManager>(buffer_size));
+            }else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<glruf2::GhostALRFU2CacheManager>(buffer_size,
+                                                                                  std::stof(param_0),
+                                                                                  std::stof(param_1),
+                                                                                  std::stof(param_2),
+                                                                                  std::stof(param_3),
+                                                                                  std::stof(param_4),
+                                                                                  std::stof(param_5),
+                                                                                  std::stof(param_6)));
+            }
+            break;
         default:
             break;
     }
+    timeval end_time;
+    gettimeofday(&end_time, NULL);
+#ifdef LOG
+    std::cerr << (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1000000.0 << std::endl;
+#endif
     return 0;
 }
 
