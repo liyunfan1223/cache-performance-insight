@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/2/16.
 //
-
+//#define LOG
 #include "alrfu5_cache_manager.h"
 
 RC ALRFU5CacheManager::get(const Key &key) {
@@ -10,9 +10,9 @@ RC ALRFU5CacheManager::get(const Key &key) {
     double indicate_score = 1;
     if (dd_heap_.InHeap(key)) {
         int32_t count = dd_heap_.GetAccessCount(key);
-        if (count == 2) {
-            cur_score = 8;
-        }
+//        if (count == 2) {
+//            cur_score = 8;
+//        }
         // cur_score = score_hit_;
         hit_count_++;
         interval_hit_count_++;
@@ -29,9 +29,9 @@ RC ALRFU5CacheManager::get(const Key &key) {
 
     if (indicate_dd_heap_.InHeap(key)) {
         int32_t count2 = indicate_dd_heap_.GetAccessCount(key);
-        if (count2 == 2) {
-            indicate_score = 8;
-        }
+//        if (count2 == 2) {
+//            indicate_score = 8;
+//        }
         // indicate_score = score_hit_;
         indicate_hit_count_++;
     } else {
@@ -43,25 +43,25 @@ RC ALRFU5CacheManager::get(const Key &key) {
     }
 
 
-    if (store_ratio_ > 0 && store_lru_.Size() >= store_ratio_ * buffer_size_) {
-        store_lru_.Pop();
+    if (store_ratio_ > 0 && store_heap_.Size() >= store_ratio_ * buffer_size_) {
+        store_heap_.Pop();
     }
-    if (store_ratio_ > 0 && indicate_lru_.Size() >= store_ratio_ * buffer_size_) {
-        indicate_lru_.Pop();
+    if (store_ratio_ > 0 && indicate_store_heap_.Size() >= store_ratio_ * buffer_size_) {
+        indicate_store_heap_.Pop();
     }
-    store_lru_.Add(key, cur_score, cur_decay_ratio_exp_);
-    indicate_lru_.Add(key, indicate_score, cur_decay_ratio_exp_ * (1 + delta_ratio_));
+    store_heap_.Add(key, cur_score, cur_decay_ratio_exp_);
+    indicate_store_heap_.Add(key, indicate_score, cur_decay_ratio_exp_ * (1 + delta_ratio_));
 
     if (dd_heap_.InHeap(key)) {
         dd_heap_.Add(key, cur_score, cur_decay_ratio_exp_);
     } else {
-        dd_heap_.Add(key, store_lru_.GetValue(key), cur_decay_ratio_exp_);
+        dd_heap_.Add(key, store_heap_.GetValue(key), cur_decay_ratio_exp_);
     }
 
     if (indicate_dd_heap_.InHeap(key)) {
         indicate_dd_heap_.Add(key, indicate_score, cur_decay_ratio_exp_ * (1 + delta_ratio_));
     } else {
-        indicate_dd_heap_.Add(key, indicate_lru_.GetValue(key), cur_decay_ratio_exp_ * (1 + delta_ratio_));
+        indicate_dd_heap_.Add(key, indicate_store_heap_.GetValue(key), cur_decay_ratio_exp_ * (1 + delta_ratio_));
     }
 
     if (interval_count_ % update_interval_ == 0) {

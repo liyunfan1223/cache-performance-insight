@@ -1,7 +1,7 @@
 RAW_TRACE_FOLDER = './local/raw_trace/'
-TRACE_FILE_LIST = [f"casa-110108-112108.{i}.blkparse" for i in range(1, 10)]
-# TRACE_FILE_LIST = [f"ikki-110108-112108.{i}.blkparse" for i in range(1, 21)]
-WRITE_TRACE_PATH = './traces/Home1.lis'
+# TRACE_FILE_LIST = [f"casa-110108-112108.{i}.blkparse" for i in range(1, 10)]
+TRACE_FILE_LIST = [f"ikki-110108-112108.{i}.blkparse" for i in range(1, 21)]
+WRITE_TRACE_PATH = './traces/Home2.lis'
 
 
 def process_blkparse(trace_file_list, write_trace_path):
@@ -28,9 +28,9 @@ def process_blkparse(trace_file_list, write_trace_path):
         last_len += size
     fw.close()
 
-def process_ssd_trace():
-    f = open(RAW_TRACE_FOLDER + 'ssdtrace-00')
-    # fw = open('./traces/Rocks1.lis', 'w')
+def process_ssd_trace(input=None, output=None):
+    f = open(input)
+    fw = open(output, 'w')
     line = f.readline()
     idx = 0
     while line:
@@ -48,14 +48,15 @@ def process_ssd_trace():
             continue
         offset = int(ele[7]) // 8
         size = int(ele[9]) // 8
-        print(int(ele[7]), int(ele[9]))
-        # fw.write(f'{offset} {size} 0 {idx}\n')
+        # print(int(ele[7]), int(ele[9]))
+        fw.write(f'{offset} {size} 0 {idx}\n')
         # print(offset, size)
         idx += 1
         line = f.readline()
-    # fw.close()
+    fw.close()
     f.close()
+    print(idx)
 
 if __name__ == "__main__":
-    # process(TRACE_FILE_LIST, WRITE_TRACE_PATH)
-    process_ssd_trace()
+    # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
+    process_ssd_trace(RAW_TRACE_FOLDER + 'ssdtrace-07', './traces/Rocks8.lis')

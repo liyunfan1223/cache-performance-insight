@@ -1,0 +1,1 @@
+/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/lru_test.dir/lru_test.cpp.o -o lru_test  ../src/libmain_static.a 

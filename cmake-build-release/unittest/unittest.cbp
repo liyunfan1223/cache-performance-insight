@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="unittest"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\unittest\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="arc2_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/arc2_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 arc2_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="arc2_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/arc2_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 arc2_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="arc3_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/arc3_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 arc3_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="arc3_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/arc3_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 arc3_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="arc_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/arc_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 arc_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="arc_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/arc_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 arc_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lfu_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/lfu_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 lfu_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lfu_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/lfu_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 lfu_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lru_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/lru_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 lru_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lru_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/lru_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 lru_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mrf_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/mrf_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 mrf_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mrf_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/mrf_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 mrf_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="opt_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/opt_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 opt_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="opt_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/opt_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 opt_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="srrip_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/srrip_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 srrip_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="srrip_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/srrip_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 srrip_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stw2_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/stw2_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 stw2_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stw2_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/stw2_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 stw2_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stw_test">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/stw_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 stw_test"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stw_test/fast">
+				<Option output="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/stw_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/."/>
+					<Add directory="/home/ubuntu22/cache-performance-insight/unittest/../src"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"/>
+					<Add directory="/usr/lib/llvm-14/lib/clang/14.0.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 stw_test/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/ubuntu22/cache-performance-insight/cmake-build-release/unittest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/arc2_test.cpp">
+			<Option target="arc2_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/arc3_test.cpp">
+			<Option target="arc3_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/arc_test.cpp">
+			<Option target="arc_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/lfu_test.cpp">
+			<Option target="lfu_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/lru_test.cpp">
+			<Option target="lru_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/mrf_test.cpp">
+			<Option target="mrf_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/opt_test.cpp">
+			<Option target="opt_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/srrip_test.cpp">
+			<Option target="srrip_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/stw2_test.cpp">
+			<Option target="stw2_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/stw_test.cpp">
+			<Option target="stw_test"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+		<Unit filename="/home/ubuntu22/cache-performance-insight/unittest/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\unittest\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

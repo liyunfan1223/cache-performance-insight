@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
+#include <sys/time.h>
 
 struct trace_line {
     int starting_block;
@@ -55,6 +56,8 @@ enum class CachePolicy {
     ALRFU3,
     ALRFU4,
     ALRFU5,
+    GLRFU,
+    GLRFU2,
     UNKNOWN,
 };
 

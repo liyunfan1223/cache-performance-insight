@@ -3,6 +3,7 @@
 build/*
 local/*
 # large file
+traces/*
 traces/Home1.lis
 traces/Home2.lis
 

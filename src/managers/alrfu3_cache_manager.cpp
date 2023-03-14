@@ -19,18 +19,18 @@ RC ALRFU3CacheManager::get(const Key &key) {
         }
     }
 
-    if (indicate_dd_heap_.InHeap(key)) {
-        // hit_count_++;
-        indicate_hit_count_++;
-        indicate_status_.push_back(1);
-    } else {
-        // miss_count_++;
-        indicate_miss_count_++;
-        if (indicate_dd_heap_.Size() == buffer_size_) {
-            indicate_dd_heap_.Pop();
-        }
-        indicate_status_.push_back(0);
-    }
+//    if (indicate_dd_heap_.InHeap(key)) {
+//        // hit_count_++;
+//        indicate_hit_count_++;
+////        indicate_status_.push_back(1);
+//    } else {
+//        // miss_count_++;
+//        indicate_miss_count_++;
+//        if (indicate_dd_heap_.Size() == buffer_size_) {
+//            indicate_dd_heap_.Pop();
+//        }
+////        indicate_status_.push_back(0);
+//    }
 
     store_heap_.Add(key, 1, cur_decay_ratio_exp_);
     indicate_store_heap_.Add(key, 1, cur_decay_ratio_exp_ * (1 + delta_ratio_));
@@ -44,7 +44,7 @@ RC ALRFU3CacheManager::get(const Key &key) {
     if (indicate_dd_heap_.InHeap(key)) {
         indicate_dd_heap_.Add(key, 1, cur_decay_ratio_exp_ * (1 + delta_ratio_));
     } else {
-        indicate_dd_heap_.Add(key, indicate_store_heap_.GetValue(key), cur_decay_ratio_exp_ * (1 + delta_ratio_));
+        indicate_dd_heap_.Add(key, store_heap_.GetValue(key), cur_decay_ratio_exp_ * (1 + delta_ratio_));
     }
 
     if (interval_count_ % update_interval_ == 0) {
