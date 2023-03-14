@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/3/12.
 //
-
+#define LOG
 #include "glrfu2_cache_manager.h"
 
 using namespace glruf2;
@@ -141,7 +141,9 @@ RC GhostALRFU2CacheManager::self_adaptive() {
 //    double cur_miss_ratio = (double)interval_miss_count_ / update_interval_;
 //    double ind_miss_ratio = (double)indicate_miss_count_ / update_interval_;
 //    double ind_hit_ratio2 = (double)indicate_hit_count2_ / update_interval_;
-//    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << std::endl;
+#ifdef LOG
+    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << std::endl;
+#endif
     if (cur_hit_ratio != 0 && ind_hit_ratio != 0) {
         if (fabs(ind_hit_ratio - cur_hit_ratio) >= EPSILON) {
             stable_count_ = 0;
