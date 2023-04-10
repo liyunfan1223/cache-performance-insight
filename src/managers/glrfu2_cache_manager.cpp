@@ -21,6 +21,8 @@ RC GhostALRFU2CacheManager::get(const Key &key) {
                 if (ghost_map_.size() >= ghost_ratio_ * buffer_size_) {
                     Key evict_key = ghost_lru_[min_level_non_empty_ghost].back();
                     ghost_lru_[min_level_non_empty_ghost].pop_back();
+//                    Key evict_key = ghost_lru_[min_level_non_empty_ghost].front();
+//                    ghost_lru_[min_level_non_empty_ghost].pop_front();
                     ghost_map_.erase(evict_key);
                     while (ghost_lru_[min_level_non_empty_ghost].size() == 0 && min_level_non_empty_ghost < count_level_ + 1) {
                         min_level_non_empty_ghost++;
@@ -72,6 +74,9 @@ RC GhostALRFU2CacheManager::get(const Key &key) {
     }
     indicator->get(key);
     ts_++;
+//    if (ts_ % 10000 == 0) {
+//        std::cerr << statics();
+//    }
     if (ts_ == next_decay_ts_) {
         decay();
     }

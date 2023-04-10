@@ -7,29 +7,29 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
-    # 'OLTP',
-    # 'P1',
-    # 'P2',
-    # 'P3',
-    # 'P4',
-    # 'P5',
-    # 'P6',
-    # 'P7',
-    # 'P12',
-    # 'DS1',
-    # 'readrandom_5',
-    # 'readrandom_6',
-    # 'readrandom_7',
+    'OLTP',
+    'P1',
+    'P2',
+    'P3',
+    'P4',
+    'P5',
+    'P6',
+    'P7',
+    'P12',
+    'DS1',
+    'readrandom_5',
+    'readrandom_6',
+    'readrandom_7',
     # 'readseq_1',
     # 'readseq_2',
-    'Rocks1',
-    'Rocks2',
-    'Rocks3',
-    'Rocks4',
-    'Rocks5',
-    'Rocks6',
-    'Rocks7',
-    'Rocks8',
+    # 'Rocks1',
+    # 'Rocks2',
+    # 'Rocks3',
+    # 'Rocks4',
+    # 'Rocks5',
+    # 'Rocks6',
+    # 'Rocks7',
+    # 'Rocks8',
     # 'randseq_1',
 ]
 # 'Home1',
@@ -138,17 +138,23 @@ class StatisticsCompareLRU:
     def __init__(self):
         self.data = defaultdict()
         self.count = defaultdict()
+        self.perf = defaultdict()
 
     def statistic(self, lru_result, compared_result, compared_label='default'):
         for lru, compared in zip(lru_result, compared_result):
             ratio = (compared - lru) / lru
+            perf = (100 - lru) / (100 - compared) - 1
             if compared_label in self.data:
                 self.data[compared_label] += ratio
+                self.perf[compared_label] += perf
                 self.count[compared_label] += 1
             else:
                 self.data[compared_label] = ratio
+                self.perf[compared_label] = perf
                 self.count[compared_label] = 1
+
 
     def print_result(self):
         for label in self.data.keys():
-            print(f"Hit rate of {label}: {self.data[label] / self.count[label] * 100}% average higher than lru.")
+            # print(f"Hit rate of {label}: {self.data[label] / self.count[label] * 100}% average higher than lru.")
+            print(f"Performance rate of {label}: {self.perf[label] / self.count[label] * 100}% average higher than lru.")

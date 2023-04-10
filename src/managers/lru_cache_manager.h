@@ -23,4 +23,5 @@ public:
     std::string get_name() override;
 private:
     LRUList<Key> lruList_;
+    int ts = 0;
 };
