@@ -150,7 +150,7 @@ RC Ghost3ALRFUCacheManager::self_adaptive() {
     double avg_lv = (double) static_insert_lv / update_interval_;
     double avg_cache = (double) static_cache_lv / real_map_.size();
 //    expect_lv_ = avg_cache ;
-    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << real_map_.size() << " " << statics();
+//    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << real_map_.size() << " " << statics();
     if (avg_lv > expect_lv_) {
         cur_half_ /= 1 + (avg_lv - expect_lv_) / count_level_;
     } else {

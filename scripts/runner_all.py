@@ -158,7 +158,6 @@ if __name__ == '__main__':
         ax.plot(BUFFER_SIZE_LIST, glrfu3E_result, label=f'GLRFU3E, p={params_list}', marker='+', linestyle='-')
         stats.statistic(lru_result, glrfu3E_result, "GLRFU3E")
 
-
         params_list = [20000, 20, 0.5, 5, 4, 10, 2, 8]
         runner = MultiTestRunner(['GLRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
         glrfu3F_result = runner.get_hit_rate_list()
