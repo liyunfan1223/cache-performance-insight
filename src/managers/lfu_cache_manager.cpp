@@ -22,6 +22,9 @@ RC LFUCacheManager::get(const Key & key) {
     }
     auto result = buffer_set_.insert(Status(freq, timestamp_++, key));
     u_map_[key] = result.first;
+    if (timestamp_ % 10000 == 0) {
+        std::cerr << statics();
+    }
     return RC::SUCCESS;
 }
 
