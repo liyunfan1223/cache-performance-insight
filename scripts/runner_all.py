@@ -176,6 +176,12 @@ if __name__ == '__main__':
         ax.plot(BUFFER_SIZE_LIST, glrfu3H_result, label=f'GLRFU3H, p={params_list}', marker='+', linestyle='-')
         stats.statistic(lru_result, glrfu3H_result, "GLRFU3H")
 
+        # params_list = [20000, 20, 0.5, 5, 4, 10, 4, 32]
+        # runner = MultiTestRunner(['GLRFU4'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # glrfu4_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, glrfu4_result, label=f'GLRFU4, p={params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, glrfu4_result, "GLRFU4")
+
         opt_runner = MultiTestRunner(['OPT'], BUFFER_SIZE_LIST, trace_file, None)
         opt_result = opt_runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, opt_result, label='OPT*', marker='+', linestyle='-.')
