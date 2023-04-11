@@ -2,11 +2,11 @@
 // Created by MorphLing on 2023/3/12.
 //
 
-#include "glrfu3_cache_manager.h"
+#include "glrfu4_cache_manager.h"
 
-using namespace glrfu3;
+using namespace glrfu4;
 
-RC GhostALRFU3CacheManager::get(const Key &key) {
+RC GhostALRFU4CacheManager::get(const Key &key) {
     int inserted_level = start_level_;
     if (real_map_.count(key) == 0) {
         // miss
@@ -89,23 +89,23 @@ RC GhostALRFU3CacheManager::get(const Key &key) {
     return RC::SUCCESS;
 }
 
-RC GhostALRFU3CacheManager::put(const Key &key, const Value &value) {
+RC GhostALRFU4CacheManager::put(const Key &key, const Value &value) {
     return RC::DEFAULT;
 }
 
-std::string GhostALRFU3CacheManager::get_name() {
+std::string GhostALRFU4CacheManager::get_name() {
     return {"G-LRFU3"};
 }
 
-std::string GhostALRFU3CacheManager::get_configuration() {
+std::string GhostALRFU4CacheManager::get_configuration() {
     return CacheManager::get_configuration();
 }
 
-RC GhostALRFU3CacheManager::check_consistency() {
+RC GhostALRFU4CacheManager::check_consistency() {
     return CacheManager::check_consistency();
 }
 
-RC GhostALRFU3CacheManager::decay() {
+RC GhostALRFU4CacheManager::decay() {
     for (int i = 1; i < count_level_; i++) {
         if (real_lru_[i].size() != 0) {
             static_cache_lv -= i * real_lru_[i].size();
@@ -130,7 +130,7 @@ RC GhostALRFU3CacheManager::decay() {
     return RC::SUCCESS;
 }
 
-int GhostALRFU3CacheManager::get_cur_level(const iter_status & status) {
+int GhostALRFU4CacheManager::get_cur_level(const iter_status & status) {
     int est_level = status.insert_level;
     if (decay_ts.size() == 0) {
         return est_level;
@@ -146,16 +146,24 @@ int GhostALRFU3CacheManager::get_cur_level(const iter_status & status) {
     return est_level;
 }
 
-RC GhostALRFU3CacheManager::self_adaptive() {
+RC GhostALRFU4CacheManager::self_adaptive() {
     double avg_lv = (double) static_insert_lv / update_interval_;
     double avg_cache = (double) static_cache_lv / real_map_.size();
-//    expect_lv_ = avg_cache ;
-//    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << real_map_.size() << " " << statics();
-    if (avg_lv > expect_lv_) {
-        cur_half_ /= 1 + (avg_lv - expect_lv_) / count_level_;
-    } else {
-        cur_half_ *= 1 + (expect_lv_ - avg_lv) / count_level_;
+    if (update_counter == 0) {
+        prev_static_lv += avg_lv;
+        update_counter++;
+        return RC::SUCCESS;
     }
+//    expect_lv_ = avg_cache ;
+//    std::cerr << cur_half_ << " " << avg_lv << " " << prev_static_lv << " " << real_map_.size() << " " << statics();
+    expect_lv_ = prev_static_lv;
+    if (avg_lv > expect_lv_) {
+        cur_half_ /= 1 + (avg_lv - expect_lv_) / count_level_ * 10;
+    } else {
+        cur_half_ *= 1 + (expect_lv_ - avg_lv) / count_level_ * 10;
+    }
+    prev_static_lv = avg_lv;
+    update_counter
     next_decay_ts_ = std::min(next_decay_ts_, (int)(ts_ + cur_half_ * buffer_size_));
     next_decay_ts_ = std::max(next_decay_ts_, ts_ + 1);
     static_insert_lv = 0;
