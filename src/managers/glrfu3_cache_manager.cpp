@@ -150,11 +150,17 @@ RC GhostALRFU3CacheManager::self_adaptive() {
     double avg_lv = (double) static_insert_lv / update_interval_;
     double avg_cache = (double) static_cache_lv / real_map_.size();
 //    expect_lv_ = avg_cache ;
-//    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << real_map_.size() << " " << statics();
+    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << real_map_.size() << " " << statics();
     if (avg_lv > expect_lv_) {
         cur_half_ /= 1 + (avg_lv - expect_lv_) / count_level_;
     } else {
         cur_half_ *= 1 + (expect_lv_ - avg_lv) / count_level_;
+    }
+    if (cur_half_ < (double)1 / buffer_size_) {
+        cur_half_  = (double)1 / buffer_size_;
+    }
+    if (cur_half_ > 1e8 / buffer_size_) {
+        cur_half_  = 1e8 / buffer_size_;
     }
     next_decay_ts_ = std::min(next_decay_ts_, (int)(ts_ + cur_half_ * buffer_size_));
     next_decay_ts_ = std::max(next_decay_ts_, ts_ + 1);

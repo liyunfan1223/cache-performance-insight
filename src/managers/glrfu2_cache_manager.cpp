@@ -74,6 +74,7 @@ RC GhostALRFU2CacheManager::get(const Key &key) {
     }
     indicator->get(key);
     ts_++;
+    static_insert_lv += inserted_level;
 //    if (ts_ % 10000 == 0) {
 //        std::cerr << statics();
 //    }
@@ -141,13 +142,14 @@ int GhostALRFU2CacheManager::get_cur_level(const iter_status & status) {
 }
 
 RC GhostALRFU2CacheManager::self_adaptive() {
+    double avg_lv = (double) static_insert_lv / update_interval_;
     double cur_hit_ratio = (double)interval_hit_count_ / update_interval_;
     double ind_hit_ratio = (double)indicator->hit_count / update_interval_;
 //    double cur_miss_ratio = (double)interval_miss_count_ / update_interval_;
 //    double ind_miss_ratio = (double)indicate_miss_count_ / update_interval_;
 //    double ind_hit_ratio2 = (double)indicate_hit_count2_ / update_interval_;
 #ifdef LOG
-    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << std::endl;
+    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << " " << avg_lv << std::endl;
 #endif
     if (cur_hit_ratio != 0 && ind_hit_ratio != 0) {
         if (fabs(ind_hit_ratio - cur_hit_ratio) >= EPSILON) {
@@ -175,14 +177,15 @@ RC GhostALRFU2CacheManager::self_adaptive() {
     if (cur_half_ < (double)1 / buffer_size_) {
         cur_half_  = (double)1 / buffer_size_;
     }
-//    if (cur_half_ > 100) {
-//        cur_half_  = 100;
-//    }
+    if (cur_half_ > 1e8 / buffer_size_) {
+        cur_half_  = 1e8 / buffer_size_;
+    }
     next_decay_ts_ = std::min(next_decay_ts_, (int)(ts_ + cur_half_ * buffer_size_));
     indicator->set_cur_half(cur_half_ / (1 + delta_ratio_));
     interval_hit_count_ = 0;
     indicator->hit_count = 0;
     indicator->mis_count = 0;
+    static_insert_lv = 0;
     return RC::SUCCESS;
 }
 
