@@ -48,6 +48,7 @@ RC GhostALRFU4CacheManager::get(const Key &key) {
 
             int ts = ghost_map_[key].insert_ts;
             ref_interval += (ts_ + 1) - ts;
+            ref_count += 1;
 
             int level = get_cur_level(ghost_map_[key]);
             // erase key in ghost
@@ -59,8 +60,9 @@ RC GhostALRFU4CacheManager::get(const Key &key) {
             inserted_level = level + start_level_;
 
         } else {
-            ref_interval += ghost_ratio_ * buffer_size_;
+//            ref_interval += ghost_ratio_ * buffer_size_ * 4;
         }
+//        std::cerr << inserted_level;
         miss_level += inserted_level;
         miss_count ++;
     } else {
@@ -81,8 +83,10 @@ RC GhostALRFU4CacheManager::get(const Key &key) {
         while(real_lru_[min_level_non_empty].size() == 0) {
             min_level_non_empty++;
         }
+
         hit_level += inserted_level;
         hit_count ++;
+//        std::cerr << hit_level << " " << hit_count << " " << (double)hit_level / hit_count << std::endl;
     }
     inserted_level = std::min(inserted_level, count_level_ - 1);
     real_lru_[inserted_level].push_front(key);
@@ -165,24 +169,32 @@ int GhostALRFU4CacheManager::get_cur_level(const iter_status & status) {
 }
 
 RC GhostALRFU4CacheManager::self_adaptive() {
-    double avg_lv = (double) static_insert_lv / update_interval_;
-    double avg_fq = (double) static_insert_fq / update_interval_;
+    div += update_interval_;
+    double avg_lv = (double) static_insert_lv / div;
+    double avg_fq = (double) static_insert_fq / div;
     double avg_cache = (double) static_cache_lv / real_map_.size();
-
+    adap_c += 1;
     double avg_lv_hit = hit_count != 0 ? (double)hit_level / hit_count : start_level_ * 4;
     double avg_lv_mis = miss_count != 0 ? (double)miss_level / miss_count : 0;
-    double re_ref_interval = (double) ref_interval / update_interval_;
-    double ratio = (double) hit_count / update_interval_;
-    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << avg_fq * start_level_ << " " << avg_lv_hit << " " << avg_lv_mis << " " << re_ref_interval << " " << statics();
+    tot_hit_lv += avg_lv_hit;
+    tot_mis_lv += avg_lv_mis;
+    double avg_hl = tot_hit_lv / adap_c;
+    double avg_ml = avg_lv_mis / adap_c;
+    double re_ref_interval = (double) ref_interval / ref_count;
+    double ratio = (double) hit_count / div;
+//    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << avg_fq * start_level_ <<
+//        " " << avg_lv_hit << " " << avg_lv_mis << " " << re_ref_interval << " " << avg_hl << " " << avg_ml << " " << statics();
 //    expect_lv_ = prev_static_lv;
 //    expect_lv_ = 256;
 //    expect_lv_ = 1;
-    double a = avg_lv_hit;
-    double b = avg_lv_mis * 2;
+    std::cerr << cur_half_ << " " << "avg_lv_hit: " << avg_lv_hit << " avg_lv_mis: " << avg_lv_mis <<
+        " re_ref_interval: " << re_ref_interval << " " << statics();
+    double a = avg_lv_mis;
+    double b = avg_lv_hit;
     if (a > b) {
-        cur_half_ /= 1 + (a - b) / count_level_;
+        cur_half_ /= 1 + (a - b) / std::max(a, b);
     } else {
-        cur_half_ *= 1 + (b - a) / count_level_;
+        cur_half_ *= 1 + (b - a) / std::max(a, b);
     }
     if (cur_half_ < (double)2000 / buffer_size_) {
         cur_half_  = (double)2000 / buffer_size_;
@@ -194,10 +206,12 @@ RC GhostALRFU4CacheManager::self_adaptive() {
     // update_counter
     next_decay_ts_ = std::min(next_decay_ts_, (int)(ts_ + cur_half_ * buffer_size_));
     next_decay_ts_ = std::max(next_decay_ts_, ts_ + 1);
-    static_insert_lv = 0;
-    static_insert_fq = 0;
+//    static_insert_lv = 0;
+//    static_insert_fq = 0;
     hit_level = miss_level = 0;
     hit_count = miss_count = 0;
+
     ref_interval = 0;
+    ref_count = 0;
     return RC::SUCCESS;
 }
