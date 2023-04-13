@@ -83,6 +83,7 @@ class GhostALRFU2Indicator;
         int stable_count_ = 0;
         double ori_half_, ghost_ratio_;
         int interval_hit_count_ = 0;
+        double static_insert_lv = 0;
     };
 
     class GhostALRFU2Indicator {

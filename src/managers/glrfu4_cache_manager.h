@@ -13,15 +13,17 @@ namespace glrfu4 {
 struct iter_status {
     iter_status() {}
 
-    iter_status(std::list<Key>::iterator iter, int insert_level, int insert_ts) {
+    iter_status(std::list<Key>::iterator iter, int insert_level, int insert_ts, int insert_freq) {
         this->iter = iter;
         this->insert_level = insert_level;
         this->insert_ts = insert_ts;
+        this->insert_freq = insert_freq;
     }
 
     std::list<Key>::iterator iter;
     int insert_level;
     int insert_ts;
+    int insert_freq;
 };
 
 class GhostALRFU4CacheManager : public CacheManager {
@@ -80,6 +82,13 @@ private:
     double expect_lv_;
     double prev_static_lv = -1;
     int update_counter = 0;
+    double cur_hit_ratio = -1;
+    double ind_hit_ratio = 0;
+    double static_insert_fq = 0;
+    double hit_level = 0;
+    double miss_level = 0;
+    int hit_count, miss_count;
+    uint64_t ref_interval = 0;
 };
 
 }
