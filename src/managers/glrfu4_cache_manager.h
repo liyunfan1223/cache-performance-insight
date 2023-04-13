@@ -87,8 +87,13 @@ private:
     double static_insert_fq = 0;
     double hit_level = 0;
     double miss_level = 0;
-    int hit_count, miss_count;
+    int hit_count = 0, miss_count = 0;
     uint64_t ref_interval = 0;
+    int ref_count = 0;
+    int div;
+    double tot_hit_lv = 0;
+    double tot_mis_lv = 0;
+    double adap_c = 0;
 };
 
 }
