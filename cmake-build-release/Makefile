@@ -127,6 +127,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named rocksdb_use
+
+# Build rule for target.
+rocksdb_use: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 rocksdb_use
+.PHONY : rocksdb_use
+
+# fast build rule for target.
+rocksdb_use/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use.dir/build.make CMakeFiles/rocksdb_use.dir/build
+.PHONY : rocksdb_use/fast
+
+#=============================================================================
+# Target rules for targets named rocksdb_use_multi_threads
+
+# Build rule for target.
+rocksdb_use_multi_threads: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 rocksdb_use_multi_threads
+.PHONY : rocksdb_use_multi_threads
+
+# fast build rule for target.
+rocksdb_use_multi_threads/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use_multi_threads.dir/build.make CMakeFiles/rocksdb_use_multi_threads.dir/build
+.PHONY : rocksdb_use_multi_threads/fast
+
+#=============================================================================
 # Target rules for targets named coverage
 
 # Build rule for target.
@@ -295,6 +321,54 @@ stw_test/fast:
 	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/stw_test.dir/build.make unittest/CMakeFiles/stw_test.dir/build
 .PHONY : stw_test/fast
 
+rocksdb_use.o: rocksdb_use.cpp.o
+.PHONY : rocksdb_use.o
+
+# target to build an object file
+rocksdb_use.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use.dir/build.make CMakeFiles/rocksdb_use.dir/rocksdb_use.cpp.o
+.PHONY : rocksdb_use.cpp.o
+
+rocksdb_use.i: rocksdb_use.cpp.i
+.PHONY : rocksdb_use.i
+
+# target to preprocess a source file
+rocksdb_use.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use.dir/build.make CMakeFiles/rocksdb_use.dir/rocksdb_use.cpp.i
+.PHONY : rocksdb_use.cpp.i
+
+rocksdb_use.s: rocksdb_use.cpp.s
+.PHONY : rocksdb_use.s
+
+# target to generate assembly for a file
+rocksdb_use.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use.dir/build.make CMakeFiles/rocksdb_use.dir/rocksdb_use.cpp.s
+.PHONY : rocksdb_use.cpp.s
+
+rocksdb_use_multi_threads.o: rocksdb_use_multi_threads.cpp.o
+.PHONY : rocksdb_use_multi_threads.o
+
+# target to build an object file
+rocksdb_use_multi_threads.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use_multi_threads.dir/build.make CMakeFiles/rocksdb_use_multi_threads.dir/rocksdb_use_multi_threads.cpp.o
+.PHONY : rocksdb_use_multi_threads.cpp.o
+
+rocksdb_use_multi_threads.i: rocksdb_use_multi_threads.cpp.i
+.PHONY : rocksdb_use_multi_threads.i
+
+# target to preprocess a source file
+rocksdb_use_multi_threads.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use_multi_threads.dir/build.make CMakeFiles/rocksdb_use_multi_threads.dir/rocksdb_use_multi_threads.cpp.i
+.PHONY : rocksdb_use_multi_threads.cpp.i
+
+rocksdb_use_multi_threads.s: rocksdb_use_multi_threads.cpp.s
+.PHONY : rocksdb_use_multi_threads.s
+
+# target to generate assembly for a file
+rocksdb_use_multi_threads.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rocksdb_use_multi_threads.dir/build.make CMakeFiles/rocksdb_use_multi_threads.dir/rocksdb_use_multi_threads.cpp.s
+.PHONY : rocksdb_use_multi_threads.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -314,9 +388,17 @@ help:
 	@echo "... main_static"
 	@echo "... mrf_test"
 	@echo "... opt_test"
+	@echo "... rocksdb_use"
+	@echo "... rocksdb_use_multi_threads"
 	@echo "... srrip_test"
 	@echo "... stw2_test"
 	@echo "... stw_test"
+	@echo "... rocksdb_use.o"
+	@echo "... rocksdb_use.i"
+	@echo "... rocksdb_use.s"
+	@echo "... rocksdb_use_multi_threads.o"
+	@echo "... rocksdb_use_multi_threads.i"
+	@echo "... rocksdb_use_multi_threads.s"
 .PHONY : help
 
 

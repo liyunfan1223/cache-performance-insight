@@ -11,11 +11,12 @@ BUFFER_SIZES = [
     # 500,
     # 1000,
     # 2000
+    2 ** 11,
     2 ** 12,
-    2 ** 14,
-    2 ** 15,
-    2 ** 16,
-    2 ** 17,
+    # 2 ** 14,
+    # 2 ** 15,
+    # 2 ** 16,
+    # 2 ** 17,
 ]
 CACHE_POLICY = 'GLRFU3'
 TRACE_FILES = [
@@ -80,7 +81,7 @@ def EFSW():
         plt.legend(loc=2)
         if not os.path.exists('local'):
             os.mkdir('local')
-        fig_path = f'local/param_plot_{trace_name}_{CACHE_POLICY}.png'
+        fig_path = f'local/param_plot_{trace_name}_{"EFSW"}.png'
         plt.savefig(fig_path)
         print(f'Fig generated path: {fig_path}. ')
 

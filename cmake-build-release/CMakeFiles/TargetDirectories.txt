@@ -1,3 +1,5 @@
+/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles/rocksdb_use.dir
+/home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles/rocksdb_use_multi_threads.dir
 /home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles/coverage.dir
 /home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles/test.dir
 /home/ubuntu22/cache-performance-insight/cmake-build-release/CMakeFiles/edit_cache.dir

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(cache_performance_insight)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 #SET(CMAKE_COMMON_FLAGS "-coverage -frtti -DCMAKE_EXPORT_COMPILE_COMMANDS=1")
 
@@ -41,6 +41,12 @@ add_test(NAME srrip_test COMMAND srrip_test)
 
 find_program(LCOV lcov REQUIRED)
 find_program(GENHTML genhtml REQUIRED)
+
+ADD_EXECUTABLE(rocksdb_use rocksdb_use.cpp)
+target_link_libraries(rocksdb_use rocksdb memcached)
+
+ADD_EXECUTABLE(rocksdb_use_multi_threads rocksdb_use_multi_threads.cpp)
+target_link_libraries(rocksdb_use_multi_threads rocksdb memcached)
 
 add_custom_target(coverage
         COMMAND ${LCOV} --directory . --capture --output-file coverage.info
