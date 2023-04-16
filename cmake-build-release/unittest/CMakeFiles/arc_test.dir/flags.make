@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/ubuntu22/cache-performance-insight/unittest/. -I/home/ubuntu22/cache-performance-insight/unittest/../src
 
-CXX_FLAGS =  -O2 -O3 -DNDEBUG
+CXX_FLAGS =  -O2 -O3 -DNDEBUG -std=gnu++17
 

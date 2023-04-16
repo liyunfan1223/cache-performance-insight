@@ -75,9 +75,9 @@ RC GhostALRFU3CacheManager::get(const Key &key) {
         min_level_non_empty = inserted_level;
     }
     ts_++;
-//    if (ts_ % 10000 == 0) {
-//        std::cerr << statics();
-//    }
+    if (ts_ % 10000 == 0) {
+        std::cerr << statics();
+    }
     static_insert_lv += inserted_level;
     if (ts_ == next_decay_ts_) {
         decay();
@@ -150,7 +150,7 @@ RC GhostALRFU3CacheManager::self_adaptive() {
     double avg_lv = (double) static_insert_lv / update_interval_;
     double avg_cache = (double) static_cache_lv / real_map_.size();
 //    expect_lv_ = avg_cache ;
-    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << real_map_.size() << " " << statics();
+//    std::cerr << cur_half_ << " " << avg_lv << " " << avg_cache << " " << real_map_.size() << " " << statics();
     if (avg_lv > expect_lv_) {
         cur_half_ /= 1 + (avg_lv - expect_lv_) / count_level_;
     } else {

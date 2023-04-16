@@ -37,7 +37,7 @@ std::string EFSWCacheManager::get_name() {
 std::string EFSWCacheManager::get_configuration() {
     return " half life ratio:" + std::to_string(half_life_ratio_) +
            " miss score:" + std::to_string(miss_score_) +
-           " hit score:" + std::to_string(hit_count_);
+           " hit score:" + std::to_string(hit_score_);
 }
 
 RC EFSWCacheManager::check_consistency() {

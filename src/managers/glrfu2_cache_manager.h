@@ -48,6 +48,7 @@ class GhostALRFU2Indicator;
             min_level_non_empty_ghost = count_level_ + 1;
             real_lru_.resize(count_level_);
             ghost_lru_.resize(count_level_);
+            // wrong...
             indicator = std::make_unique<GhostALRFU2Indicator>(buffer_size, update_interval,
                                                                cur_half * (1 + delta_ratio), delta_ratio, lambda,
                                                                start_level, count_level_bits, ghost_ratio);

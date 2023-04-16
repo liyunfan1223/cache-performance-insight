@@ -75,9 +75,9 @@ RC GhostALRFU2CacheManager::get(const Key &key) {
     indicator->get(key);
     ts_++;
     static_insert_lv += inserted_level;
-//    if (ts_ % 10000 == 0) {
-//        std::cerr << statics();
-//    }
+    if (ts_ % 10000 == 0) {
+        std::cerr << statics();
+    }
     if (ts_ == next_decay_ts_) {
         decay();
     }
@@ -149,7 +149,7 @@ RC GhostALRFU2CacheManager::self_adaptive() {
 //    double ind_miss_ratio = (double)indicate_miss_count_ / update_interval_;
 //    double ind_hit_ratio2 = (double)indicate_hit_count2_ / update_interval_;
 #ifdef LOG
-    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << " " << avg_lv << std::endl;
+    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << " " << avg_lv << " " << statics() << std::endl;
 #endif
     if (cur_hit_ratio != 0 && ind_hit_ratio != 0) {
         if (fabs(ind_hit_ratio - cur_hit_ratio) >= EPSILON) {

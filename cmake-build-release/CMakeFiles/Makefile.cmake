@@ -53,6 +53,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/rocksdb_use.dir/DependInfo.cmake"
+  "CMakeFiles/rocksdb_use_multi_threads.dir/DependInfo.cmake"
   "CMakeFiles/coverage.dir/DependInfo.cmake"
   "src/CMakeFiles/main.dir/DependInfo.cmake"
   "src/CMakeFiles/main_static.dir/DependInfo.cmake"
