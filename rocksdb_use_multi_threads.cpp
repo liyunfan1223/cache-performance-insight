@@ -25,7 +25,7 @@ using namespace std;
 // rocksdb存储路径
 
 const uint32_t MAX_LENGTH = 1 * 1024;
-const uint32_t THREAD_NUM = 1;
+const uint32_t THREAD_NUM = 256;
 
 std::string kDBPath="/tmp/rocksdb_simple_1k";
 const char * config_string = "--SERVER=127.0.0.1";
@@ -36,6 +36,8 @@ uint32_t counter[THREAD_NUM + 1][3];
 string default_str;
 bool warming_up[THREAD_NUM + 1] = {true};
 uint32_t  warmup_seconds = 30;
+uint32_t  warmup_access = 1 << 20;
+uint32_t  report_interval = 1 << 14;
 vector<int> access_list;
 int my_thread_id;
 timeval start_time;
@@ -148,23 +150,31 @@ void* subprocess_work(void * arg)
         request_item(to_string(access_list[i]).c_str(), thread_id, memc);
 
         gettimeofday(&end_time, NULL);
-        double total_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1000000.0; //s
-        if (!warming_up[thread_id] && total_time > warmup_seconds) {
-            pthread_mutex_lock(&stats_mutex);
-            warming_up[thread_id] = true;
-            for (int j = 0; j < 3; j++) {
-                timer[thread_id][j] = 0;
-                counter[thread_id][j] = 0;
+
+        if (!warming_up[thread_id]) {
+//            double total_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1000000.0; //s
+//            if (total_time > warmup_seconds) {
+            if (counter[thread_id][0] + counter[thread_id][1] + counter[thread_id][2] >= warmup_access / THREAD_NUM) {
+                pthread_mutex_lock(&stats_mutex);
+                warming_up[thread_id] = true;
+
+                warming_up_counter++;
+                if (warming_up_counter == THREAD_NUM) {
+                    printf("All threads warmed up, clean statics.\n");
+                    // this may conflict... maybe can be ignored
+                    for (int k = 1; k <= THREAD_NUM; k++) {
+                        for (int j = 0; j < 3; j++) {
+                            timer[k][j] = 0;
+                            counter[k][j] = 0;
+                        }
+                    }
+                    gettimeofday(&start_time, NULL);
+                }
+                pthread_mutex_unlock(&stats_mutex);
             }
-            warming_up_counter++;
-            if (warming_up_counter == THREAD_NUM) {
-                printf("All threads warmed up. Clean statics.\n");
-                gettimeofday(&start_time, NULL);
-            }
-            pthread_mutex_unlock(&stats_mutex);
         }
         // 0 for public
-        if (((counter[thread_id][0] + counter[thread_id][1] + counter[thread_id][2]) % 10000 == 0) && thread_id == 1) {
+        if ((counter[thread_id][0] + counter[thread_id][1] + counter[thread_id][2]) % (report_interval / THREAD_NUM) == 0 && thread_id == 1){
             pthread_mutex_lock(&stats_mutex);
             for (int k = 0; k < 3; k++) {
                 timer[0][k] = 0;
@@ -174,26 +184,27 @@ void* subprocess_work(void * arg)
                     counter[0][k] += counter[j][k];
                 }
             }
-            double average_latency = (timer[0][0] + timer[0][1] + timer[0][2]) / (counter[0][0] + counter[0][1] + counter[0][2]);
+            uint32_t tot_counter = counter[0][0] + counter[0][1] + counter[0][2];
+            double average_latency = (timer[0][0] + timer[0][1] + timer[0][2]) / tot_counter;
             double mem_latency = counter[0][0] ? timer[0][0] / counter[0][0] : 0;
             double rdb_latency = counter[0][1] ? timer[0][1] / counter[0][1] : 0;
             double nf_latency = counter[0][2] ? timer[0][2] / counter[0][2] : 0;
             double total_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1000000.0; //s
-            double throughput = (counter[0][0] + counter[0][1] + counter[0][2]) / total_time;
-            double hit_ratio = (double) counter[0][0] / (counter[0][0] + counter[0][1] + counter[0][2]) * 100;
+            double throughput = tot_counter / total_time;
+            double hit_ratio = (double) counter[0][0] / tot_counter * 100;
             printf("runtime: %.2fs "
                    "warming up: %d "
                    "average latency: %.4f "
                    "mem: %.4f "
                    "rdb: %.4f "
                    "nf: %.4f "
-                   "tps: %.2f h_ratio: %.2f%% "
+                   "tps: %.2f h_ratio: %.2f%% t_counter: %u "
                    "mem:rdb:nf=%d:%d:%d\n",
                    total_time,
                    warming_up_counter == THREAD_NUM,
                    average_latency,
                    mem_latency, rdb_latency, nf_latency,
-                   throughput, hit_ratio,
+                   throughput, hit_ratio, tot_counter,
                    counter[0][0], counter[0][1], counter[0][2]);
             fflush(stdout);
             pthread_mutex_unlock(&stats_mutex);
@@ -201,8 +212,8 @@ void* subprocess_work(void * arg)
     }
     delete memc;
     // small trace
-    pthread_mutex_lock(&stats_mutex);
     if (!warming_up[thread_id]) {
+        pthread_mutex_lock(&stats_mutex);
         warming_up[thread_id] = true;
         for (int j = 0; j < 3; j++) {
             timer[thread_id][j] = 0;
@@ -212,8 +223,8 @@ void* subprocess_work(void * arg)
         if (warming_up_counter == THREAD_NUM) {
             gettimeofday(&start_time, NULL);
         }
+        pthread_mutex_unlock(&stats_mutex);
     }
-    pthread_mutex_unlock(&stats_mutex);
     return 0;
 }
 
