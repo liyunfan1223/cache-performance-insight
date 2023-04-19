@@ -75,9 +75,11 @@ RC GhostALRFU2CacheManager::get(const Key &key) {
     indicator->get(key);
     ts_++;
     static_insert_lv += inserted_level;
+#ifdef LOG
     if (ts_ % 10000 == 0) {
         std::cerr << statics();
     }
+#endif
     if (ts_ == next_decay_ts_) {
         decay();
     }
@@ -177,8 +179,8 @@ RC GhostALRFU2CacheManager::self_adaptive() {
     if (cur_half_ < (double)1 / buffer_size_) {
         cur_half_  = (double)1 / buffer_size_;
     }
-    if (cur_half_ > 1e8 / buffer_size_) {
-        cur_half_  = 1e8 / buffer_size_;
+    if (cur_half_ > 1e14 / buffer_size_) {
+        cur_half_  = 1e14 / buffer_size_;
     }
     next_decay_ts_ = std::min(next_decay_ts_, (int)(ts_ + cur_half_ * buffer_size_));
     indicator->set_cur_half(cur_half_ / (1 + delta_ratio_));

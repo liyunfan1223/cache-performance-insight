@@ -1,1 +1,0 @@
-/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/lfu_test.dir/lfu_test.cpp.o -o lfu_test  ../src/libmain_static.a 

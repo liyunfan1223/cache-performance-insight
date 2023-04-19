@@ -23,7 +23,7 @@ using ROCKSDB_NAMESPACE::WriteOptions;
 using namespace std;
 // rocksdb存储路径
 
-const uint32_t MAX_LENGTH = 1 * 1024;
+const uint32_t maxLength = 1 * 1024;
 
 std::string kDBPath="/tmp/rocksdb_simple_1k";
 const char * config_string = "--SERVER=127.0.0.1";
@@ -65,7 +65,7 @@ bool save_to_memcached( const char * key, string& value, uint32_t v_len )
     size_t value_len;
     uint32_t flags;
 //    char * value = memcached_get(memc, key, strlen(key), &value_len, &flags, &ret);
-//    assert(v_len >= MAX_LENGTH / 2);
+//    assert(v_len >= maxLength / 2);
     ret = memcached_set(memc, key, strlen(key), value.substr(0, v_len).c_str(), v_len, 0, 0);
     return ret == 0;
 }
@@ -74,13 +74,13 @@ bool request_from_rocksdb( const char * key, string& value )
 {
     // string value;
     Status status = rocksDB->Get(ReadOptions(), key, &value);
-    assert(!status.ok() || value.length() >= MAX_LENGTH / 2);
+    assert(!status.ok() || value.length() >= maxLength / 2);
     return status.ok();
 }
 
 bool save_to_rocksdb( const char * key, string &value, uint32_t v_len)
 {
-    assert(v_len >= MAX_LENGTH / 2);
+    assert(v_len >= maxLength / 2);
     assert(value.substr(0, v_len).length() == v_len);
     Status status = rocksDB->Put(WriteOptions(), key, value.substr(0, v_len));
     return status.ok();
@@ -109,8 +109,8 @@ RequestResult do_request_item(const char * key)
         return in_rocksdb;
     }
 
-    uint32_t v_len = (rand() % (MAX_LENGTH / 2)) + MAX_LENGTH / 2;
-    assert(v_len >= MAX_LENGTH / 2);
+    uint32_t v_len = (rand() % (maxLength / 2)) + maxLength / 2;
+    assert(v_len >= maxLength / 2);
 //    printf("%d\n", v_len);
     save_to_rocksdb(key, default_str, v_len);
     save_to_memcached(key, default_str, v_len);
@@ -144,7 +144,7 @@ int main()
         return 0;
     }
     /* generate default string */
-    for (int i = 0; i < MAX_LENGTH; i++) {
+    for (int i = 0; i < maxLength; i++) {
         default_str += rand() % 26 + 'a';
     }
     /* get trace */
