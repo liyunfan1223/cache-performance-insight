@@ -1,7 +1,7 @@
 //
 // Created by l50029536 on 2022/9/30.
 //
-//#define LOG
+#define LOG
 
 #include "arc_cache_manager.h"
 
@@ -9,10 +9,10 @@ RC ARCCacheManager::get(const Key &key) {
     int count_1, count_2;
 //    std::cerr << "he";
 #ifdef LOG
-//    ts++;
-//    if (ts % 20000 == 0) {
+    ts++;
+    if (ts % 20000 == 0) {
         std::cerr << p_ << " " << (double)hit_count() / (miss_count() + hit_count()) << std::endl;
-//    }
+    }
 #endif
     // case#1
     if ((count_1 = lruList_t1_.count(key)) != 0 || (count_2 = lruList_t2_.count(key)) != 0) {

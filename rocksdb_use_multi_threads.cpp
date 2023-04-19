@@ -6,13 +6,12 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
-#include "src/def.h"
-
 #include <rocksdb/db.h>
 #include <rocksdb/slice.h>
 #include <rocksdb/options.h>
 #include <libmemcached/memcached.h>
 #include <thread>
+#include "src/def.h"
 
 using ROCKSDB_NAMESPACE::DB;
 using ROCKSDB_NAMESPACE::Options;
@@ -22,40 +21,49 @@ using ROCKSDB_NAMESPACE::Status;
 using ROCKSDB_NAMESPACE::WriteBatch;
 using ROCKSDB_NAMESPACE::WriteOptions;
 using namespace std;
-// rocksdb存储路径
 
-const uint32_t MAX_LENGTH = 1 * 1024;
-const uint32_t THREAD_NUM = 256;
-
-std::string kDBPath="/tmp/rocksdb_simple_1k";
+const uint32_t MAX_THREAD_NUM = 1024;
+const uint32_t MAX_TOTAL_COUNTER = 1 << 22;
+const uint32_t MEGABYTES = 1 << 20;
 const char * config_string = "--SERVER=127.0.0.1";
+const uint32_t  warmup_seconds = 30;
+const uint32_t  warmup_access = 1 << 20;
+const uint32_t  report_interval = 1 << 14;
+
+bool earlyStop = false;
+uint32_t maxLength;
+uint32_t threadNum;
+std::string kDBPath;
 DB* rocksDB;
-
-double timer[THREAD_NUM + 1][3];
-uint32_t counter[THREAD_NUM + 1][3];
+string traceFile;
 string default_str;
-bool warming_up[THREAD_NUM + 1] = {true};
-uint32_t  warmup_seconds = 30;
-uint32_t  warmup_access = 1 << 20;
-uint32_t  report_interval = 1 << 14;
-vector<int> access_list;
-int my_thread_id;
-timeval start_time;
-int warming_up_counter = 0;
 
+double timer[MAX_THREAD_NUM + 1][3];
+uint32_t counter[MAX_THREAD_NUM + 1][3];
+bool warming_up[MAX_THREAD_NUM + 1];
+timeval start_time[MAX_THREAD_NUM + 1];
+
+vector<int> access_list;
+int warming_up_counter = 0;
+int hasWarmup;
+bool test_finished = false;
 pthread_mutex_t stats_mutex;
+
+int global_i;
+pthread_mutex_t i_mutex;
+bool threadsSync = false;
 
 DB* rocksdb_create()
 {
     DB* db;
     Options options;
     options.use_direct_reads = true;
-    options.IncreaseParallelism(THREAD_NUM);
-    options.max_background_jobs = THREAD_NUM * 4;
+    options.IncreaseParallelism(threadNum);
+    options.max_background_jobs = threadNum * 4;
     //文件夹没有数据就创建
-    options.create_if_missing=true;
+    options.create_if_missing = true;
     // 打开数据库，加载数据到内存
-    Status s=DB::OpenForReadOnly(options,kDBPath,&db);
+    Status s=DB::Open(options,kDBPath,&db);
     return db;
 }
 
@@ -65,12 +73,12 @@ bool request_from_memcached( const char * key, string &value, memcached_st * mem
     size_t value_len;
     uint32_t flags;
     char * v = memcached_get(memc, key, strlen(key), &value_len, &flags, &ret);
-    if (ret == 0) {
+    if (ret == MEMCACHED_SUCCESS) {
         value = v;
         // must free manually
         free(v);
     }
-    return ret == 0;
+    return ret == MEMCACHED_SUCCESS;
 }
 
 bool save_to_memcached( const char * key, string& value, uint32_t v_len, memcached_st * memc )
@@ -85,7 +93,7 @@ bool save_to_memcached( const char * key, string& value, uint32_t v_len, memcach
 bool request_from_rocksdb( const char * key, string& value )
 {
     Status status = rocksDB->Get(ReadOptions(), key, &value);
-    assert(!status.ok() || value.length() >= MAX_LENGTH / 2);
+    assert(!status.ok() || value.length() >= maxLength / 2);
     return status.ok();
 }
 
@@ -113,7 +121,7 @@ RequestResult do_request_item(const char * key, memcached_st * memc)
         return in_rocksdb;
     }
 
-    uint32_t v_len = (rand() % (MAX_LENGTH / 2)) + MAX_LENGTH / 2;
+    uint32_t v_len = rand() % maxLength + maxLength + 1;
     save_to_rocksdb(key, default_str, v_len);
     save_to_memcached(key, default_str, v_len, memc);
     return not_found;
@@ -146,91 +154,148 @@ void* subprocess_work(void * arg)
         return 0;
     }
     timeval end_time;
-    for (int i = thread_id; i < access_list.size(); i += THREAD_NUM) {
-        request_item(to_string(access_list[i]).c_str(), thread_id, memc);
-
+    int i = thread_id;
+    while (threadsSync ? global_i < access_list.size() : i < access_list.size()) {
+        if (threadsSync) {
+            request_item(to_string(access_list[global_i]).c_str(), thread_id, memc);
+        } else {
+            request_item(to_string(access_list[i]).c_str(), thread_id, memc);
+        }
         gettimeofday(&end_time, NULL);
-
-        if (!warming_up[thread_id]) {
-//            double total_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1000000.0; //s
-//            if (total_time > warmup_seconds) {
-            if (counter[thread_id][0] + counter[thread_id][1] + counter[thread_id][2] >= warmup_access / THREAD_NUM) {
-                pthread_mutex_lock(&stats_mutex);
-                warming_up[thread_id] = true;
-
-                warming_up_counter++;
-                if (warming_up_counter == THREAD_NUM) {
-                    printf("All threads warmed up, clean statics.\n");
-                    // this may conflict... maybe can be ignored
-                    for (int k = 1; k <= THREAD_NUM; k++) {
-                        for (int j = 0; j < 3; j++) {
-                            timer[k][j] = 0;
-                            counter[k][j] = 0;
-                        }
+        if (hasWarmup) {
+            if (!warming_up[thread_id]) {
+                if (counter[thread_id][0] + counter[thread_id][1] + counter[thread_id][2] >=
+                    warmup_access / threadNum) {
+                    pthread_mutex_lock(&stats_mutex);
+                    warming_up[thread_id] = true;
+                    for (int j = 0; j < 3; j++) {
+                        timer[thread_id][j] = 0;
+                        counter[thread_id][j] = 0;
                     }
-                    gettimeofday(&start_time, NULL);
+                    warming_up_counter++;
+                    printf("Thread-%d warmed up.\n", thread_id);
+                    gettimeofday(&start_time[thread_id], NULL);
+                    if (warming_up_counter == threadNum) {
+                        printf("All threads warmed up, clean statics.\n");
+                    }
+                    pthread_mutex_unlock(&stats_mutex);
                 }
-                pthread_mutex_unlock(&stats_mutex);
             }
         }
         // 0 for public
-        if ((counter[thread_id][0] + counter[thread_id][1] + counter[thread_id][2]) % (report_interval / THREAD_NUM) == 0 && thread_id == 1){
+        if ((counter[thread_id][0] + counter[thread_id][1] + counter[thread_id][2]) % (report_interval / threadNum) == 0 && thread_id == 1) {
             pthread_mutex_lock(&stats_mutex);
+            double total_time = 0; // (end_time.tv_sec - start_time[thread_ud].tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1000000.0; //s
+            for (int j = 1; j <= threadNum; j++) {
+                total_time += end_time.tv_sec - start_time[j].tv_sec + (end_time.tv_usec - start_time[j].tv_usec) / 1000000.0;
+            }
+            total_time /= threadNum;
             for (int k = 0; k < 3; k++) {
                 timer[0][k] = 0;
                 counter[0][k] = 0;
-                for (int j = 1; j <= THREAD_NUM; j++) {
+                for (int j = 1; j <= threadNum; j++) {
                     timer[0][k] += timer[j][k];
                     counter[0][k] += counter[j][k];
                 }
+
             }
             uint32_t tot_counter = counter[0][0] + counter[0][1] + counter[0][2];
             double average_latency = (timer[0][0] + timer[0][1] + timer[0][2]) / tot_counter;
             double mem_latency = counter[0][0] ? timer[0][0] / counter[0][0] : 0;
             double rdb_latency = counter[0][1] ? timer[0][1] / counter[0][1] : 0;
             double nf_latency = counter[0][2] ? timer[0][2] / counter[0][2] : 0;
-            double total_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1000000.0; //s
-            double throughput = tot_counter / total_time;
+            double throughput_req = tot_counter / total_time;
+            double throughput_mb = throughput_req * (maxLength / 4 * 3) / MEGABYTES;
             double hit_ratio = (double) counter[0][0] / tot_counter * 100;
+            double throughput_mem = throughput_mb * hit_ratio / 100;
+            double throughput_rdb = throughput_mb * (100 - hit_ratio) / 100;
             printf("runtime: %.2fs "
                    "warming up: %d "
                    "average latency: %.4f "
                    "mem: %.4f "
                    "rdb: %.4f "
                    "nf: %.4f "
-                   "tps: %.2f h_ratio: %.2f%% t_counter: %u "
+                   "tps: %.2f tps_mb: %.2f tps_mem: %.2f tps_rdb: %.2f "
+                   "h_ratio: %.2f%% t_counter: %u "
                    "mem:rdb:nf=%d:%d:%d\n",
                    total_time,
-                   warming_up_counter == THREAD_NUM,
+                   warming_up_counter == threadNum,
                    average_latency,
                    mem_latency, rdb_latency, nf_latency,
-                   throughput, hit_ratio, tot_counter,
+                   throughput_req, throughput_mb, throughput_mem, throughput_rdb,
+                   hit_ratio, tot_counter,
                    counter[0][0], counter[0][1], counter[0][2]);
             fflush(stdout);
+
             pthread_mutex_unlock(&stats_mutex);
+            if (earlyStop && tot_counter > MAX_TOTAL_COUNTER) {
+                test_finished = true;
+                printf("Finished.\n");
+            }
+        }
+        if (test_finished && earlyStop) return 0;
+        if (threadsSync) {
+            pthread_mutex_lock(&i_mutex);
+            global_i++;
+            pthread_mutex_unlock(&i_mutex);
+        } else {
+            i += threadNum;
         }
     }
     delete memc;
     // small trace
-    if (!warming_up[thread_id]) {
-        pthread_mutex_lock(&stats_mutex);
-        warming_up[thread_id] = true;
-        for (int j = 0; j < 3; j++) {
-            timer[thread_id][j] = 0;
-            counter[thread_id][j] = 0;
+    if (hasWarmup) {
+        if (!warming_up[thread_id]) {
+            pthread_mutex_lock(&stats_mutex);
+            warming_up[thread_id] = true;
+            for (int j = 0; j < 3; j++) {
+                timer[thread_id][j] = 0;
+                counter[thread_id][j] = 0;
+            }
+            gettimeofday(&start_time[thread_id], NULL);
+            warming_up_counter++;
+            if (warming_up_counter == threadNum) {
+                printf("All threads warmed up, clean statics.\n");
+            }
+            pthread_mutex_unlock(&stats_mutex);
         }
-        warming_up_counter++;
-        if (warming_up_counter == THREAD_NUM) {
-            gettimeofday(&start_time, NULL);
-        }
-        pthread_mutex_unlock(&stats_mutex);
     }
     return 0;
 }
 
-int main()
+/* argv: threadNum - maxLength - traceFile - earlyStop - threadsSync - hasWarmup */
+int main(int argc, char* argv[])
 {
-//    setvbuf(stdout, NULL, _IONBF, 0);
+    printf("Bench started.\n");
+    threadNum = stoi(argv[1]);
+    if (threadNum <= 0 || threadNum > MAX_THREAD_NUM) {
+        cerr << "Threads number invalid." << std::endl;
+        return 0;
+    }
+    maxLength = stoi(argv[2]);
+    traceFile = argv[3];
+    string str_length;
+    if (maxLength % 1024 == 0) {
+        str_length = to_string(maxLength / 1024) + 'k';
+    } else {
+        str_length = to_string(maxLength);
+    }
+    kDBPath = "/tmp/rocksdb_simple_" + str_length + "_" + traceFile;
+    if (argv[4] == nullptr) {
+        cerr << "No early stop option." << std::endl;
+        return 0;
+    }
+    earlyStop = stoi(argv[4]);
+    if (argv[5] == nullptr) {
+        cerr << "No threads synchronize option." << std::endl;
+        return 0;
+    }
+    threadsSync = stoi(argv[5]);
+    if (argv[6] == nullptr) {
+        cerr << "No warmup option." << std::endl;
+        return 0;
+    }
+    hasWarmup = stoi(argv[6]);
     /* initialize connection of rocksdb & memcached */
     rocksDB = rocksdb_create();
     if (!rocksDB) {
@@ -238,12 +303,12 @@ int main()
         return 0;
     }
     /* generate default string */
-    for (int i = 0; i < MAX_LENGTH; i++) {
+    for (int i = 0; i < maxLength + 1; i++) {
         default_str += rand() % 26 + 'a';
     }
     /* get trace */
     FILE * pFile;
-    pFile = fopen("traces/P1.lis", "r");
+    pFile = fopen(("traces/" + traceFile + ".lis").c_str(), "r");
     if (pFile == NULL) {
         cerr << "File open failed!" << std::endl;
         return 0;
@@ -255,19 +320,21 @@ int main()
             access_list.push_back(i);
         }
     }
-    gettimeofday(&start_time, NULL);
-    pthread_t threads[THREAD_NUM];
+    for (int i = 1; i <= threadNum; i++)
+        gettimeofday(&start_time[i], NULL);
 
-    for (int i = 0; i < THREAD_NUM; i++) {
+    pthread_t threads[threadNum];
+
+    for (int i = 0; i < threadNum; i++) {
         ThreadArg* targ = new ThreadArg();
         targ->pid = i + 1;
         pthread_create(&threads[i], NULL, subprocess_work, (void *)(targ));
         pthread_setname_np(threads[i], ("THREAD-" + to_string(i + 1)).c_str());
     }
-    for (int i = 0; i < THREAD_NUM; i++) {
+    pthread_join(threads[0], NULL);
+    for (int i = 1; i < threadNum; i++) {
         pthread_join(threads[i], NULL);
     }
-
     delete rocksDB;
     return 0;
 }
