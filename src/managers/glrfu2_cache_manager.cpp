@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/3/12.
 //
-#define LOG
+//#define LOG
 #include "glrfu2_cache_manager.h"
 
 using namespace glruf2;
@@ -238,7 +238,7 @@ RC GhostALRFU2Indicator::get(const Key &key) {
             real_lru_[min_level_non_empty].pop_back();
             real_map_.erase(evict_key);
             // move to ghost
-            if (min_level_non_empty != 0) {
+            if (ghost_ratio_ != 0 && min_level_non_empty != 0) {
                 // move to ghost
                 if (ghost_map_.size() >= ghost_ratio_ * buffer_size_) {
                     Key evict_key = ghost_lru_[min_level_non_empty_ghost].back();
