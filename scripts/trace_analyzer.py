@@ -28,6 +28,8 @@ def run(access):
     avg_hiF = tot_freq / nHiF
     avg_interval = interval / ninterval
 
+    print(f'requests: {len(access)}')
+    print(f'unique keys: {len(mp.keys())}')
     print("average freq:", avg_freq)
     print(f"average high {nHiF} freq :", avg_hiF)
     print("average interval:", avg_interval)
@@ -44,6 +46,6 @@ def analyzer(trace_file):
     run(access)
 
 if __name__ == "__main__":
-    for trace in TRACES_LIST:
+    for trace in ['randseq_1', 'readseq_2', 'readseq_3', 'readseq_1', 'readrandom_5', 'readrandom_6', 'readrandom_7']:
         print(f"Analyzing {trace}:")
-        analyzer(f"../traces/{trace}.lis")
+        analyzer(f"traces/{trace}.lis")
