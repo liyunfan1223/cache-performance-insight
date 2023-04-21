@@ -14,13 +14,13 @@ RC LRFUCacheManager::get(const Key &key) {
         }
     }
 //    lu_heap_.Add(key, 1);
-//    lu_heap_store_.Add(key, 1);
-//    if (lu_heap_.InList(key)) {
-//        lu_heap_.Add(key, 1);
-//    } else {
-//        lu_heap_.Add(key, lu_heap_store_.GetValue(key));
-//    }
-    lu_heap_.Add(key, 1);
+    lu_heap_store_.Add(key, 1);
+    if (lu_heap_.InHeap(key)) {
+        lu_heap_.Add(key, 1);
+    } else {
+        lu_heap_.Add(key, lu_heap_store_.GetValue(key));
+    }
+//    lu_heap_.Add(key, 1);
 //     lu_heap_.Set(key, lu_heap_store_.GetValue(key));
     return RC::SUCCESS;
 }

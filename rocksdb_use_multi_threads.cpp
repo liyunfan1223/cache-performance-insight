@@ -121,7 +121,7 @@ RequestResult do_request_item(const char * key, memcached_st * memc)
         return in_rocksdb;
     }
 
-    uint32_t v_len = rand() % maxLength + maxLength + 1;
+    uint32_t v_len = rand() % (maxLength / 2) + (maxLength / 2) + 1;
     save_to_rocksdb(key, default_str, v_len);
     save_to_memcached(key, default_str, v_len, memc);
     return not_found;
@@ -157,9 +157,14 @@ void* subprocess_work(void * arg)
     int i = thread_id;
     while (threadsSync ? global_i < access_list.size() : i < access_list.size()) {
         if (threadsSync) {
-            request_item(to_string(access_list[global_i]).c_str(), thread_id, memc);
+            pthread_mutex_lock(&i_mutex);
+            int now_i = global_i;
+            global_i++;
+            pthread_mutex_unlock(&i_mutex);
+            request_item(to_string(access_list[now_i]).c_str(), thread_id, memc);
         } else {
             request_item(to_string(access_list[i]).c_str(), thread_id, memc);
+            i += threadNum;
         }
         gettimeofday(&end_time, NULL);
         if (hasWarmup) {
@@ -234,13 +239,7 @@ void* subprocess_work(void * arg)
             }
         }
         if (test_finished && earlyStop) return 0;
-        if (threadsSync) {
-            pthread_mutex_lock(&i_mutex);
-            global_i++;
-            pthread_mutex_unlock(&i_mutex);
-        } else {
-            i += threadNum;
-        }
+
     }
     delete memc;
     // small trace
