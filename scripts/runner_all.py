@@ -49,11 +49,11 @@ if __name__ == '__main__':
         ax.plot(BUFFER_SIZE_LIST, arc_result, label='ARC', marker='+', linestyle='dashed')
         stats.statistic(lru_result, arc_result, "ARC")
 
-        params_list = [20000, 5, 0.1, 5, -1, 1, 1]
-        runner = MultiTestRunner(['ALRFU5'], BUFFER_SIZE_LIST, trace_file, params_list)
-        alrfu_result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, alrfu_result, label=f'ALRFU5, p={params_list}', marker='+', linestyle='-')
-        stats.statistic(lru_result, alrfu_result, "A-LRFU")
+        # params_list = [20000, 5, 0.1, 5, -1, 1, 1]
+        # runner = MultiTestRunner(['ALRFU5'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # alrfu_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, alrfu_result, label=f'ALRFU5, p={params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, alrfu_result, "A-LRFU")
 
         #
         # params_list = [20000, 5, 0.1, 5, 8, 1, 1]
@@ -116,11 +116,23 @@ if __name__ == '__main__':
         # ax.plot(BUFFER_SIZE_LIST, glrfu2_d_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
         # stats.statistic(lru_result, glrfu2_d_result, "GLRFU2_d")
 
+        params_list = [20000, 20, 0.5, 5, 4, 10, 1]
+        runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        glrfu2_e_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, glrfu2_e_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, glrfu2_e_result, "RGC")
+
         params_list = [20000, 20, 0.5, 5, 4, 10, 4]
         runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
         glrfu2_e_result = runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, glrfu2_e_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
         stats.statistic(lru_result, glrfu2_e_result, "RGC")
+
+        params_list = [20000, 5, 0.5, 5, 4, 10, 4]
+        runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        glrfu2_f_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, glrfu2_f_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, glrfu2_f_result, "RGCB")
 
         # params_list = [20000, 4, 0.1, 5, 4, 10, 1]
         # runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
@@ -146,12 +158,12 @@ if __name__ == '__main__':
         # ax.plot(BUFFER_SIZE_LIST, glrfu3B_result, label=f'GLRFU3B, p={params_list}', marker='+', linestyle='-')
         # stats.statistic(lru_result, glrfu3B_result, "GLRFU3B")
 
-        # params_list = [20000, 20, 0.5, 5, 4, 10, 4, 32]
-        # runner = MultiTestRunner(['GLRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
-        # glrfu3_result = runner.get_hit_rate_list()
-        # ax.plot(BUFFER_SIZE_LIST, glrfu3_result, label=f'GLRFU3, p={params_list}', marker='+', linestyle='-')
-        # stats.statistic(lru_result, glrfu3_result, "GLRFU3")
-        #
+        params_list = [20000, 20, 0.5, 5, 4, 10, 4, 32]
+        runner = MultiTestRunner(['GLRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        glrfu3_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, glrfu3_result, label=f'GLRFU3, p={params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, glrfu3_result, "GLRFU3")
+
         # params_list = [20000, 20, 0.5, 5, 8, 10, 4, 32]
         # runner = MultiTestRunner(['GLRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
         # glrfu3b_result = runner.get_hit_rate_list()

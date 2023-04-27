@@ -65,7 +65,7 @@ plt.style.use('seaborn-v0_8-paper')
 hatches = ['//', '\\', '||', '-', '+',]
 
 if __name__ == "__main__":
-    fig, ax = plt.subplots(figsize=(14, 7))
+    fig, ax = plt.subplots(figsize=(10, 5))
     ax.set_xticks(X + 0.4)
     ax.set_xticklabels(trace_types, fontsize=14)
     for i, policy in enumerate(data.keys()):

@@ -20,8 +20,8 @@ def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_
             result = output.decode('utf-8')
             # print(result)
             result = result.split("\n")[-3]
-            log = f"Time: {time.time()} Args: threads-{thread_num} value_size-{value_size} memc_suffix-{memc_suffix} " \
-                  f"trace-{trace_file} earle_stop-{early_stop} has_warmup-{has_warmup}\n{result}"
+            log = f"Time: {time.time()} Args: threads-{thread_num} value_size-{value_size} memcached_mem-{memcached_mem} "\
+                  f"trace-{trace_file} memc_suffix-{memc_suffix} earle_stop-{early_stop} threads_sync-{threads_sync} has_warmup-{has_warmup} \n{result}"
             results.append(log)
             print("result: ", log)
             with open("local/logs0421.txt", "a") as f:
@@ -78,11 +78,11 @@ if __name__ == "__main__":
     #         bench(threads, 8 * 1024, 3, trace_file, "lru", early_stop=False, has_warmup=False)
     #         bench(threads, 8 * 1024, 3, trace_file, "rgc10", early_stop=False, has_warmup=False)
 
-    """ OLTP 32M+32K """
-    for threads in THREADS_LIST:
-        for trace_file in ["OLTP"]:
-            bench(threads, 32 * 1024, 32, trace_file, "lru", early_stop=False, has_warmup=False)
-            bench(threads, 32 * 1024, 32, trace_file, "rgc10", early_stop=False, has_warmup=False)
+    # """ OLTP 32M+32K """
+    # for threads in THREADS_LIST:
+    #     for trace_file in ["OLTP"]:
+    #         bench(threads, 32 * 1024, 32, trace_file, "lru", early_stop=False, has_warmup=False)
+    #         bench(threads, 32 * 1024, 32, trace_file, "rgc10", early_stop=False, has_warmup=False)
 
     # """ OLTP 4M+4K """
     # for threads in [4]:
@@ -90,18 +90,35 @@ if __name__ == "__main__":
     #         bench(threads, 4 * 1024, 4, trace_file, "lru", early_stop=False, has_warmup=False)
     #         bench(threads, 4 * 1024, 4, trace_file, "rgc10", early_stop=False, has_warmup=False)
 
-    """ OLTP 8M+32K """
-    for threads in THREADS_LIST:
-        for trace_file in ["OLTP"]:
-            bench(threads, 32 * 1024, 8, trace_file, "lru", early_stop=False, has_warmup=False)
-            bench(threads, 32 * 1024, 8, trace_file, "rgc10", early_stop=False, has_warmup=False)
-
-    # """ OLTP 12M+32K """
+    # """ OLTP 8M+32K """
     # for threads in THREADS_LIST:
     #     for trace_file in ["OLTP"]:
-    #         bench(threads, 32 * 1024, 12, trace_file, "lru", early_stop=False, has_warmup=False)
-    #         bench(threads, 32 * 1024, 12, trace_file, "rgc10", early_stop=False, has_warmup=False)
+    #         bench(threads, 32 * 1024, 8, trace_file, "lru", early_stop=False, has_warmup=False)
+    #         bench(threads, 32 * 1024, 8, trace_file, "rgc10", early_stop=False, has_warmup=False)
+    #
+    # """ OLTP 8M+32K """
+    # for threads in THREADS_LIST:
+    #     for trace_file in ["OLTP"]:
+    #         bench(threads, 32 * 1024, 8, trace_file, "lru", early_stop=False, has_warmup=False)
+    #         bench(threads, 32 * 1024, 8, trace_file, "rgc10", early_stop=False, has_warmup=False)
 
+    """ OLTP 12M+32K """
+    for threads in THREADS_LIST:
+        for trace_file in ["OLTP"]:
+            bench(threads, 256 * 1024, 96, trace_file, "lru", early_stop=False, has_warmup=False)
+            bench(threads, 256 * 1024, 96, trace_file, "rgc10", early_stop=False, has_warmup=False)
+
+    """ OLTP 12M+32K """
+    for threads in THREADS_LIST:
+        for trace_file in ["OLTP"]:
+            bench(threads, 32 * 1024, 12, trace_file, "lru", early_stop=False, has_warmup=False)
+            bench(threads, 32 * 1024, 12, trace_file, "rgc10", early_stop=False, has_warmup=False)
+
+    """ OLTP 3M+8K """
+    for threads in THREADS_LIST:
+        for trace_file in ["OLTP"]:
+            bench(threads, 8 * 1024, 3, trace_file, "lru", early_stop=False, has_warmup=False)
+            bench(threads, 8 * 1024, 3, trace_file, "rgc10", early_stop=False, has_warmup=False)
 
     # """ OLTP 32M+32K """
     # for threads in THREADS_LIST:
