@@ -75,9 +75,9 @@ RC GhostALRFU3CacheManager::get(const Key &key) {
         min_level_non_empty = inserted_level;
     }
     ts_++;
-    if (ts_ % 10000 == 0) {
-        std::cerr << statics();
-    }
+//    if (ts_ % 10000 == 0) {
+//        std::cerr << statics();
+//    }
     static_insert_lv += inserted_level;
     if (ts_ == next_decay_ts_) {
         decay();

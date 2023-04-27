@@ -7,16 +7,16 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
-    # 'DS1',
-    # 'OLTP',
-    # 'P1',
-    # 'P2',
-    # 'P3',
-    # 'P4',
-    # 'P5',
+    'OLTP',
+    'P1',
+    'P2',
+    'P3',
+    'P4',
+    'P5',
     'P6',
-    # 'P7',
-    # 'P12',
+    'P7',
+    'P12',
+    'DS1',
     #
     # 'readrandom_5',
     # 'readrandom_6',
