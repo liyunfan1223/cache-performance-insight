@@ -1,1 +1,0 @@
-/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/rocksdb_use.dir/rocksdb_use.cpp.o -o rocksdb_use  -lrocksdb -lmemcached 

@@ -1,1 +1,0 @@
-/usr/bin/clang++  -O2 -O3 -DNDEBUG CMakeFiles/rocksdb_use_multi_threads.dir/rocksdb_use_multi_threads.cpp.o -o rocksdb_use_multi_threads  -lrocksdb -lmemcached 
