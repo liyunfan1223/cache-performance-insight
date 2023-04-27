@@ -48,8 +48,9 @@ class GhostALRFU2Indicator;
             min_level_non_empty_ghost = count_level_ + 1;
             real_lru_.resize(count_level_);
             ghost_lru_.resize(count_level_);
+            // wrong...
             indicator = std::make_unique<GhostALRFU2Indicator>(buffer_size, update_interval,
-                                                               cur_half * (1 + delta_ratio), delta_ratio, lambda,
+                                                               cur_half / (1 + delta_ratio), delta_ratio, lambda,
                                                                start_level, count_level_bits, ghost_ratio);
         }
 
@@ -83,6 +84,7 @@ class GhostALRFU2Indicator;
         int stable_count_ = 0;
         double ori_half_, ghost_ratio_;
         int interval_hit_count_ = 0;
+        double static_insert_lv = 0;
     };
 
     class GhostALRFU2Indicator {

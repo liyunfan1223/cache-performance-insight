@@ -2,31 +2,33 @@
 // Created by MorphLing on 2023/3/13.
 //
 
-#ifndef CACHE_PERFORMANCE_INSIGHT_GLRFU3_CACHE_MANAGER_H
-#define CACHE_PERFORMANCE_INSIGHT_GLRFU3_CACHE_MANAGER_H
+#ifndef CACHE_PERFORMANCE_INSIGHT_GLRFU4_CACHE_MANAGER_H
+#define CACHE_PERFORMANCE_INSIGHT_GLRFU4_CACHE_MANAGER_H
 
 #include "def.h"
 #include "managers/cache_manager.h"
 #include "data_structures/multi_lru.h"
 
-namespace glrfu3 {
+namespace glrfu4 {
 struct iter_status {
     iter_status() {}
 
-    iter_status(std::list<Key>::iterator iter, int insert_level, int insert_ts) {
+    iter_status(std::list<Key>::iterator iter, int insert_level, int insert_ts, int insert_freq) {
         this->iter = iter;
         this->insert_level = insert_level;
         this->insert_ts = insert_ts;
+        this->insert_freq = insert_freq;
     }
 
     std::list<Key>::iterator iter;
     int insert_level;
     int insert_ts;
+    int insert_freq;
 };
 
-class GhostALRFU3CacheManager : public CacheManager {
+class GhostALRFU4CacheManager : public CacheManager {
 public:
-    GhostALRFU3CacheManager(int32_t buffer_size, int32_t update_interval = 20000,
+    GhostALRFU4CacheManager(int32_t buffer_size, int32_t update_interval = 20000,
                             double cur_half = 5, double delta_ratio = 0.1, double lambda = 5, int start_level = 8,
                             int count_level_bits = 10, double ghost_ratio = 1, double expect_lv = 4)
             : CacheManager(buffer_size),
@@ -43,7 +45,7 @@ public:
         ghost_lru_.resize(count_level_);
     }
 
-    ~GhostALRFU3CacheManager() override = default;
+    ~GhostALRFU4CacheManager() override = default;
 
     RC get(const Key &key) override;
 
@@ -78,7 +80,21 @@ private:
     int static_insert_lv = 0;
     int static_cache_lv = 0;
     double expect_lv_;
+    double prev_static_lv = -1;
+    int update_counter = 0;
+    double cur_hit_ratio = -1;
+    double ind_hit_ratio = 0;
+    double static_insert_fq = 0;
+    double hit_level = 0;
+    double miss_level = 0;
+    int hit_count = 0, miss_count = 0;
+    uint64_t ref_interval = 0;
+    int ref_count = 0;
+    int div;
+    double tot_hit_lv = 0;
+    double tot_mis_lv = 0;
+    double adap_c = 0;
 };
 
 }
-#endif //CACHE_PERFORMANCE_INSIGHT_GLRFU3_CACHE_MANAGER_H
+#endif //CACHE_PERFORMANCE_INSIGHT_GLRFU4_CACHE_MANAGER_H

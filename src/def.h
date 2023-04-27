@@ -58,6 +58,8 @@ enum class CachePolicy {
     ALRFU5,
     GLRFU,
     GLRFU2,
+    GLRFU3,
+    GLRFU4,
     UNKNOWN,
 };
 

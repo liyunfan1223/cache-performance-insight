@@ -28,6 +28,8 @@
 #include "managers/alrfu5_cache_manager.h"
 #include "managers/glrfu_cache_manager.h"
 #include "managers/glrfu2_cache_manager.h"
+#include "managers/glrfu3_cache_manager.h"
+#include "managers/glrfu4_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -50,6 +52,8 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"ALRFU5", CachePolicy::ALRFU5},
         {"GLRFU", CachePolicy::GLRFU},
         {"GLRFU2", CachePolicy::GLRFU2},
+        {"GLRFU3", CachePolicy::GLRFU3},
+        {"GLRFU4", CachePolicy::GLRFU4},
 };
 
 void usage() {
@@ -79,6 +83,7 @@ int main(int argc, char **argv) {
     char* param_4 = argv[8];
     char* param_5 = argv[9];
     char* param_6 = argv[10];
+    char* param_7 = argv[11];
     timeval start_time;
     gettimeofday(&start_time, NULL);
     switch (cachePolicy.at(cache_policy)) {
@@ -252,6 +257,40 @@ int main(int argc, char **argv) {
                                                                                   std::stof(param_4),
                                                                                   std::stof(param_5),
                                                                                   std::stof(param_6)));
+            }
+            break;
+        case CachePolicy::GLRFU3:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<glrfu3::GhostALRFU3CacheManager>(buffer_size));
+            }else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<glrfu3::GhostALRFU3CacheManager>(buffer_size,
+                                                                                           std::stof(param_0),
+                                                                                           std::stof(param_1),
+                                                                                           std::stof(param_2),
+                                                                                           std::stof(param_3),
+                                                                                           std::stof(param_4),
+                                                                                           std::stof(param_5),
+                                                                                           std::stof(param_6),
+                                                                                           std::stof(param_7)));
+            }
+            break;
+        case CachePolicy::GLRFU4:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<glrfu4::GhostALRFU4CacheManager>(buffer_size));
+            }else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<glrfu4::GhostALRFU4CacheManager>(buffer_size,
+                                                                                           std::stof(param_0),
+                                                                                           std::stof(param_1),
+                                                                                           std::stof(param_2),
+                                                                                           std::stof(param_3),
+                                                                                           std::stof(param_4),
+                                                                                           std::stof(param_5),
+                                                                                           std::stof(param_6),
+                                                                                           std::stof(param_7)));
             }
             break;
         default:

@@ -9,10 +9,11 @@ traces/Home2.lis
 
 
 cmake-build-debug/
+cmake-build-release/
 
 unittest/generic_test.cpp
 
 *.pyc
 *.log
 *.o
-
+traces.rar

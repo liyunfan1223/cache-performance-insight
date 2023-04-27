@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/3/12.
 //
-#define LOG
+//#define LOG
 #include "glrfu2_cache_manager.h"
 
 using namespace glruf2;
@@ -21,6 +21,8 @@ RC GhostALRFU2CacheManager::get(const Key &key) {
                 if (ghost_map_.size() >= ghost_ratio_ * buffer_size_) {
                     Key evict_key = ghost_lru_[min_level_non_empty_ghost].back();
                     ghost_lru_[min_level_non_empty_ghost].pop_back();
+//                    Key evict_key = ghost_lru_[min_level_non_empty_ghost].front();
+//                    ghost_lru_[min_level_non_empty_ghost].pop_front();
                     ghost_map_.erase(evict_key);
                     while (ghost_lru_[min_level_non_empty_ghost].size() == 0 && min_level_non_empty_ghost < count_level_ + 1) {
                         min_level_non_empty_ghost++;
@@ -72,6 +74,12 @@ RC GhostALRFU2CacheManager::get(const Key &key) {
     }
     indicator->get(key);
     ts_++;
+    static_insert_lv += inserted_level;
+#ifdef LOG
+    if (ts_ % 10000 == 0) {
+        std::cerr << statics();
+    }
+#endif
     if (ts_ == next_decay_ts_) {
         decay();
     }
@@ -136,13 +144,14 @@ int GhostALRFU2CacheManager::get_cur_level(const iter_status & status) {
 }
 
 RC GhostALRFU2CacheManager::self_adaptive() {
+    double avg_lv = (double) static_insert_lv / update_interval_;
     double cur_hit_ratio = (double)interval_hit_count_ / update_interval_;
     double ind_hit_ratio = (double)indicator->hit_count / update_interval_;
 //    double cur_miss_ratio = (double)interval_miss_count_ / update_interval_;
 //    double ind_miss_ratio = (double)indicate_miss_count_ / update_interval_;
 //    double ind_hit_ratio2 = (double)indicate_hit_count2_ / update_interval_;
 #ifdef LOG
-    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << std::endl;
+    std::cerr << cur_half_ << " " << cur_hit_ratio << " " << ind_hit_ratio << " " << (double)hit_count() / ts_ << " " << avg_lv << " " << statics() << std::endl;
 #endif
     if (cur_hit_ratio != 0 && ind_hit_ratio != 0) {
         if (fabs(ind_hit_ratio - cur_hit_ratio) >= EPSILON) {
@@ -170,14 +179,15 @@ RC GhostALRFU2CacheManager::self_adaptive() {
     if (cur_half_ < (double)1 / buffer_size_) {
         cur_half_  = (double)1 / buffer_size_;
     }
-//    if (cur_half_ > 100) {
-//        cur_half_  = 100;
-//    }
+    if (cur_half_ > 1e14 / buffer_size_) {
+        cur_half_  = 1e14 / buffer_size_;
+    }
     next_decay_ts_ = std::min(next_decay_ts_, (int)(ts_ + cur_half_ * buffer_size_));
     indicator->set_cur_half(cur_half_ / (1 + delta_ratio_));
     interval_hit_count_ = 0;
     indicator->hit_count = 0;
     indicator->mis_count = 0;
+    static_insert_lv = 0;
     return RC::SUCCESS;
 }
 
@@ -228,7 +238,7 @@ RC GhostALRFU2Indicator::get(const Key &key) {
             real_lru_[min_level_non_empty].pop_back();
             real_map_.erase(evict_key);
             // move to ghost
-            if (min_level_non_empty != 0) {
+            if (ghost_ratio_ != 0 && min_level_non_empty != 0) {
                 // move to ghost
                 if (ghost_map_.size() >= ghost_ratio_ * buffer_size_) {
                     Key evict_key = ghost_lru_[min_level_non_empty_ghost].back();
