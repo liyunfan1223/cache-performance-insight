@@ -16,9 +16,9 @@ RC LRUCacheManager::get(const Key & key) {
     }
     lruList_.push_front(key);
     ts++;
-    if (ts % 10000 == 0) {
-        std::cerr << statics();
-    }
+//    if (ts % 10000 == 0) {
+//        std::cerr << statics();
+//    }
     return RC::SUCCESS;
 }
 

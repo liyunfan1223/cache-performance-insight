@@ -116,7 +116,7 @@ def P1():
     plt.show()
 
 def P2():
-    fig = plt.figure(figsize=(14,7))
+    fig = plt.figure(figsize=(8, 4))
     ax = fig.subplots(2, 2)
     ax1 = ax[0][0]
     ax1.plot(threads, data["P1-2048M-32K-rgc"]["tps"], label="RGC", marker='o', linestyle='-')
@@ -124,7 +124,7 @@ def P2():
     ax1.set_xscale('log')
     ax1.set_yscale('log')
     ax1.set_xlabel("Threads")
-    ax1.set_ylabel("Throughput (requests/s)", fontsize=12)
+    ax1.set_ylabel("Throughput (requests/s)", fontsize=10)
     ax1.set_xticks([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
     ax1.set_xticklabels([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
     ax1.set_yticks([2 ** i for i in range(13, 17)])
@@ -137,11 +137,11 @@ def P2():
     ax2.set_xscale('log')
     # ax2.set_yscale('log')
     ax2.set_xlabel("Threads")
-    ax2.set_ylabel("Hit ratio(%)", fontsize=12)
-    ax2.set_xticks([1, 2, 4, 8, 16, 32, 64])
-    ax2.set_xticklabels([1, 2, 4, 8, 16, 32, 64])
+    ax2.set_ylabel("Hit ratio(%)", fontsize=10)
+    ax2.set_xticks([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
+    ax2.set_xticklabels([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
     ax2.set_ylim(5, 60)
-    ax2.legend(loc=4)
+    ax2.legend(loc=3)
 
     ax3 = ax[1][0]
     ax3.plot(threads, data["P1-2048M-32K-rgc"]["tpsdiskmb"], label="RGC", marker='o', linestyle='-')
@@ -149,9 +149,9 @@ def P2():
     ax3.set_xscale('log')
     ax3.set_yscale('log')
     ax3.set_xlabel("Threads")
-    ax3.set_ylabel("Throughput (MB/s)", fontsize=12)
-    ax3.set_xticks([1, 2, 4, 8, 16, 32, 64])
-    ax3.set_xticklabels([1, 2, 4, 8, 16, 32, 64])
+    ax3.set_ylabel("Throughput (MB/s)", fontsize=10)
+    ax3.set_xticks([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
+    ax3.set_xticklabels([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
     ax3.set_yticks([32,64,128,256,512,1024])
     ax3.set_yticklabels([32,64,128,256,512,1024])
     ax3.legend(loc=4)
@@ -162,13 +162,13 @@ def P2():
     ax4.set_xscale('log')
     # ax4.set_yscale('log')
     ax4.set_xlabel("Threads")
-    ax4.set_ylabel("Average latency (ms)", fontsize=12)
-    ax4.set_xticks([1, 2, 4, 8, 16, 32, 64])
-    ax4.set_xticklabels([1, 2, 4, 8, 16, 32, 64])
+    ax4.set_ylabel("Average latency (ms)", fontsize=10)
+    ax4.set_xticks([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
+    ax4.set_xticklabels([1, 2, 4, 8, 16, 32, 64, 128, 256, 512])
     # ax4.set_yticks([0.1 * i for i in np.arange(1, 11)])
     # ax4.set_yticklabels([0.1 * i for i in np.arange(1, 11)])
     ax4.set_ylim(-1, 20)
-    ax4.legend(loc=4)
+    ax4.legend(loc=2)
 
     plt.savefig("plots/4.2.2/2.png")
     plt.show()
@@ -287,9 +287,26 @@ def OLTP_b():
     plt.savefig("plots/4.2.2/4.png")
     plt.show()
 
-if __name__ == "__main__":
-    P1()
-    P2()
+def calc_P1():
+    tps = data["P1-64M-1K-rgc"]["tps"] / data["P1-64M-1K-lru"]["tps"]
+    lat = data["P1-64M-1K-lru"]["avg_lat"] / data["P1-64M-1K-rgc"]["avg_lat"]
+    print(np.average(tps), np.average(lat))
 
-    OLTP_a()
-    OLTP_b()
+    tps = data["P1-2048M-32K-rgc"]["tps"] / data["P1-2048M-32K-lru"]["tps"]
+    lat = data["P1-2048M-32K-lru"]["avg_lat"] / data["P1-2048M-32K-rgc"]["avg_lat"]
+    print(np.average(tps), np.average(lat))
+
+    tps = data["OLTP-3M-8K-rgc"]["tps"] / data["OLTP-3M-8K-lru"]["tps"]
+    lat = data["OLTP-3M-8K-lru"]["avg_lat"] / data["OLTP-3M-8K-rgc"]["avg_lat"]
+    print(np.average(tps), np.average(lat))
+
+    tps = data["OLTP-12M-32K-rgc"]["tps"] / data["OLTP-12M-32K-lru"]["tps"]
+    lat = data["OLTP-12M-32K-lru"]["avg_lat"] / data["OLTP-12M-32K-rgc"]["avg_lat"]
+    print(np.average(tps), np.average(lat))
+if __name__ == "__main__":
+    calc_P1()
+    # P1()
+    # P2()
+
+    # OLTP_a()
+    # OLTP_b()

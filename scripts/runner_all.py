@@ -10,7 +10,7 @@ MIN_BUFFER_SIZE = 11
 MAX_BUFFER_SIZE = 18
 BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 
-SUFFIX = '417'
+PREFIX = '705'
 # TRACE_FILE_LIST = [
 #     'P1',
 # ]
@@ -34,15 +34,15 @@ if __name__ == '__main__':
         lru_result = lru_runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, lru_result, label='LRU', marker='+', linestyle=':')
 
-        lfu_runner = MultiTestRunner(['LFU'], BUFFER_SIZE_LIST, trace_file, None)
-        lfu_result = lfu_runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, lfu_result, label='LFU', marker='+', linestyle='dashed')
-        stats.statistic(lru_result, lfu_result, "LFU")
-
-        srrip_runner = MultiTestRunner(['SRRIP'], BUFFER_SIZE_LIST, trace_file, None)
-        srrip_result = srrip_runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, srrip_result, label='SRRIP', marker='+', linestyle='dashed')
-        stats.statistic(lru_result, srrip_result, "SRRIP")
+        # lfu_runner = MultiTestRunner(['LFU'], BUFFER_SIZE_LIST, trace_file, None)
+        # lfu_result = lfu_runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, lfu_result, label='LFU', marker='+', linestyle='dashed')
+        # stats.statistic(lru_result, lfu_result, "LFU")
+        #
+        # srrip_runner = MultiTestRunner(['SRRIP'], BUFFER_SIZE_LIST, trace_file, None)
+        # srrip_result = srrip_runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, srrip_result, label='SRRIP', marker='+', linestyle='dashed')
+        # stats.statistic(lru_result, srrip_result, "SRRIP")
 
         arc_runner = MultiTestRunner(['ARC'], BUFFER_SIZE_LIST, trace_file, None)
         arc_result = arc_runner.get_hit_rate_list()
@@ -116,23 +116,29 @@ if __name__ == '__main__':
         # ax.plot(BUFFER_SIZE_LIST, glrfu2_d_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
         # stats.statistic(lru_result, glrfu2_d_result, "GLRFU2_d")
 
+        # params_list = [20000, 20, 0.5, 5, 4, 10, 1]
+        # runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # glrfu2_e_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, glrfu2_e_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, glrfu2_e_result, "RGC")
+
+        # params_list = [20000, 20, 0.5, 5, 4, 10, 4]
+        # runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # glrfu2_e_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, glrfu2_e_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, glrfu2_e_result, "RGC")
+
         params_list = [20000, 20, 0.5, 5, 4, 10, 1]
-        runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
-        glrfu2_e_result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, glrfu2_e_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
-        stats.statistic(lru_result, glrfu2_e_result, "RGC")
-
-        params_list = [20000, 20, 0.5, 5, 4, 10, 4]
-        runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
-        glrfu2_e_result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, glrfu2_e_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
-        stats.statistic(lru_result, glrfu2_e_result, "RGC")
-
-        params_list = [20000, 5, 0.5, 5, 4, 10, 4]
         runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
         glrfu2_f_result = runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, glrfu2_f_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
-        stats.statistic(lru_result, glrfu2_f_result, "RGCB")
+        stats.statistic(lru_result, glrfu2_f_result, "RGC")
+
+        # params_list = [20000, 5, 0.5, 5, 4, 10, 4]
+        # runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # glrfu2_f_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, glrfu2_f_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, glrfu2_f_result, "RGCB")
 
         # params_list = [20000, 4, 0.1, 5, 4, 10, 1]
         # runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
@@ -158,11 +164,11 @@ if __name__ == '__main__':
         # ax.plot(BUFFER_SIZE_LIST, glrfu3B_result, label=f'GLRFU3B, p={params_list}', marker='+', linestyle='-')
         # stats.statistic(lru_result, glrfu3B_result, "GLRFU3B")
 
-        params_list = [20000, 20, 0.5, 5, 4, 10, 4, 32]
-        runner = MultiTestRunner(['GLRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
-        glrfu3_result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, glrfu3_result, label=f'GLRFU3, p={params_list}', marker='+', linestyle='-')
-        stats.statistic(lru_result, glrfu3_result, "GLRFU3")
+        # params_list = [20000, 20, 0.5, 5, 4, 10, 4, 32]
+        # runner = MultiTestRunner(['GLRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # glrfu3_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, glrfu3_result, label=f'GLRFU3, p={params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, glrfu3_result, "GLRFU3")
 
         # params_list = [20000, 20, 0.5, 5, 8, 10, 4, 32]
         # runner = MultiTestRunner(['GLRFU3'], BUFFER_SIZE_LIST, trace_file, params_list)
@@ -214,10 +220,10 @@ if __name__ == '__main__':
         # ax.plot(BUFFER_SIZE_LIST, glrfu4_result, label=f'GLRFU4, p={params_list}', marker='+', linestyle='-')
         # stats.statistic(lru_result, glrfu4_result, "GLRFU4")
 
-        opt_runner = MultiTestRunner(['OPT'], BUFFER_SIZE_LIST, trace_file, None)
-        opt_result = opt_runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, opt_result, label='OPT*', marker='+', linestyle='-.')
-        stats.statistic(lru_result, opt_result, "OPT")
+        # opt_runner = MultiTestRunner(['OPT'], BUFFER_SIZE_LIST, trace_file, None)
+        # opt_result = opt_runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, opt_result, label='OPT*', marker='+', linestyle='-.')
+        # stats.statistic(lru_result, opt_result, "OPT")
 
         ax.set_xscale('log')
         ax.set_yscale('log')
@@ -230,7 +236,7 @@ if __name__ == '__main__':
         plt.legend(loc=4)
         if not os.path.exists('local'):
             os.mkdir('local')
-        fig_path = f'local/{SUFFIX}_plot_{trace}.png'
+        fig_path = f'local/{PREFIX}_plot_{trace}.png'
         # fig_path = 'local/plot.png'
         plt.savefig(fig_path)
         print(f'Fig generated path: {fig_path}. ')

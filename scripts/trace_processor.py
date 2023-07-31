@@ -1,4 +1,5 @@
 RAW_TRACE_FOLDER = './local/raw_trace/'
+OUTPUT_FOLDER = './traces/'
 # TRACE_FILE_LIST = [f"casa-110108-112108.{i}.blkparse" for i in range(1, 10)]
 TRACE_FILE_LIST = [f"ikki-110108-112108.{i}.blkparse" for i in range(1, 21)]
 WRITE_TRACE_PATH = './traces/Home2.lis'
@@ -57,6 +58,22 @@ def process_ssd_trace(input=None, output=None):
     f.close()
     print(idx)
 
+def process_msr(input=None, output=None):
+    raw = open(input)
+    processed = open(output, 'w')
+    for idx, line in enumerate(raw.readlines()):
+        ts, host, disk_number, type, offset, size, response_time = line.split(',')
+        processed.write(f'{int(offset) // 512} {int(size) // 512} 0 {idx}\n')
+    raw.close()
+    processed.close()
+
 if __name__ == "__main__":
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
-    process_ssd_trace(RAW_TRACE_FOLDER + 'ssdtrace-07', './traces/Rocks8.lis')
+    # process_ssd_trace(RAW_TRACE_FOLDER + 'ssdtrace-07', './traces/Rocks8.lis')
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESHMSA01-lvm0.csv', OUTPUT_FOLDER + 'msr_hm_0.lis')
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESISAA02-lvm0.csv', OUTPUT_FOLDER + 'msr_prxy_0.lis')
+    # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm0.csv', OUTPUT_FOLDER + 'msr_proj_0.lis')
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESWEBA03-lvm0.csv', OUTPUT_FOLDER + 'msr_web_0.lis')
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESWMSA03-lvm0.csv', OUTPUT_FOLDER + 'msr_mds_0.lis')
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESSTGA01-lvm0.csv', OUTPUT_FOLDER + 'msr_stg_0.lis')
+    process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_proj_1.lis')
