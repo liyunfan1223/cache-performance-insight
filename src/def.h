@@ -66,5 +66,8 @@ enum class CachePolicy {
 typedef int32_t Key;
 typedef std::string Value;
 
+typedef int32_t PageId;
+typedef int32_t FrameId;
+
 const int32_t BASIC_MAIN_ARG_NUM = 4;
 const double EPSILON = 1e-10;

@@ -1,7 +1,7 @@
 //
 // Created by l50029536 on 2022/9/30.
 //
-#define LOG
+//#define LOG
 
 #include "arc_cache_manager.h"
 

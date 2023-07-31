@@ -22,7 +22,7 @@ def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_
         try:
             result = output.decode('utf-8')
             # print(result)
-            result = result.split("\n")[-2]
+            result = result.split("\n")[-3]
             log = f"Time: {time.time()} Args: threads-{thread_num} value_size-{value_size} memcached_mem-{memcached_mem} "\
                   f"trace-{trace_file} memc_suffix-{memc_suffix} earle_stop-{early_stop} threads_sync-{threads_sync} has_warmup-{has_warmup} \n{result}"
             results.append(log)
@@ -49,7 +49,7 @@ def bench_memtier( memcached_mem, memc_suffix, threads, data_size):
 
     print(output.split('\n')[7:13])
     outputs = output.split('\n')[7:13]
-    with open("local/logstier0516.txt", "a") as f:
+    with open("local/logstier0523.txt", "a") as f:
         f.write(f"{args}\n")
         for o in outputs:
             f.write(f"{o}\n")
@@ -60,14 +60,17 @@ def bench_memtier( memcached_mem, memc_suffix, threads, data_size):
 
 if __name__ == "__main__":
 
-    # for thread in THREADS_LIST[3:]:
-    # # for thread in [1]:
-    #     bench_memtier(4, "lru", thread, 1024)
-    #     bench_memtier(4, "rgc12", thread, 1024)
-    #
-    # for thread in THREADS_LIST[3:]:
-    #     bench_memtier(128, "lru", thread, 32768)
-    #     bench_memtier(128, "rgc12", thread, 32768)
+
+    # bench_memtier(4, "rgc12", 8, 1024)
+    # bench_memtier(4, "lru", 8, 1024)
+    for thread in THREADS_LIST[3:]:
+        bench_memtier(128, "lru", thread, 32768)
+        bench_memtier(128, "rgc12", thread, 32768)
+    for thread in THREADS_LIST[3:]:
+    # for thread in [1]:
+        bench_memtier(4, "lru", thread, 1024)
+        bench_memtier(4, "rgc12", thread, 1024)
+
 
 
     # """ OLTP 216M+256K """
@@ -137,11 +140,11 @@ if __name__ == "__main__":
     #         bench(thread_num=threads, value_size=1024, memcached_mem=64, trace_file=trace_file, memc_suffix="lru", early_stop=True)
     #         bench(thread_num=threads, value_size=1024, memcached_mem=64, trace_file=trace_file, memc_suffix="rgc16", early_stop=True)
 
-    """ P1 2048M+32K """
-    for trace_file in ["P1"]:
-        for threads in THREADS_LIST:
-            bench(thread_num=threads, value_size=32*1024, memcached_mem=2048, trace_file=trace_file, memc_suffix="lru", early_stop=True)
-            bench(thread_num=threads, value_size=32*1024, memcached_mem=2048, trace_file=trace_file, memc_suffix="rgc16", early_stop=True)
+    # """ P1 2048M+32K """
+    # for trace_file in ["P1"]:
+    #     for threads in THREADS_LIST:
+    #         bench(thread_num=threads, value_size=32*1024, memcached_mem=2048, trace_file=trace_file, memc_suffix="lru", early_stop=True)
+    #         bench(thread_num=threads, value_size=32*1024, memcached_mem=2048, trace_file=trace_file, memc_suffix="rgc16", early_stop=True)
 
     # for threads in [128, 32, 16, 4, 64, 8, 1, 2]:
     #     bench(threads, 1024, 6144, "DS1", "rgc20", early_stop=False)
