@@ -6,12 +6,12 @@ from utils import SingleTestRunner, MultiTestRunner, TRACES_LIST
 # CACHE_POLICY_LIST = [
 #     'LRU'
 # ]
-MIN_BUFFER_SIZE = 5
-MAX_BUFFER_SIZE = 13
+MIN_BUFFER_SIZE = 1
+MAX_BUFFER_SIZE = 18
 BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 
 TRACE_FILE_LIST = [
-    'readrandom_7',
+    'websearch',
     # 'Home2',
 ]
 
@@ -35,15 +35,21 @@ if __name__ == '__main__':
         arc_result = arc_runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, arc_result, label='ARC', marker='+', linestyle='dashed')
 
-        params_list = [20000, 5, 0.1, 5, -1, 1, 1]
-        runner = MultiTestRunner(['ALRFU5'], BUFFER_SIZE_LIST, trace_file, params_list)
-        result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU5, p={params_list}', marker='+', linestyle='-')
+        # params_list = [20000, 5, 0.1, 5, -1, 1, 1]
+        # runner = MultiTestRunner(['ALRFU5'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'ALRFU5, p={params_list}', marker='+', linestyle='-')
 
-        params_list = [20000, 5, 1.0, 1, 8, 10]
-        runner = MultiTestRunner(['GLRFU'], BUFFER_SIZE_LIST, trace_file, params_list)
-        result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, result, label=f'GLRFU, p={params_list}', marker='+', linestyle='-')
+        # params_list = [20000, 20, 0.5, 1, 8, 10]
+        # runner = MultiTestRunner(['GLRFU'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, result, label=f'GLRFU, p={params_list}', marker='+', linestyle='-')
+
+        params_list = [20000, 20, 0.5, 5, 4, 10, 1]
+        runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
+        glrfu2_f_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, glrfu2_f_result, label=f'GLRFU2, p={params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, glrfu2_f_result, "RGC")
 
         opt_runner = MultiTestRunner(['OPT'], BUFFER_SIZE_LIST, trace_file, None)
         opt_result = opt_runner.get_hit_rate_list()
@@ -60,6 +66,6 @@ if __name__ == '__main__':
         plt.legend(loc=4)
         if not os.path.exists('local'):
             os.mkdir('local')
-        fig_path = f'local/plot_{trace}_313.png'
+        fig_path = f'local/plot_{trace}_921.png'
         plt.savefig(fig_path)
         print(f'Fig generated path: {fig_path}. ')

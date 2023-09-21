@@ -49,12 +49,15 @@ RC UnittestUtils::get_access_list(const char * filename, std::vector<Key> & acce
         return RC::FAILED;
     }
     trace_line l;
+    std::unordered_set<int32_t> unique_key_set;
     while (fscanf(pFile, "%d %d %d %d\n",
                   &l.starting_block, &l.number_of_blocks, &l.ignore, &l.request_number) != EOF) {
         for (auto i = l.starting_block; i < (l.starting_block + l.number_of_blocks); ++i) {
+            unique_key_set.insert(i);
             access_list.push_back(i);
         }
     }
+    printf("Unique keys: %ld\n", unique_key_set.size());
     return RC::SUCCESS;
 }
 

@@ -46,7 +46,7 @@ ADD_EXECUTABLE(rocksdb_use rocksdb_use.cpp)
 target_link_libraries(rocksdb_use rocksdb memcached)
 
 ADD_EXECUTABLE(rocksdb_use_multi_threads rocksdb_use_multi_threads.cpp)
-target_link_libraries(rocksdb_use_multi_threads rocksdb memcached)
+target_link_libraries(rocksdb_use_multi_threads pthread rocksdb memcached)
 
 add_custom_target(coverage
         COMMAND ${LCOV} --directory . --capture --output-file coverage.info

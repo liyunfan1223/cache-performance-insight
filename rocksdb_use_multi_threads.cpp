@@ -58,6 +58,7 @@ DB* rocksdb_create()
     DB* db;
     Options options;
     options.use_direct_reads = true;
+    options.use_direct_io_for_flush_and_compaction = true;
     options.IncreaseParallelism(threadNum);
     options.max_background_jobs = threadNum * 4;
     //文件夹没有数据就创建
@@ -113,9 +114,14 @@ enum RequestResult {
 RequestResult do_request_item(const char * key, memcached_st * memc)
 {
     string value;
+    timeval start_time, end_time;
+//    gettimeofday(&start_time, NULL);
     if (request_from_memcached(key, value, memc)) {
         return in_memcached;
     }
+//    gettimeofday(&end_time, NULL);
+//    double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
+//    printf("memcached miss time: %.2f\n", time);
     if (request_from_rocksdb(key, value)) {
         save_to_memcached(key, value, value.length(), memc);
         return in_rocksdb;
