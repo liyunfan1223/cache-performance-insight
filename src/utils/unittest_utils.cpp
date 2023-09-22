@@ -35,7 +35,6 @@ RC UnittestUtils::make_test(std::vector<int32_t> access_order, std::shared_ptr<C
 }
 
 RC UnittestUtils::check_get(CacheManager * cacheManager, Key &key) {
-//    std::cerr << "c";
     cacheManager->get(key);
     RC status = cacheManager->check_consistency();
     return status;
@@ -58,6 +57,7 @@ RC UnittestUtils::get_access_list(const char * filename, std::vector<Key> & acce
         }
     }
     printf("Unique keys: %ld\n", unique_key_set.size());
+    printf("Access size: %ld\n", access_list.size());
     return RC::SUCCESS;
 }
 

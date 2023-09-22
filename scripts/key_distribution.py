@@ -5,16 +5,17 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 
 TRACES_LIST = [
+    'websearch',
     'P1',
-    'P2',
-    'P3',
-    'P4',
-    'P5',
-    'P6',
-    'P7',
-    'P12',
-    'OLTP',
-    'DS1'
+    # 'P2',
+    # 'P3',
+    # 'P4',
+    # 'P5',
+    # 'P6',
+    # 'P7',
+    # 'P12',
+    # 'OLTP',
+    # 'DS1'
 ]
 
 
@@ -103,7 +104,7 @@ def get_key_distribution_plot_both(trace_name=None):
         acc += f
         acc_freq.append(acc)
 
-    down_sample_rate = len(acc_freq) // 300
+    down_sample_rate = len(acc_freq) // 3000
     print('GENERATING...')
     acc_freq = acc_freq[slice(0, len(acc_freq), down_sample_rate)]
     fig, ax = plt.subplots(1, 2, figsize=(14, 7))
@@ -116,9 +117,20 @@ def get_key_distribution_plot_both(trace_name=None):
 
     freq.sort()
     freq.reverse()
-    down_sample_rate = len(freq) // 300
+    down_sample_rate = len(freq) // 3000
 
-    freq = freq[slice(0, len(freq), down_sample_rate)]
+    fq = freq
+    freq = []
+    for i in range(0, len(fq), down_sample_rate):
+        s = 0
+        ct = 0
+        for j in range(0, down_sample_rate):
+            if i + j >= len(fq):
+                break
+            s += fq[i + j]
+            ct += 1
+        freq.append(s / ct)
+    # freq = freq[slice(0, len(freq), down_sample_rate)]
     key_ticklabels = [i * down_sample_rate for i in range(len(freq))]
     ax[0].bar(key_ticklabels, freq, width = down_sample_rate / 3 * 2)
 

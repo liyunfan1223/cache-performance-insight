@@ -10,10 +10,12 @@ TRACES_LIST = [
     # 'msr_hm_0',
     # 'msr_prxy_0',
     # 'msr_proj_0',
-    'msr_proj_1',
+    # 'msr_proj_1',
     # 'msr_web_0',
     # 'msr_mds_0',
     # 'msr_stg_0',
+    # 'msr_usr_1',
+    # 'msr_usr_1_sample',
     # 'OLTP',
     # 'P1',
     # 'P2',
@@ -24,7 +26,10 @@ TRACES_LIST = [
     # 'P7',
     # 'P12',
     # 'DS1',
-    #
+    'websearch',
+    # 'webusers',
+    # 'Home1',
+    # 'Home2',
     # 'readrandom_5',
     # 'readrandom_6',
     # 'readrandom_7',
@@ -40,9 +45,8 @@ TRACES_LIST = [
     # 'Rocks6',
     # 'Rocks7',
     # 'Rocks8',
+
 ]
-# 'Home1',
-# 'Home2',
 BUFFER_LIST_FOR_TRACES = {
     'P1': [2 ** k for k in range(11, 18 + 1)],
     'P2': [2 ** k for k in range(11, 18 + 1)],
@@ -80,6 +84,11 @@ BUFFER_LIST_FOR_TRACES = {
     'msr_web_0': [2 ** k for k in range(10, 22 + 1)],
     'msr_mds_0': [2 ** k for k in range(10, 22 + 1)],
     'msr_stg_0': [2 ** k for k in range(10, 22 + 1)],
+    'msr_usr_1': [2 ** k for k in range(16, 20 + 1)],
+    'msr_usr_1_sample': [2 ** k for k in range(16, 20 + 1)],
+    # 'msr_usr_1': [2 ** k for k in range(10, 22 + 1)],
+    'websearch': [2 ** k for k in range(2, 16)],
+    'webusers': [2 ** k for k in range(2, 16)],
 }
 
 class Recorder:

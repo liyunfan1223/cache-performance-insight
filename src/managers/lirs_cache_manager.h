@@ -45,8 +45,9 @@ struct lirs_node {
 
 class LIRSCacheManager: public CacheManager {
 public:
-    LIRSCacheManager(int32_t buffer_size)
-            : CacheManager(buffer_size), s_size_(0.99 * buffer_size), q_size_(0.1 * buffer_size) {
+    LIRSCacheManager(int32_t buffer_size) : CacheManager(buffer_size), cache_size_(buffer_size), used_size_(0) {
+        q_size_ = std::max(1, (int)(0.01 * buffer_size));
+        s_size_ = buffer_size - q_size_;
     }
 
     RC get(const Key &key) override;
@@ -60,6 +61,7 @@ public:
             //std::cout << "key: " << it->second->key << std::endl;
             delete (it->second);
         }
+        printf("%d %d %d %d\n", tot, c_lir, c_hir_s, c_hir_ns);
     }
 
     void FreeOne() {
@@ -115,45 +117,52 @@ public:
         return true;
     }
 
-    long long Get(long long key, long long value = INVALID) {
+    long long Get(long long key, long long value = 10) {
         if (map_.find(key) == map_.end()) {
             return NONE;
         }
-
         auto p = map_[key];
 
         if (p->type == LIR) {
+            increase_hit_count();
             assert(p->s != s_.end());
             MoveTop(p);
-        } else if (p->type == HIR) {
-            assert(p->q != q_.end());
-            if (p->s != s_.end()) {
-                p->type = LIR;
-
-                MoveTop(p);
-                Pop(p, false);
-                Bottom();
-            } else {
-                Push(p, true);
-                MoveTop(p, false);
-            }
-        } else {
-            assert(p->type == NHIR);
-            FreeOne();
-            p->value = value;
-
-            if (p->s != s_.end()) {
-                p->type = LIR;
-                MoveTop(p);
-                Bottom();
-            } else {
-                assert(p->q == q_.end());
-                p->type = HIR;
-                Push(p, true);
-                Push(p, false);
-            }
+            c_lir++;
         }
-
+        else if (p->type == HIR && IS_VALID(p->value)) {
+            increase_hit_count();
+            c_hir_s++;
+//            assert(p->q != q_.end());
+//            if (p->s != s_.end()) {
+//                p->type = LIR;
+//
+//                MoveTop(p);
+//                Pop(p, false);
+//                Bottom();
+//            } else {
+////                Push(p, true);
+//                MoveTop(p, false);
+//            }
+        }
+//            }
+        else {
+            increase_miss_count();
+            c_hir_ns++;
+//            assert(p->type == NHIR);
+//            FreeOne();
+//            p->value = value;
+//
+//            if (p->s != s_.end()) {
+//                p->type = LIR;
+//                MoveTop(p);
+//                Bottom();
+//            } else {
+//                assert(p->q == q_.end());
+//                p->type = HIR;
+//                Push(p, true);
+//                Push(p, false);
+//            }
+        }
         Pruning();
 
         return p->value;
@@ -197,6 +206,7 @@ public:
 //    }
 
 private:
+    int c_lir{}, c_hir_s{}, c_hir_ns{}, tot{};
     void Bottom() {
         auto bottom = s_.back();
         if (bottom->type == LIR) {

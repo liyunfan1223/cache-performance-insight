@@ -52,6 +52,13 @@ std::string STW2CacheManager::get_name()
 RC STW2CacheManager::check_consistency() { return RC::UNIMPLEMENT; }
 
 double STW2CacheManager::calculate_score_for_key(Key key) {
-    return ((double)short_term_freq_[key] / access_window_.size()) * ((double)long_term_freq_[key] / timestamp_)
-    / (EPSILON + ((double)short_term_freq_[key] / access_window_.size()) + ((double)long_term_freq_[key] / timestamp_));
+//    return ((double)long_term_freq_[key] / timestamp_)
+//    / (EPSILON + 2);
+//    return (long_term_freq_[key] * long_term_freq_[key]) / (long_term_freq_[key] + long_term_freq_[key]) / timestamp_;
+    return ((double)long_term_freq_[key] / timestamp_);
 }
+
+
+// 2 spaces
+
+// 12

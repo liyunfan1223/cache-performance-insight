@@ -12,6 +12,7 @@ cmake-build-debug/
 cmake-build-release/
 
 unittest/generic_test.cpp
+.cache
 
 *.pyc
 *.log

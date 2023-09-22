@@ -1,7 +1,7 @@
 //
 // Created by l50029536 on 2022/9/30.
 //
-//#define LOG
+#define LOG
 
 #include "arc_cache_manager.h"
 
@@ -11,6 +11,7 @@ RC ARCCacheManager::get(const Key &key) {
 #ifdef LOG
     ts++;
     if (ts % 20000 == 0) {
+        std::cerr << statics();
         std::cerr << p_ << " " << (double)hit_count() / (miss_count() + hit_count()) << std::endl;
     }
 #endif

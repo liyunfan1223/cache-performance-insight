@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/3/12.
 //
-#define LOG
+//#define LOG
 #include "glrfu2_cache_manager.h"
 
 using namespace glruf2;

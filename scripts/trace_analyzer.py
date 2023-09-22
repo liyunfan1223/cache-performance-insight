@@ -8,7 +8,7 @@ def run(access):
     interval = 0
     ninterval = 0
     tot_freq = 0
-    nHiF = 2048
+    nHiF = 1
     for i in access:
         ts += 1
         if i in mp.keys():
@@ -46,6 +46,6 @@ def analyzer(trace_file):
     run(access)
 
 if __name__ == "__main__":
-    for trace in ['randseq_1', 'readseq_2', 'readseq_3', 'readseq_1', 'readrandom_5', 'readrandom_6', 'readrandom_7']:
+    for trace in ['websearch']:
         print(f"Analyzing {trace}:")
         analyzer(f"traces/{trace}.lis")
