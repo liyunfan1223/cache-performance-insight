@@ -44,6 +44,7 @@ RC RGCCacheManager::get(const Key &key) {
         }
         replacer_s_.UpdateHalf(replacer_r_.GetCurHalf() / (1 + simulator_ratio_));
         printf("reality: %.2f simulator: %.2f r_cur_half: %.8f\n", r_hr * 100, s_hr * 100, replacer_r_.GetCurHalf());
+        std::cout << statics() << '\n';
     }
     return RC::SUCCESS;
 }

@@ -155,7 +155,7 @@ if __name__ == '__main__':
         params_list = []
         runner = MultiTestRunner(['RGC'], BUFFER_SIZE_LIST, trace_file, params_list)
         rgc_result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC, p={params_list}', marker='+', linestyle='-')
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC', marker='+', linestyle='-')
         stats.statistic(lru_result, rgc_result, "New-RGC")
         # params_list = [20000, 5, 0.5, 5, 4, 10, 4]
         # runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)

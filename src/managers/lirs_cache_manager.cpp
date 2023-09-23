@@ -1,15 +1,18 @@
 //
 // Created by Clouds on 2023/9/20.
 //
-
+#define LOG
 #include "lirs_cache_manager.h"
 
 RC LIRSCacheManager::get(const Key &key) {
     tot++;
+#ifdef LOG
     if (tot % 20000 == 0) {
         std::cout << statics() << '\n';
         std::cout << used_size_ << '\n';
+        printf("%d %d %d %d %d\n", tot, c_lir, c_hir_s, c_hir_ns, s_.size());
     }
+#endif
     if (map_.find(key) != map_.end()) { // find it
 //        increase_hit_count();
         auto pnode = map_[key];

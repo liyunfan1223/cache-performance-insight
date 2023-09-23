@@ -61,7 +61,7 @@ public:
             //std::cout << "key: " << it->second->key << std::endl;
             delete (it->second);
         }
-        printf("%d %d %d %d\n", tot, c_lir, c_hir_s, c_hir_ns);
+//        printf("%d %d %d %d\n", tot, c_lir, c_hir_s, c_hir_ns);
     }
 
     void FreeOne() {
@@ -131,7 +131,7 @@ public:
         }
         else if (p->type == HIR && IS_VALID(p->value)) {
             increase_hit_count();
-            c_hir_s++;
+//            c_hir_s++;
 //            assert(p->q != q_.end());
 //            if (p->s != s_.end()) {
 //                p->type = LIR;
@@ -140,7 +140,7 @@ public:
 //                Pop(p, false);
 //                Bottom();
 //            } else {
-////                Push(p, true);
+//                Push(p, true);
 //                MoveTop(p, false);
 //            }
         }
@@ -148,20 +148,20 @@ public:
         else {
             increase_miss_count();
             c_hir_ns++;
-//            assert(p->type == NHIR);
-//            FreeOne();
-//            p->value = value;
-//
-//            if (p->s != s_.end()) {
-//                p->type = LIR;
-//                MoveTop(p);
-//                Bottom();
-//            } else {
-//                assert(p->q == q_.end());
-//                p->type = HIR;
-//                Push(p, true);
-//                Push(p, false);
-//            }
+            assert(p->type == NHIR);
+            FreeOne();
+            p->value = value;
+
+            if (p->s != s_.end()) {
+                p->type = LIR;
+                MoveTop(p);
+                Bottom();
+            } else {
+                assert(p->q == q_.end());
+                p->type = HIR;
+                Push(p, true);
+                Push(p, false);
+            }
         }
         Pruning();
 

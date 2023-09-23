@@ -12,15 +12,17 @@
 class RGCReplacer {
     struct RGCEntry {
         RGCEntry() = default;
-        RGCEntry(std::list<Key>::iterator key_iter, int insert_level, int insert_ts) {
+        RGCEntry(std::list<Key>::iterator key_iter, int insert_level, int insert_ts, bool h_recency) {
             this->key_iter = key_iter;
             this->insert_level = insert_level;
             this->insert_ts = insert_ts;
+            this->h_recency = h_recency;
         }
 
         std::list<Key>::iterator key_iter;
         int insert_level{};
         int insert_ts{};
+        bool h_recency; // 高时近性 说明在顶层LRU中
     };
 public:
     RGCReplacer(int32_t size, double init_half,
@@ -36,6 +38,8 @@ public:
         real_lru_.resize(max_points_);
         ghost_lru_.resize(max_points_);
         UpdateHalf(init_half_);
+        lru_size_ = std::max(1, (int)(0.01 * size));
+        size_ = size_ - lru_size_;
     }
     int Access(Key key) {
         bool hit = true;
@@ -47,6 +51,9 @@ public:
             if (real_map_.size() == size_) {
                 Evict();
             }
+//            else {
+//                inserted_level = max_points_;
+//            }
             if (ghost_map_.count(key) != 0) {
                 // use level in ghost
                 std::list<Key>::iterator hit_iter = ghost_map_[key].key_iter;
@@ -63,23 +70,42 @@ public:
         } else {
             // hit
             interval_hit_count_++;
-            std::list<Key>::iterator hit_iter = real_map_[key].key_iter;
-            int level = GetCurrentLevel(real_map_[key]); // real_map_[key].second;
-            // erase key in real, use level in real
-            real_lru_[level].erase(hit_iter);
-            real_map_.erase(key);
-//            inserted_level += level * 2;
-            inserted_level += level;
-            while(real_lru_[min_level_non_empty_].empty()) {
-                min_level_non_empty_++;
+            if (!real_map_[key].h_recency) {
+                std::list<Key>::iterator hit_iter = real_map_[key].key_iter;
+                int level = GetCurrentLevel(real_map_[key]); // real_map_[key].second;
+                // erase key in real, use level in real
+                real_lru_[level].erase(hit_iter);
+                real_map_.erase(key);
+    //            inserted_level += level * 2;
+                inserted_level += level;
+                while(real_lru_[min_level_non_empty_].empty()) {
+                    min_level_non_empty_++;
+                }
+            } else {
+                inserted_level += real_map_[key].insert_level;
+                top_lru_.erase(real_map_[key].key_iter);
+                real_map_.erase(key);
             }
         }
         inserted_level = std::min(inserted_level, max_points_ - 1);
-        real_lru_[inserted_level].push_front(key);
-        real_map_[key] = RGCEntry(real_lru_[inserted_level].begin(), inserted_level, cur_ts_);
-        if (inserted_level < min_level_non_empty_) {
-            min_level_non_empty_ = inserted_level;
+
+        if (top_lru_.size() >= lru_size_) {
+            Key key = top_lru_.back();
+            int lvl = real_map_[key].insert_level;
+            real_lru_[lvl].push_front(key);
+            real_map_[key] = RGCEntry(real_lru_[lvl].begin(), lvl, cur_ts_, 0);
+            if (lvl < min_level_non_empty_) {
+                min_level_non_empty_ = lvl;
+            }
+            top_lru_.pop_back();
         }
+        top_lru_.push_front(key);
+        real_map_[key] = RGCEntry(top_lru_.begin(), inserted_level, cur_ts_, 1);
+        // real_lru_[inserted_level].push_front(key);
+        // real_map_[key] = RGCEntry(real_lru_[inserted_level].begin(), inserted_level, cur_ts_);
+        // if (inserted_level < min_level_non_empty_) {
+        //     min_level_non_empty_ = inserted_level;
+        // }
         cur_ts_++;
         if (cur_ts_ >= next_rolling_ts_) {
             Rolling();
@@ -104,7 +130,7 @@ public:
             }
             // min_level_non_empty_ == evict_key's level
             ghost_lru_[min_level_non_empty_].push_front(evict_key);
-            ghost_map_[evict_key] = RGCEntry(ghost_lru_[min_level_non_empty_].begin(), min_level_non_empty_, cur_ts_);
+            ghost_map_[evict_key] = RGCEntry(ghost_lru_[min_level_non_empty_].begin(), min_level_non_empty_, cur_ts_, 0);
             if (min_level_non_empty_ghost_ > min_level_non_empty_) {
                 min_level_non_empty_ghost_ = min_level_non_empty_;
             }
@@ -172,6 +198,8 @@ private:
     double cur_half_;
 private:
     // 当前半衰期系数
+    int32_t lru_size_; // LRU部分大小
+    int32_t rgc_size_; // RGC部分大小
     double hit_points_; // 命中后得分
     int32_t max_points_bits_; // 最高得分为 (1 << max_points_bits_) - 1
     int32_t max_points_; // 最高得分
@@ -184,18 +212,20 @@ private:
     int32_t next_rolling_ts_ = INT32_MAX; // 下一次滚动的时间戳
     int32_t cur_ts_ = 0; // 当前时间戳
     std::vector<std::list<Key> > real_lru_, ghost_lru_;
+    std::list<Key> top_lru_;
     std::unordered_map<Key, RGCEntry> real_map_, ghost_map_;
+    std::unordered_map<Key, RGCEntry> top_map_;
     std::list<int32_t> rolling_ts;
 };
 
 class RGCCacheManager: public CacheManager {
 public:
-    RGCCacheManager(int32_t buffer_size, double init_half = 10000.0f,
-                    double hit_point = 1.0f, int32_t max_points_bits = 16, double ghost_size_ratio = 8.0f,
-                    double lambda = 0.1f, int32_t update_interval = 20000, double simulator_ratio = 30.0f):
+    RGCCacheManager(int32_t buffer_size, double init_half = 20.0f,
+                    double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 8.0f,
+                    double lambda = 0.1f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f):
         CacheManager(buffer_size),
-        replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio),
-        replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio),
+        replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio),
+        replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio),
         lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio) {
     }
     RC get(const Key &key) override;

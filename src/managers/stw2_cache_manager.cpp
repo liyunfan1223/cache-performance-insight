@@ -1,11 +1,18 @@
 //
 // Created by MorphLing on 2023/1/4.
 //
-
+#define LOG
 #include "stw2_cache_manager.h"
 
 RC STW2CacheManager::get(const Key &key)
 {
+//    tot++;
+    timestamp_++;
+#ifdef LOG
+    if (timestamp_ % 20000 == 0) {
+        std::cout << statics() << '\n';
+    }
+#endif
     long_term_freq_[key]++;
     short_term_freq_[key]++;
     timestamp_++;
@@ -55,7 +62,8 @@ double STW2CacheManager::calculate_score_for_key(Key key) {
 //    return ((double)long_term_freq_[key] / timestamp_)
 //    / (EPSILON + 2);
 //    return (long_term_freq_[key] * long_term_freq_[key]) / (long_term_freq_[key] + long_term_freq_[key]) / timestamp_;
-    return ((double)long_term_freq_[key] / timestamp_);
+//    return ((double)long_term_freq_[key] / timestamp_);
+    return long_term_freq_[key];
 }
 
 

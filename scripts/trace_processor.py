@@ -3,9 +3,11 @@ RAW_TRACE_FOLDER = './local/raw_trace/'
 OUTPUT_FOLDER = './traces/'
 # TRACE_FILE_LIST = [f"casa-110108-112108.{i}.blkparse" for i in range(1, 10)] # Home1
 # TRACE_FILE_LIST = [f"ikki-110108-112108.{i}.blkparse" for i in range(1, 21)] # Home2
-TRACE_FILE_LIST = [f"webresearch-030409-033109.{i}.blkparse" for i in range(1, 29)] # websearch
+# TRACE_FILE_LIST = [f"webresearch-030409-033109.{i}.blkparse" for i in range(1, 29)] # websearch
 # TRACE_FILE_LIST = [f"webusers-030409-033109.{i}.blkparse" for i in range(1, 29)] # webusers
-WRITE_TRACE_PATH = './traces/websearch.lis'
+TRACE_FILE_LIST = [f"topgun-110108-112108.{i}.blkparse" for i in range(1, 21)] # Home4
+# WRITE_TRACE_PATH = './traces/websearch.lis'
+WRITE_TRACE_PATH = './traces/Home4.lis'
 
 
 def process_blkparse(trace_file_list, write_trace_path):
@@ -97,14 +99,33 @@ def process_ssd_trace(input=None, output=None):
 def process_msr(input=None, output=None, block=512):
     raw = open(input)
     processed = open(output, 'w')
+    access = []
     for idx, line in enumerate(raw.readlines()):
         ts, host, disk_number, type, offset, size, response_time = line.split(',')
-        processed.write(f'{int(offset) // block} {int(size) // block} 0 {idx}\n')
+        access.append((int(offset) // block, int(size) // block))
+        # processed.write(f'{int(offset) // block} {int(size) // block} 0 {idx}\n')
     raw.close()
+    print(len(access))
+    last = -1
+    last_len = 0
+    idx = 0
+    for order, size in access:
+        if order != last + last_len and last_len != 0:
+            if last != -1:
+                processed.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+            idx += 1
+            last_len = 0
+            last = order
+        # last = order
+        last_len += size
+    if last_len != 0:
+        processed.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+        idx += 1
+    print(idx)
     processed.close()
 
 if __name__ == "__main__":
-    # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
+    process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_ssd_trace(RAW_TRACE_FOLDER + 'ssdtrace-07', './traces/Rocks8.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESHMSA01-lvm0.csv', OUTPUT_FOLDER + 'msr_hm_0.lis')
@@ -114,4 +135,4 @@ if __name__ == "__main__":
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWMSA03-lvm0.csv', OUTPUT_FOLDER + 'msr_mds_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESSTGA01-lvm0.csv', OUTPUT_FOLDER + 'msr_stg_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_proj_1.lis')
-    process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_usr_1.lis', 4096)
+    # process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_usr_1.lis', 4096)
