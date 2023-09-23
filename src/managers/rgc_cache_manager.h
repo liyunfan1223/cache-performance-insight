@@ -26,9 +26,10 @@ class RGCReplacer {
     };
 public:
     RGCReplacer(int32_t size, double init_half,
-                double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio):
+                double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio, double mru_ratio):
                 size_(size), init_half_(init_half), hit_points_(hit_points),
-                max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio)
+                max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio),
+                mru_ratio_(mru_ratio)
     {
         cur_half_ = init_half_;
         max_points_ = (1 << max_points_bits_) - 1;
@@ -120,11 +121,36 @@ public:
         // churn resistance?
 //        Key evict_key = real_lru_[min_level_non_empty_].back();
 //        real_lru_[min_level_non_empty_].pop_back();
-        Key evict_key = real_lru_[min_level_non_empty_].front();
-        real_lru_[min_level_non_empty_].pop_front();
+        Key evict_key;
+        int evict_level;
+        int mx_ts = 0, sum = 0;
+//        if (min_level_non_empty_ <= hit_points_) {
+//        evict_level = min_level_non_empty_;
+//        evict_key = real_lru_[min_level_non_empty_].front();
+//        sum = real_lru_[min_level_non_empty_].size();
+        for (int i = min_level_non_empty_; i < max_points_; i++) {
+            if (real_lru_[i].empty()) {
+                continue;
+            }
+            // MRU
+            if (real_map_[real_lru_[i].front()].insert_ts > mx_ts) {
+                mx_ts = real_map_[real_lru_[i].front()].insert_ts;
+                evict_key = real_lru_[i].front();
+                evict_level = i;
+            }
+            sum += real_lru_[i].size();
+            if (sum > mru_ratio_ * size_) {
+                break;
+            }
+        }
+        real_lru_[evict_level].pop_front();
+//        } else {
+//            evict_key = real_lru_[min_level_non_empty_].back();
+//            real_lru_[min_level_non_empty_].pop_back();
+//        }
         real_map_.erase(evict_key);
         // move to ghost
-        if (ghost_size_ != 0 && min_level_non_empty_ != 0) {
+        if (ghost_size_ != 0 && evict_level != 0) {
             // evict ghost
             if (ghost_map_.size() >= ghost_size_) {
                 Key evict_key = ghost_lru_[min_level_non_empty_ghost_].back();
@@ -135,10 +161,10 @@ public:
                 }
             }
             // min_level_non_empty_ == evict_key's level
-            ghost_lru_[min_level_non_empty_].push_front(evict_key);
-            ghost_map_[evict_key] = RGCEntry(ghost_lru_[min_level_non_empty_].begin(), min_level_non_empty_, cur_ts_, 0);
-            if (min_level_non_empty_ghost_ > min_level_non_empty_) {
-                min_level_non_empty_ghost_ = min_level_non_empty_;
+            ghost_lru_[evict_level].push_front(evict_key);
+            ghost_map_[evict_key] = RGCEntry(ghost_lru_[evict_level].begin(), evict_level, cur_ts_, 0);
+            if (min_level_non_empty_ghost_ > evict_level) {
+                min_level_non_empty_ghost_ = evict_level;
             }
         }
         while (real_lru_[min_level_non_empty_].empty()) {
@@ -205,6 +231,7 @@ private:
     int32_t size_;
     double init_half_; // 初始半衰期系数
     double cur_half_;
+    double mru_ratio_;
 private:
     // 当前半衰期系数
     int32_t lru_size_; // LRU部分大小
@@ -232,10 +259,11 @@ class RGCCacheManager: public CacheManager {
 public:
     RGCCacheManager(int32_t buffer_size, double init_half = 20.0f,
                     double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
-                    double lambda = 0.1f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f):
+                    double lambda = 0.1f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f,
+                    double mru_ratio = 0.01f):
         CacheManager(buffer_size),
-        replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio),
-        replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio),
+        replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
+        replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
         lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio) {
     }
     RC get(const Key &key) override;

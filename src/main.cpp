@@ -88,6 +88,7 @@ int main(int argc, char **argv) {
     char* param_5 = argv[9];
     char* param_6 = argv[10];
     char* param_7 = argv[11];
+    char* param_8 = argv[12];
     timeval start_time;
     gettimeofday(&start_time, NULL);
     switch (cachePolicy.at(cache_policy)) {
@@ -311,15 +312,17 @@ int main(int argc, char **argv) {
                 UnittestUtils::make_test(trace_file,
                                          std::make_shared<RGCCacheManager>(buffer_size));
             }else {
-//                UnittestUtils::make_test(trace_file,
-//                                         std::make_shared<RGCCacheManager>(buffer_size,
-//                                                                                           std::stof(param_0),
-//                                                                                           std::stof(param_1),
-//                                                                                           std::stof(param_2),
-//                                                                                           std::stof(param_3),
-//                                                                                           std::stof(param_4),
-//                                                                                           std::stof(param_5),
-//                                                                                           std::stof(param_6)));
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<RGCCacheManager>(buffer_size,
+                                                                                           std::stof(param_0),
+                                                                                           std::stof(param_1),
+                                                                                           std::stof(param_2),
+                                                                                           std::stof(param_3),
+                                                                                           std::stof(param_4),
+                                                                                           std::stof(param_5),
+                                                                                           std::stof(param_6),
+                                                                                           std::stof(param_7),
+                                                                                           std::stof(param_8)));
             }
             break;
         default:

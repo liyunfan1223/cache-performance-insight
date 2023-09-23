@@ -10,21 +10,21 @@ TRACES_LIST = [
     # 'msr_hm_0',
     # 'msr_prxy_0',
     # 'msr_proj_0',
-    # 'msr_proj_1',
+    'msr_proj_1',
     # 'msr_web_0',
     # 'msr_mds_0',
     # 'msr_stg_0',
     # 'msr_usr_1',
     # 'msr_usr_1_sample',
-    'OLTP',
-    'P1',
-    'P2',
-    'P3',
-    'P4',
-    'P5',
-    'P6',
-    'P7',
-    'P12',
+    # 'OLTP',
+    # 'P1',
+    # 'P2',
+    # 'P3',
+    # 'P4',
+    # 'P5',
+    # 'P6',
+    # 'P7',
+    # 'P12',
     # 'DS1',
     # 'websearch',
     # 'webusers',
@@ -170,7 +170,10 @@ class StatisticsCompareLRU:
 
     def statistic(self, lru_result, compared_result, compared_label='default'):
         for lru, compared in zip(lru_result, compared_result):
-            ratio = (compared - lru) / lru
+            if lru == 0:
+                ratio = 0
+            else:
+                ratio = (compared - lru) / lru
             perf = (100 - lru) / (100 - compared) - 1
             if compared_label in self.data:
                 self.data[compared_label] += ratio
