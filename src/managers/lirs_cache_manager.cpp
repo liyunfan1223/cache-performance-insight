@@ -1,7 +1,7 @@
 //
 // Created by Clouds on 2023/9/20.
 //
-#define LOG
+//#define LOG
 #include "lirs_cache_manager.h"
 
 RC LIRSCacheManager::get(const Key &key) {
@@ -10,7 +10,7 @@ RC LIRSCacheManager::get(const Key &key) {
     if (tot % 20000 == 0) {
         std::cout << statics() << '\n';
         std::cout << used_size_ << '\n';
-        printf("%d %d %d %d %d\n", tot, c_lir, c_hir_s, c_hir_ns, s_.size());
+        printf("%d %d %d %d %ld\n", tot, c_lir, c_hir_s, c_hir_ns, s_.size());
     }
 #endif
     if (map_.find(key) != map_.end()) { // find it

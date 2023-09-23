@@ -131,18 +131,18 @@ public:
         }
         else if (p->type == HIR && IS_VALID(p->value)) {
             increase_hit_count();
-//            c_hir_s++;
-//            assert(p->q != q_.end());
-//            if (p->s != s_.end()) {
-//                p->type = LIR;
-//
-//                MoveTop(p);
-//                Pop(p, false);
-//                Bottom();
-//            } else {
-//                Push(p, true);
-//                MoveTop(p, false);
-//            }
+            c_hir_s++;
+            assert(p->q != q_.end());
+            if (p->s != s_.end()) {
+                p->type = LIR;
+
+                MoveTop(p);
+                Pop(p, false);
+                Bottom();
+            } else {
+                Push(p, true);
+                MoveTop(p, false);
+            }
         }
 //            }
         else {

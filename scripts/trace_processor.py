@@ -110,7 +110,7 @@ def process_msr(input=None, output=None, block=512):
     last_len = 0
     idx = 0
     for order, size in access:
-        if order != last + last_len and last_len != 0:
+        if order != last + last_len:
             if last != -1:
                 processed.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
             idx += 1
@@ -125,11 +125,11 @@ def process_msr(input=None, output=None, block=512):
     processed.close()
 
 if __name__ == "__main__":
-    process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
+    # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_ssd_trace(RAW_TRACE_FOLDER + 'ssdtrace-07', './traces/Rocks8.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESHMSA01-lvm0.csv', OUTPUT_FOLDER + 'msr_hm_0.lis')
-    # process_msr(RAW_TRACE_FOLDER + 'CAMRESISAA02-lvm0.csv', OUTPUT_FOLDER + 'msr_prxy_0.lis')
+    process_msr(RAW_TRACE_FOLDER + 'CAMRESISAA02-lvm0.csv', OUTPUT_FOLDER + 'msr_prxy_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm0.csv', OUTPUT_FOLDER + 'msr_proj_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWEBA03-lvm0.csv', OUTPUT_FOLDER + 'msr_web_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWMSA03-lvm0.csv', OUTPUT_FOLDER + 'msr_mds_0.lis')

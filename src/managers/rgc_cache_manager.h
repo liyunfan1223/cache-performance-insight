@@ -26,9 +26,9 @@ class RGCReplacer {
     };
 public:
     RGCReplacer(int32_t size, double init_half,
-                double hit_point, int max_points_bits, double ghost_size_ratio):
-                size_(size), init_half_(init_half), hit_points_(hit_point),
-                max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio)
+                double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio):
+                size_(size), init_half_(init_half), hit_points_(hit_points),
+                max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio)
     {
         cur_half_ = init_half_;
         max_points_ = (1 << max_points_bits_) - 1;
@@ -38,8 +38,9 @@ public:
         real_lru_.resize(max_points_);
         ghost_lru_.resize(max_points_);
         UpdateHalf(init_half_);
-        lru_size_ = std::max(1, (int)(0.01 * size));
-        size_ = size_ - lru_size_;
+        lru_size_ = std::max(1, (int)(top_ratio_ * size));
+        rgc_size_ = size_ - lru_size_;
+//        size_ = size_ - lru_size_;
     }
     int Access(Key key) {
         bool hit = true;
@@ -71,6 +72,7 @@ public:
             // hit
             interval_hit_count_++;
             if (!real_map_[key].h_recency) {
+                h1++;
                 std::list<Key>::iterator hit_iter = real_map_[key].key_iter;
                 int level = GetCurrentLevel(real_map_[key]); // real_map_[key].second;
                 // erase key in real, use level in real
@@ -82,6 +84,7 @@ public:
                     min_level_non_empty_++;
                 }
             } else {
+                h2++;
                 inserted_level += real_map_[key].insert_level;
                 top_lru_.erase(real_map_[key].key_iter);
                 real_map_.erase(key);
@@ -114,8 +117,11 @@ public:
     }
     void Evict() {
         // evict key in real
-        Key evict_key = real_lru_[min_level_non_empty_].back();
-        real_lru_[min_level_non_empty_].pop_back();
+        // churn resistance?
+//        Key evict_key = real_lru_[min_level_non_empty_].back();
+//        real_lru_[min_level_non_empty_].pop_back();
+        Key evict_key = real_lru_[min_level_non_empty_].front();
+        real_lru_[min_level_non_empty_].pop_front();
         real_map_.erase(evict_key);
         // move to ghost
         if (ghost_size_ != 0 && min_level_non_empty_ != 0) {
@@ -142,12 +148,12 @@ public:
     void Rolling() {
         for (int i = 1; i < max_points_; i++) {
             if (!real_lru_[i].empty()) {
-                real_lru_[i / 2].splice(real_lru_[i / 2].begin(), real_lru_[i]);
+                real_lru_[i / 2].splice(real_lru_[i / 2].end(), real_lru_[i]);
                 if (!real_lru_[i / 2].empty()) {
                     min_level_non_empty_ = std::min(min_level_non_empty_, i / 2);
                 }
             }
-            ghost_lru_[i / 2].splice(ghost_lru_[i / 2].begin(), ghost_lru_[i]);
+            ghost_lru_[i / 2].splice(ghost_lru_[i / 2].end(), ghost_lru_[i]);
             if (!ghost_lru_[i / 2].empty()) {
                 min_level_non_empty_ghost_ = std::min(min_level_non_empty_ghost_, i / 2);
             }
@@ -168,15 +174,18 @@ public:
         }
         next_rolling_ts_ = std::min(next_rolling_ts_, cur_ts_ + (int)(cur_half_ * size_));
     }
-    void ReportAndClear(int32_t &miss_count, int32_t &hit_count) {
+    void ReportAndClear(int32_t &miss_count, int32_t &hit_count/*, int32_t &hit_top*/) {
         miss_count = interval_miss_count_;
         hit_count = interval_hit_count_;
+//        hit_top = interval_hit_top_;
         interval_miss_count_ = 0;
         interval_hit_count_ = 0;
+        interval_hit_top_ = 0;
     }
     double GetCurHalf() const {
         return cur_half_;
     }
+    int h1, h2; //debug
 private:
     int32_t GetCurrentLevel(const RGCEntry &status) {
         int32_t est_level = status.insert_level;
@@ -209,19 +218,20 @@ private:
     int32_t ghost_size_;
     int32_t interval_hit_count_ = 0; // 统计区间命中次数
     int32_t interval_miss_count_ = 0; // 统计区间为命中次数
+    int32_t interval_hit_top_ = 0; // 在top上命中次数
     int32_t next_rolling_ts_ = INT32_MAX; // 下一次滚动的时间戳
     int32_t cur_ts_ = 0; // 当前时间戳
     std::vector<std::list<Key> > real_lru_, ghost_lru_;
     std::list<Key> top_lru_;
     std::unordered_map<Key, RGCEntry> real_map_, ghost_map_;
-    std::unordered_map<Key, RGCEntry> top_map_;
     std::list<int32_t> rolling_ts;
+    double top_ratio_;
 };
 
 class RGCCacheManager: public CacheManager {
 public:
     RGCCacheManager(int32_t buffer_size, double init_half = 20.0f,
-                    double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 8.0f,
+                    double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
                     double lambda = 0.1f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f):
         CacheManager(buffer_size),
         replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio),
