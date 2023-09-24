@@ -75,10 +75,13 @@ int main(int argc, char **argv) {
         return 0;
     }
     std::vector<Key> access_list;
-    UnittestUtils::get_access_list(argv[3], access_list);
+    int unique_key_nums;
+    UnittestUtils::get_access_list(argv[3], access_list, unique_key_nums);
 
     std::string cache_policy(argv[1]);
-    int32_t buffer_size = std::stoi(argv[2]);
+
+    float buffer_param = std::stof(argv[2]);
+    int32_t buffer_size = buffer_param > 1 ? std::stoi(argv[2]) : std::max(1, (int)(buffer_param * unique_key_nums));
     char* trace_file = argv[3];
     char* param_0 = argv[4];
     char* param_1 = argv[5];

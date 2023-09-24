@@ -8,9 +8,9 @@ from utils import SingleTestRunner, MultiTestRunner, TRACES_LIST, BUFFER_LIST_FO
 # ]
 MIN_BUFFER_SIZE = 11
 MAX_BUFFER_SIZE = 18
-BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
-
-PREFIX = '923b'
+# BUFFER_SIZE_LIST = [2 ** k for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
+BUFFER_SIZE_LIST = [0.000625, 0.00125, 0.0025, 0.005, 0.01, 0.02, 0.04, 0.08]
+PREFIX = '924'
 # TRACE_FILE_LIST = [
 #     'P1',
 # ]
@@ -20,7 +20,7 @@ stats = StatisticsCompareLRU()
 if __name__ == '__main__':
     print(f'Start run tests. Trace file: {TRACES_LIST}.')
     for trace in TRACES_LIST:
-        BUFFER_SIZE_LIST = BUFFER_LIST_FOR_TRACES[trace]
+        # BUFFER_SIZE_LIST = BUFFER_LIST_FOR_TRACES[trace]
         trace_file = f'traces/{trace}.lis'
         fig, ax = plt.subplots(figsize=(14, 7))
         ax.set_xlim(BUFFER_SIZE_LIST[0] // 2, BUFFER_SIZE_LIST[-1] * 2)
@@ -53,6 +53,7 @@ if __name__ == '__main__':
         lirs_result = lirs_runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, lirs_result, label='LIRS', marker='+', linestyle='dashed')
         stats.statistic(lru_result, lirs_result, "LIRS")
+
         # params_list = [20000, 5, 0.1, 5, -1, 1, 1]
         # runner = MultiTestRunner(['ALRFU5'], BUFFER_SIZE_LIST, trace_file, params_list)
         # alrfu_result = runner.get_hit_rate_list()
@@ -155,8 +156,15 @@ if __name__ == '__main__':
         params_list = [20, 4, 10, 4, 0.1, 20000, 0.25, 0.01, 0.01]
         runner = MultiTestRunner(['RGC'], BUFFER_SIZE_LIST, trace_file, params_list)
         rgc_result = runner.get_hit_rate_list()
-        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC', marker='+', linestyle='-')
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC {params_list}', marker='+', linestyle='-')
         stats.statistic(lru_result, rgc_result, "New-RGC")
+
+        params_list = [20, 4, 10, 4, 1.0, 20000, 0.25, 0.01, 0.01]
+        runner = MultiTestRunner(['RGC'], BUFFER_SIZE_LIST, trace_file, params_list)
+        rgc_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC {params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, rgc_result, "New-RGC2")
+
         # params_list = [20000, 5, 0.5, 5, 4, 10, 4]
         # runner = MultiTestRunner(['GLRFU2'], BUFFER_SIZE_LIST, trace_file, params_list)
         # glrfu2_f_result = runner.get_hit_rate_list()
@@ -255,7 +263,7 @@ if __name__ == '__main__':
         ax.set_ylim(0.5, 100)
         ax.set_xticks(BUFFER_SIZE_LIST)
         ax.set_xticklabels(BUFFER_SIZE_LIST)
-        ax.set_xlim(BUFFER_SIZE_LIST[0] // 2, BUFFER_SIZE_LIST[-1] * 2)
+        ax.set_xlim(BUFFER_SIZE_LIST[0] / 2, BUFFER_SIZE_LIST[-1] * 2)
         plt.legend(loc=4)
         if not os.path.exists('local'):
             os.mkdir('local')

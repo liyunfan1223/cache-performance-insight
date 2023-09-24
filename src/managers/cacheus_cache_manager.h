@@ -1,0 +1,14 @@
+//
+// Created by MorphLing on 2023/9/24.
+//
+
+#ifndef CACHE_PERFORMANCE_INSIGHT_CACHEUS_CACHE_MANAGER_H
+#define CACHE_PERFORMANCE_INSIGHT_CACHEUS_CACHE_MANAGER_H
+
+
+class cacheus_cache_manager {
+
+};
+
+
+#endif //CACHE_PERFORMANCE_INSIGHT_CACHEUS_CACHE_MANAGER_H

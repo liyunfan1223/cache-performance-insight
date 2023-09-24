@@ -134,5 +134,5 @@ if __name__ == "__main__":
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWEBA03-lvm0.csv', OUTPUT_FOLDER + 'msr_web_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWMSA03-lvm0.csv', OUTPUT_FOLDER + 'msr_mds_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESSTGA01-lvm0.csv', OUTPUT_FOLDER + 'msr_stg_0.lis')
-    process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_proj_1.lis')
-    # process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_usr_1.lis', 4096)
+    # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_proj_1.lis')
+    process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_usr_1.lis', 4096)
