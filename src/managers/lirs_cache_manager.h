@@ -47,6 +47,7 @@ class LIRSCacheManager: public CacheManager {
 public:
     LIRSCacheManager(int32_t buffer_size) : CacheManager(buffer_size), cache_size_(buffer_size), used_size_(0) {
         q_size_ = std::max(1, (int)(0.01 * buffer_size));
+//        q_size_ = 1;
         s_size_ = buffer_size - q_size_;
     }
 

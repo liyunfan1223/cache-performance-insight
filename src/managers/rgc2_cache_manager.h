@@ -1,15 +1,15 @@
 //
-// Created by MorphLing on 2023/5/23.
+// Created by MorphLing on 2023/9/24.
 //
 
-#ifndef CACHE_PERFORMANCE_INSIGHT_RGC_CACHE_MANAGER_H
-#define CACHE_PERFORMANCE_INSIGHT_RGC_CACHE_MANAGER_H
+#ifndef CACHE_PERFORMANCE_INSIGHT_RGC2_CACHE_MANAGER_H
+#define CACHE_PERFORMANCE_INSIGHT_RGC2_CACHE_MANAGER_H
 
 #include "def.h"
 #include "managers/cache_manager.h"
 #include "data_structures/multi_lru.h"
 
-class RGCReplacer {
+class RGC2Replacer {
     struct RGCEntry {
         RGCEntry() = default;
         RGCEntry(std::list<Key>::iterator key_iter, int insert_level, int insert_ts, bool h_recency) {
@@ -25,11 +25,11 @@ class RGCReplacer {
         bool h_recency; // 高时近性 说明在顶层LRU中
     };
 public:
-    RGCReplacer(int32_t size, double init_half,
-                double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio, double mru_ratio):
-                size_(size), init_half_(init_half), hit_points_(hit_points),
-                max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio),
-                mru_ratio_(mru_ratio)
+    RGC2Replacer(int32_t size, double init_half,
+                 double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio, double mru_ratio):
+            size_(size), init_half_(init_half), hit_points_(hit_points),
+            max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio),
+            mru_ratio_(mru_ratio)
     {
         cur_half_ = init_half_;
         max_points_ = (1 << max_points_bits_) - 1;
@@ -79,7 +79,7 @@ public:
                 // erase key in real, use level in real
                 real_lru_[level].erase(hit_iter);
                 real_map_.erase(key);
-    //            inserted_level += level * 2;
+                //            inserted_level += level * 2;
                 inserted_level += level;
                 while(real_lru_[min_level_non_empty_].empty()) {
                     min_level_non_empty_++;
@@ -255,16 +255,16 @@ private:
     double top_ratio_;
 };
 
-class RGCCacheManager: public CacheManager {
+class RGC2CacheManager: public CacheManager {
 public:
-    RGCCacheManager(int32_t buffer_size, double init_half = 20.0f,
-                    double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
-                    double lambda = 1.0f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f,
-                    double mru_ratio = 0.01f, double delta_bound = 1.0f):
-        CacheManager(buffer_size),
-        replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
-        replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
-        lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio), delta_bound_(delta_bound) {
+    RGC2CacheManager(int32_t buffer_size, double init_half = 20.0f,
+                     double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
+                     double lambda = 1.0f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f,
+                     double mru_ratio = 0.01f, double delta_bound = 1.0f):
+            CacheManager(buffer_size),
+            replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
+            replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
+            lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio), delta_bound_(delta_bound) {
     }
     RC get(const Key &key) override;
 
@@ -272,8 +272,8 @@ public:
 
     std::string get_name() override;
 private:
-    RGCReplacer replacer_r_;
-    RGCReplacer replacer_s_;
+    RGC2Replacer replacer_r_;
+    RGC2Replacer replacer_s_;
     double lambda_; // 学习率
     int32_t update_interval_; // 更新间隔
     int32_t ts_{};
@@ -283,5 +283,4 @@ private:
     double delta_bound_;
 };
 
-
-#endif //CACHE_PERFORMANCE_INSIGHT_RGC_CACHE_MANAGER_H
+#endif //CACHE_PERFORMANCE_INSIGHT_RGC2_CACHE_MANAGER_H

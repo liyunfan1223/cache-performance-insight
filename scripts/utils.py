@@ -7,21 +7,22 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
+    #MSR
+    'msr_proj_0_1d',
+    'msr_wdev_0_1d',
+    'msr_prxy_0_1d',
+    'msr_stg_0_1d',
+    'msr_mds_0_1d',
+    'msr_web_0_1d',
+    # 'msr_proj_1_1d', # TOO LARGE?
+    # 'msr_usr_1_1d', # TOO LARGE
+    'msr_hm_0_1d',
     # FIU
+    'Home4',
     'Home1',
     'Home2',
-    'Home4',
     'websearch',
     'webusers',
-    #MSR
-    'msr_usr_1',
-    'msr_hm_0',
-    'msr_prxy_0',
-    'msr_proj_0',
-    # 'msr_proj_1', # TOO LARGE?
-    'msr_web_0',
-    'msr_mds_0',
-    'msr_stg_0',
 
     'readrandom_5',
     'readrandom_6',

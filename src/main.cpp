@@ -92,6 +92,7 @@ int main(int argc, char **argv) {
     char* param_6 = argv[10];
     char* param_7 = argv[11];
     char* param_8 = argv[12];
+    char* param_9 = argv[13];
     timeval start_time;
     gettimeofday(&start_time, NULL);
     switch (cachePolicy.at(cache_policy)) {
@@ -325,7 +326,8 @@ int main(int argc, char **argv) {
                                                                                            std::stof(param_5),
                                                                                            std::stof(param_6),
                                                                                            std::stof(param_7),
-                                                                                           std::stof(param_8)));
+                                                                                           std::stof(param_8),
+                                                                                           std::stof(param_9)));
             }
             break;
         default:

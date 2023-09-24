@@ -2,9 +2,9 @@
 // Created by MorphLing on 2023/5/23.
 //
 
-#include "rgc_cache_manager.h"
+#include "rgc2_cache_manager.h"
 
-RC RGCCacheManager::get(const Key &key) {
+RC RGC2CacheManager::get(const Key &key) {
     ts_++;
     if (replacer_r_.Access(key)) {
         increase_hit_count();
@@ -57,10 +57,10 @@ RC RGCCacheManager::get(const Key &key) {
     return RC::SUCCESS;
 }
 
-RC RGCCacheManager::put(const Key &key, const Value &value) {
+RC RGC2CacheManager::put(const Key &key, const Value &value) {
     return RC::UNIMPLEMENT;
 }
 
-std::string RGCCacheManager::get_name() {
+std::string RGC2CacheManager::get_name() {
     return {"RGC"};
 }
