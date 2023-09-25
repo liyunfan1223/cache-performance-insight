@@ -260,7 +260,7 @@ public:
     RGCCacheManager(int32_t buffer_size, double init_half = 20.0f,
                     double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
                     double lambda = 1.0f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f,
-                    double mru_ratio = 0.01f, double delta_bound = 1.0f):
+                    double mru_ratio = 0.01f, double delta_bound = 5.0f):
         CacheManager(buffer_size),
         replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
         replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),

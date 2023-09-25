@@ -9,6 +9,8 @@
 #include "managers/cache_manager.h"
 #include "data_structures/multi_lru.h"
 
+//#define LAST_TIER_RATIO 4
+
 class RGC2Replacer {
     struct RGCEntry {
         RGCEntry() = default;
@@ -26,15 +28,20 @@ class RGC2Replacer {
     };
 public:
     RGC2Replacer(int32_t size, double init_half,
-                 double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio, double mru_ratio):
+                 double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio, double mru_ratio,
+                 int32_t tiers):
             size_(size), init_half_(init_half), hit_points_(hit_points),
             max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio),
-            mru_ratio_(mru_ratio)
+            mru_ratio_(mru_ratio), tiers_(tiers)
     {
         cur_half_ = init_half_;
         max_points_ = (1 << max_points_bits_) - 1;
         ghost_size_ = size_ * ghost_size_ratio;
-        for (int p = 0; p < 3; p++) {
+        min_level_non_empty_ = new int32_t [tiers_];
+        min_level_non_empty_ghost_ = new int32_t [tiers_];
+        real_lru_ = new std::vector<std::list<Key>>[tiers_];
+        ghost_lru_ = new std::vector<std::list<Key>>[tiers_];
+        for (int p = 0; p < tiers_; p++) {
             min_level_non_empty_[p] = max_points_;
             min_level_non_empty_ghost_[p] = max_points_;
             real_lru_[p].resize(max_points_);
@@ -55,9 +62,6 @@ public:
             if (real_map_.size() == size_) {
                 Evict();
             }
-//            else {
-//                inserted_level = max_points_;
-//            }
             if (ghost_map_.count(key) != 0) {
                 // use level in ghost
                 std::list<Key>::iterator hit_iter = ghost_map_[key].key_iter;
@@ -69,27 +73,23 @@ public:
                 while (ghost_lru_[p][min_level_non_empty_ghost_[p]].empty() && min_level_non_empty_ghost_[p] <= max_points_) {
                     min_level_non_empty_ghost_[p]++;
                 }
-//                inserted_level += level * 2;
                 inserted_level += level;
             }
         } else {
             // hit
             interval_hit_count_++;
             if (!real_map_[key].h_recency) {
-                h1++;
                 std::list<Key>::iterator hit_iter = real_map_[key].key_iter;
                 int level = GetCurrentLevel(real_map_[key]); // real_map_[key].second;
-                int p = GetCurrentPart(ghost_map_[key]);
+                int p = GetCurrentPart(real_map_[key]);
                 // erase key in real, use level in real
                 real_lru_[p][level].erase(hit_iter);
                 real_map_.erase(key);
-                //            inserted_level += level * 2;
                 inserted_level += level;
                 while(real_lru_[p][min_level_non_empty_[p]].empty()) {
                     min_level_non_empty_[p]++;
                 }
             } else {
-                h2++;
                 inserted_level += real_map_[key].insert_level;
                 top_lru_.erase(real_map_[key].key_iter);
                 real_map_.erase(key);
@@ -129,12 +129,12 @@ public:
         int evict_level;
         int mx_ts = 0, sum = 0;
         int sp = -1;
-//        if (min_level_non_empty_ <= hit_points_) {
-//        evict_level = min_level_non_empty_;
-//        evict_key = real_lru_[min_level_non_empty_].front();
-//        sum = real_lru_[min_level_non_empty_].size();
-        for (int i = std::min(std::min(min_level_non_empty_[0], min_level_non_empty_[1]), min_level_non_empty_[2]); i < max_points_; i++) {
-            for (int p = 0; p >= 0; p--) {
+        int min_level = INT32_MAX;
+        for (int p = 0; p < tiers_; p++) {
+            min_level = std::min(min_level, min_level_non_empty_[p]);
+        }
+        for (int i = min_level; i < max_points_; i++) {
+            for (int p = tiers_ - 1; p >= 0; p--) {
                 if (real_lru_[p][i].empty()) {
                     continue;
                 }
@@ -142,6 +142,7 @@ public:
                 if (real_map_[real_lru_[p][i].front()].insert_ts > mx_ts) {
                     mx_ts = real_map_[real_lru_[p][i].front()].insert_ts;
                     evict_key = real_lru_[p][i].front();
+//                    assert(evict_key != 0);
                     evict_level = i;
                     sp = p;
                 }
@@ -149,6 +150,9 @@ public:
                 if (sum > mru_ratio_ * size_) {
                     break;
                 }
+            }
+            if (sum > mru_ratio_ * size_) {
+                break;
             }
         }
         real_lru_[sp][evict_level].pop_front();
@@ -163,14 +167,44 @@ public:
         if (ghost_size_ != 0 && evict_level != 0) {
             // evict ghost
             if (ghost_map_.size() >= ghost_size_) {
-                Key evict_key = ghost_lru_[sp][min_level_non_empty_ghost_[sp]].back();
-                ghost_lru_[sp][min_level_non_empty_ghost_[sp]].pop_back();
-                ghost_map_.erase(evict_key);
-                while (ghost_lru_[sp][min_level_non_empty_ghost_[sp]].empty() && min_level_non_empty_ghost_[sp] < max_points_ + 1) {
-                    min_level_non_empty_ghost_[sp]++;
+
+                Key g_evict_key;
+                int g_evict_level;
+                int g_mx_ts = 0, g_sum = 0;
+                int g_sp = 0;
+                int g_min_level = INT32_MAX;
+                for (int p = 0; p < tiers_; p++) {
+                    g_min_level = std::min(g_min_level, min_level_non_empty_ghost_[p]);
+                }
+
+                for (int i = g_min_level ; i < max_points_; i++) {
+                    for (int p = tiers_ - 1; p >= 0; p--) {
+                        if (ghost_lru_[p][i].empty()) {
+                            continue;
+                        }
+                        // MRU
+                        if (ghost_map_[ghost_lru_[p][i].front()].insert_ts > g_mx_ts) {
+                            g_mx_ts = ghost_map_[ghost_lru_[p][i].front()].insert_ts;
+                            g_evict_key = ghost_lru_[p][i].front();
+//                            assert(g_evict_key != 0);
+                            g_evict_level = i;
+                            g_sp = p;
+                        }
+                        g_sum += ghost_lru_[p][i].size();
+                        if (g_sum > mru_ratio_ * size_) {
+                            break;
+                        }
+                    }
+                    if (g_sum > mru_ratio_ * size_) {
+                        break;
+                    }
+                }
+                ghost_lru_[g_sp][g_evict_level].pop_front();
+                ghost_map_.erase(g_evict_key);
+                while (ghost_lru_[g_sp][min_level_non_empty_ghost_[g_sp]].empty() && min_level_non_empty_ghost_[g_sp] < max_points_ + 1) {
+                    min_level_non_empty_ghost_[g_sp]++;
                 }
             }
-            // min_level_non_empty_ == evict_key's level
             ghost_lru_[sp][evict_level].push_front(evict_key);
             ghost_map_[evict_key] = RGCEntry(ghost_lru_[sp][evict_level].begin(), inserted_lv, inserted_ts, 0);
             if (min_level_non_empty_ghost_[sp] > evict_level) {
@@ -182,22 +216,22 @@ public:
         }
     }
     void Rolling() {
-        for (int p = 0; p >= 0; p--) {
-//            int t = p == 2 ? p + 1 : p;
-            int t = p;
-            int r = p == 2 ? 2 : 2;
+        int min_level = max_points_;
+        for (int p = 0; p < tiers_; p++) {
+            min_level = std::min(min_level, min_level_non_empty_[p]);
+        }
+        for (int p = tiers_ - 1; p >= 0; p--) {
+            int t = p == tiers_ - 1 ? p : p + 1;
+//            int r = p == tiers_ - 1 ? LAST_TIER_RATIO : 2;
+            int r = 1 << p;
             for (int i = 1; i < max_points_; i++) {
                 if (!real_lru_[p][i].empty()) {
                     real_lru_[t][i / r].splice(real_lru_[t][i / r].end(), real_lru_[p][i]);
-                    if (!real_lru_[t][i / r].empty()) {
-                        min_level_non_empty_[t]  = std::min(min_level_non_empty_[t], i / r);
-                    }
+                    min_level_non_empty_[t]  = std::min(min_level_non_empty_[t], i / r);
                 }
                 if (!ghost_lru_[p][i].empty()) {
                     ghost_lru_[t][i / r].splice(ghost_lru_[t][i / r].end(), ghost_lru_[p][i]);
-                    if (!ghost_lru_[t][i / r].empty()) {
-                        min_level_non_empty_ghost_[t] = std::min(min_level_non_empty_ghost_[t], i / r);
-                    }
+                    min_level_non_empty_ghost_[t] = std::min(min_level_non_empty_ghost_[t], i / r);
                 }
             }
         }
@@ -206,20 +240,6 @@ public:
         if (rolling_ts.size() > max_points_bits_) {
             rolling_ts.pop_front();
         }
-//
-//            for (int i = 1; i < max_points_; i++) {
-//                if (!real_lru_[i].empty()) {
-//                    lr_real_lru_[i / 2].splice(lr_real_lru_[i / 2].end(), real_lru_[i]);
-//                    if (!lr_real_lru_[i / 2].empty()) {
-//                        lr_min_level_non_empty_ = std::min(lr_min_level_non_empty_, i / 2);
-//                    }
-//                }
-//                lr_ghost_lru_[i / 2].splice(lr_ghost_lru_[i / 2].end(), ghost_lru_[i]);
-//                if (!lr_ghost_lru_[i / 2].empty()) {
-//                    lr_min_level_non_empty_ghost_ = std::min(lr_min_level_non_empty_ghost_, i / 2);
-//                }
-//            }
-
     }
     void UpdateHalf(double cur_half) {
         cur_half_ = cur_half;
@@ -250,23 +270,28 @@ private:
             return est_level;
         }
         auto iter = rolling_ts.begin();
+        int pos = 0;
         for (int i = 0; i < rolling_ts.size(); i++) {
             if (status.insert_ts < *iter) {
-                int times = rolling_ts.size() - i;
-                est_level >>= times;
-//                if (times <= 2) {
+                est_level >>= pos;
+                pos++;
+                if (!est_level) {
+                    break;
+                }
+//                int times = rolling_ts.size() - i;
+//                est_level >>= times;
+//                if (times <= tiers_ - 1) {
 //                    est_level >>= times;
 //                } else {
-//                    est_level >>= 2 + (times - 2) * 2;
+//                    est_level >>= (tiers_ - 1) + (times - (tiers_ - 1)) * (LAST_TIER_RATIO  == 2 ? 1 : 2);
 //                }
-                break;
+//                break;
             }
             iter++;
         }
         return est_level;
     }
     int32_t GetCurrentPart(const RGCEntry &status) {
-        return 0;
         int32_t est_level = 0;
         if (rolling_ts.empty()) {
             return est_level;
@@ -274,13 +299,13 @@ private:
         auto iter = rolling_ts.begin();
         for (int i = 0; i < rolling_ts.size(); i++) {
             if (status.insert_ts < *iter) {
-                est_level += rolling_ts.size() - i;
+                est_level = rolling_ts.size() - i;
                 break;
             }
             iter++;
         }
-        if (est_level >= 3) {
-            est_level = 2;
+        if (est_level >= tiers_) {
+            est_level = tiers_ - 1;
         }
         return est_level;
     }
@@ -303,9 +328,10 @@ private:
     int32_t next_rolling_ts_ = INT32_MAX; // 下一次滚动的时间戳
     int32_t cur_ts_ = 0; // 当前时间戳
 
-    std::vector<std::list<Key> > real_lru_[3], ghost_lru_[3];
-    int32_t min_level_non_empty_[3]; // 当前最小的得分
-    int32_t min_level_non_empty_ghost_[3]; // 虚缓存当前最小的得分
+    int32_t tiers_;
+    std::vector<std::list<Key> > *real_lru_, *ghost_lru_;
+    int32_t *min_level_non_empty_; // 当前最小的得分
+    int32_t *min_level_non_empty_ghost_; // 虚缓存当前最小的得分
 
 //    std::vector<std::list<Key> > lr_real_lru_, lr_ghost_lru_;
 //    int32_t lr_min_level_non_empty_; // 当前最小的得分
@@ -322,10 +348,10 @@ public:
     RGC2CacheManager(int32_t buffer_size, double init_half = 20.0f,
                      double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
                      double lambda = 1.0f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f,
-                     double mru_ratio = 0.01f, double delta_bound = 1.0f):
+                     double mru_ratio = 0.01f, double delta_bound = 10000.0f):
             CacheManager(buffer_size),
-            replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
-            replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio),
+            replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, 3),
+            replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, 3),
             lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio), delta_bound_(delta_bound) {
     }
     RC get(const Key &key) override;

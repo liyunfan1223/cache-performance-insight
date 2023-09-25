@@ -7,45 +7,52 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
-    #MSR
-    'msr_proj_0_1d',
-    'msr_wdev_0_1d',
-    'msr_prxy_0_1d',
-    'msr_stg_0_1d',
-    'msr_mds_0_1d',
-    'msr_web_0_1d',
-    # 'msr_proj_1_1d', # TOO LARGE?
-    # 'msr_usr_1_1d', # TOO LARGE
-    'msr_hm_0_1d',
-    # FIU
+    # 'msr_prxy_0_1d',
+
     'Home4',
-    'Home1',
-    'Home2',
-    'websearch',
-    'webusers',
 
-    'readrandom_5',
-    'readrandom_6',
-    'readrandom_7',
-    # 'readseq_3',
-    'randseq_1',
-    'OLTP',
-    'P1',
-    'P2',
-    'P3',
-    'P4',
-    'P5',
-    'P6',
-    'P7',
-    'P12',
-    'DS1',
-    # 'msr_usr_1_sample',
-
-    # 'Rocks4',
-    # 'Rocks5',
-    # 'Rocks6',
-    # 'Rocks7',
-    # 'Rocks8',
+    # 'Home1',
+    # 'Home2',
+    # 'Home3',
+    #
+    # "webmail",
+    # 'websearch',
+    # 'webusers',
+    #
+    # 'OLTP',
+    # 'P1',
+    # 'P2',
+    # 'P3',
+    # 'P4',
+    # 'P5',
+    # 'P6',
+    # 'P7',
+    # 'P12',
+    # 'DS1',
+    # #MSR
+    # 'msr_proj_0_1d',
+    # 'msr_wdev_0_1d',
+    # 'msr_stg_0_1d',
+    # 'msr_mds_0_1d',
+    # 'msr_web_0_1d',
+    # # 'msr_proj_1_1d', # TOO LARGE?
+    # # 'msr_usr_1_1d', # TOO LARGE
+    # 'msr_hm_0_1d',
+    # # FIU
+    #
+    # 'readrandom_5',
+    # 'readrandom_6',
+    # 'readrandom_7',
+    # # 'readseq_3',
+    # 'randseq_1',
+    #
+    # # 'msr_usr_1_sample',
+    #
+    # # 'Rocks4',
+    # # 'Rocks5',
+    # # 'Rocks6',
+    # # 'Rocks7',
+    # # 'Rocks8',
 
 ]
 BUFFER_LIST_FOR_TRACES = {

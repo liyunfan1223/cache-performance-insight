@@ -45,7 +45,7 @@ struct lirs_node {
 
 class LIRSCacheManager: public CacheManager {
 public:
-    LIRSCacheManager(int32_t buffer_size) : CacheManager(buffer_size), cache_size_(buffer_size), used_size_(0) {
+    LIRSCacheManager(int32_t buffer_size, double limit_ratio = 100.0f) : CacheManager(buffer_size), cache_size_(buffer_size), used_size_(0), limit_ratio_(limit_ratio) {
         q_size_ = std::max(1, (int)(0.01 * buffer_size));
 //        q_size_ = 1;
         s_size_ = buffer_size - q_size_;
@@ -223,6 +223,18 @@ private:
         if (toS) {
             s_.push_front(p);
             p->s = s_.begin();
+
+            if (s_.size() >= limit_ratio_ * s_size_) {
+                for (auto riter = s_.rbegin(); riter != s_.rend(); riter++) {
+                    auto item = *riter;
+                    if (item->type == NHIR) {
+                        s_.erase(std::next(riter).base());
+                        map_.erase(item->key);
+//                        delete item;
+                        break;
+                    }
+                }
+            }
         } else {
             q_.push_front(p);
             p->q = q_.begin();
@@ -257,7 +269,7 @@ private:
     long long cache_size_, used_size_;
     long long s_size_;
     long long q_size_;
-
+    double limit_ratio_;
 //    statistic sta_;
 };
 

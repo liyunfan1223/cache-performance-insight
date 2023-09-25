@@ -310,7 +310,7 @@ int main(int argc, char **argv) {
                                          std::make_shared<LIRSCacheManager>(buffer_size));
             } else {
                 UnittestUtils::make_test(trace_file,
-                                         std::make_shared<LIRSCacheManager>(buffer_size));
+                                         std::make_shared<LIRSCacheManager>(buffer_size, std::stof(param_0)));
             }
             break;
         case CachePolicy::RGC:

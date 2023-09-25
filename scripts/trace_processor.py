@@ -12,9 +12,10 @@ WRITE_TRACE_PATH = './traces/Home4.lis'
 
 def process_blkparse(trace_file_list, write_trace_path):
     access = []
-    for raw_trace_file in TRACE_FILE_LIST:
+    for raw_trace_file in trace_file_list:
         raw_trace_path = RAW_TRACE_FOLDER + raw_trace_file
         if not os.path.exists(raw_trace_path):
+            print(f"{raw_trace_path} not found, skip.")
             continue
         f = open(raw_trace_path, 'r')
         for lines in f.readlines():
@@ -22,7 +23,7 @@ def process_blkparse(trace_file_list, write_trace_path):
             # print(offset, size)
             access.append((int(offset) // 8, int(size) // 8))
         f.close()
-    fw = open(WRITE_TRACE_PATH, 'w')
+    fw = open(write_trace_path, 'w')
     print(len(access))
     last = -1
     last_len = 0
@@ -124,6 +125,34 @@ def process_msr(input=None, output=None, block=512):
     print(idx)
     processed.close()
 
+def process_fiu(input=None, output=None):
+    raw = open(input)
+    processed = open(output, 'w')
+    access = []
+    for idx, line in enumerate(raw.readlines()):
+        ts, host, disk_number, type, offset, size, response_time = line.split(',')
+        access.append((int(offset) // block, int(size) // block))
+        # processed.write(f'{int(offset) // block} {int(size) // block} 0 {idx}\n')
+    raw.close()
+    print(len(access))
+    last = -1
+    last_len = 0
+    idx = 0
+    for order, size in access:
+        if order != last + last_len:
+            if last != -1:
+                processed.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+            idx += 1
+            last_len = 0
+            last = order
+        # last = order
+        last_len += size
+    if last_len != 0:
+        processed.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+        idx += 1
+    print(idx)
+    processed.close()
+
 if __name__ == "__main__":
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
@@ -136,4 +165,9 @@ if __name__ == "__main__":
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESSTGA01-lvm0.csv', OUTPUT_FOLDER + 'msr_stg_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_proj_1.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_usr_1.lis', 4096)
-    process_msr(RAW_TRACE_FOLDER + 'CAMWEBDEV-lvm0.csv', OUTPUT_FOLDER + 'wdev_0.lis', 4096)
+    # process_msr(RAW_TRACE_FOLDER + 'CAMWEBDEV-lvm0.csv', OUTPUT_FOLDER + 'wdev_0.lis', 4096)
+    # process_blkparse([f"webmail.cs.fiu.edu-110108-113008.{i}.blkparse" for i in range(1, 20 + 1)], './traces/webmail.lis')
+    # process_blkparse([f"casa-110108-112108.{i}.blkparse" for i in range(1, 21 + 1)], './traces/Home1.lis')
+    # process_blkparse([f"madmax-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home3.lis')
+    process_blkparse([f"topgun-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home4.lis')
+
