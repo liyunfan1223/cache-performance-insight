@@ -34,7 +34,7 @@ struct lirs_node {
     lirs_type type;
     lirs_iterator s;
     lirs_iterator q;
-
+    lirs_iterator hirs;
     lirs_node(long long _key, long long _value, lirs_iterator ends, lirs_iterator endq)
             : key(_key), value(_value), s(ends), q(endq), type(LIR) {}
     lirs_node(long long _key, long long _value, lirs_iterator ends, lirs_iterator endq, lirs_type _type)
@@ -112,6 +112,8 @@ public:
         if (used_size_ > s_size_) {
             //if (s_.size() > s_size_) {
             p->type = HIR;
+            hirs_.push_front(p);
+            p->hirs = hirs_.begin();
             Push(p, false);
         }
 
@@ -137,15 +139,21 @@ public:
             if (p->s != s_.end()) {
                 p->type = LIR;
 
+
                 MoveTop(p);
                 Pop(p, false);
                 Bottom();
+
+                hirs_.erase(p->hirs);
+                p->hirs = hirs_.end();
             } else {
                 Push(p, true);
                 MoveTop(p, false);
+
+                hirs_.push_front(p);
+                p->hirs = hirs_.begin();
             }
         }
-//            }
         else {
             increase_miss_count();
             c_hir_ns++;
@@ -157,11 +165,17 @@ public:
                 p->type = LIR;
                 MoveTop(p);
                 Bottom();
+
+                hirs_.erase(p->hirs);
+                p->hirs = hirs_.end();
             } else {
                 assert(p->q == q_.end());
                 p->type = HIR;
                 Push(p, true);
                 Push(p, false);
+
+                hirs_.push_front(p);
+                p->hirs = hirs_.begin();
             }
         }
         Pruning();
@@ -182,6 +196,10 @@ public:
     void Pruning() {
         while (!s_.empty() && NEED_PRUNING(s_.back())) {
             s_.back()->s = s_.end();
+
+            hirs_.erase(s_.back()->hirs);
+            s_.back()->hirs = hirs_.end();
+
             s_.pop_back();
         }
     }
@@ -211,6 +229,10 @@ private:
     void Bottom() {
         auto bottom = s_.back();
         if (bottom->type == LIR) {
+
+            hirs_.push_front(bottom);
+            bottom->hirs = hirs_.begin();
+
             bottom->type = HIR;
             if (bottom->q != q_.end()) {
                 Pop(bottom, false);
@@ -225,16 +247,24 @@ private:
             p->s = s_.begin();
 
             if (s_.size() >= limit_ratio_ * s_size_) {
-                for (auto riter = s_.rbegin(); riter != s_.rend(); riter++) {
-                    auto item = *riter;
-                    if (item->type == NHIR) {
-                        s_.erase(std::next(riter).base());
-                        map_.erase(item->key);
-//                        delete item;
-                        break;
-                    }
+                lirs_node* node = hirs_.back();
+                if (node->type == NHIR) {
+                    s_.erase(node->s);
+                    hirs_.erase(node->hirs);
+                    map_.erase(node->key);
+                    delete node;
                 }
             }
+//                for (auto riter = s_.rbegin(); riter != s_.rend(); riter++) {
+//                    auto item = *riter;
+//                    if (item->type == NHIR) {
+//                        s_.erase(std::next(riter).base());
+//                        map_.erase(item->key);
+////                        delete item;
+//                        break;
+//                    }
+//                }
+//            }
         } else {
             q_.push_front(p);
             p->q = q_.begin();
@@ -264,6 +294,7 @@ private:
 
     // front -- top  back  -- bottom
     std::list<lirs_node*> s_, q_;
+    std::list<lirs_node*> hirs_;
     std::map<long long, lirs_node*> map_;
 
     long long cache_size_, used_size_;

@@ -57,6 +57,12 @@ if __name__ == '__main__':
         ax.plot(BUFFER_SIZE_LIST, lirs_result, label='LIRS', marker='+', linestyle='dashed')
         stats.statistic(lru_result, lirs_result, "LIRS")
 
+        params_list = [2]
+        lirs2_runner = MultiTestRunner(['LIRS'], BUFFER_SIZE_LIST, trace_file, params_list)
+        lirs2_result = lirs2_runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, lirs2_result, label=f'LIRS-{params_list}', marker='+', linestyle='dashed')
+        stats.statistic(lru_result, lirs2_result, "LIRS2")
+
         # params_list = [20000, 5, 0.1, 5, -1, 1, 1]
         # runner = MultiTestRunner(['ALRFU5'], BUFFER_SIZE_LIST, trace_file, params_list)
         # alrfu_result = runner.get_hit_rate_list()

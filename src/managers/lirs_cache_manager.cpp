@@ -39,6 +39,9 @@ RC LIRSCacheManager::get(const Key &key) {
         //if (s_.size() > s_size_) {
         p->type = HIR;
         Push(p, false);
+
+        hirs_.push_front(p);
+        p->hirs = hirs_.begin();
     }
     return RC::SUCCESS;
 }
