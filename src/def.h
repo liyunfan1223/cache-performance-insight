@@ -62,6 +62,7 @@ enum class CachePolicy {
     GLRFU4,
     LIRS,
     RGC,
+    RGC2,
     UNKNOWN,
 };
 

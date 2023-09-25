@@ -1,7 +1,7 @@
 //
 // Created by MorphLing on 2023/1/4.
 //
-#define LOG
+//#define LOG
 #include "stw2_cache_manager.h"
 
 RC STW2CacheManager::get(const Key &key)

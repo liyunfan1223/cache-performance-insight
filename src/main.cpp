@@ -32,6 +32,7 @@
 #include "managers/glrfu4_cache_manager.h"
 #include "managers/lirs_cache_manager.h"
 #include "managers/rgc_cache_manager.h"
+#include "managers/rgc2_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -58,6 +59,7 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"GLRFU4", CachePolicy::GLRFU4},
         {"LIRS", CachePolicy::LIRS},
         {"RGC", CachePolicy::RGC},
+        {"RGC2", CachePolicy::RGC2},
 };
 
 void usage() {
@@ -328,6 +330,25 @@ int main(int argc, char **argv) {
                                                                                            std::stof(param_7),
                                                                                            std::stof(param_8),
                                                                                            std::stof(param_9)));
+            }
+            break;
+        case CachePolicy::RGC2:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<RGC2CacheManager>(buffer_size));
+            }else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<RGC2CacheManager>(buffer_size,
+                                                                           std::stof(param_0),
+                                                                           std::stof(param_1),
+                                                                           std::stof(param_2),
+                                                                           std::stof(param_3),
+                                                                           std::stof(param_4),
+                                                                           std::stof(param_5),
+                                                                           std::stof(param_6),
+                                                                           std::stof(param_7),
+                                                                           std::stof(param_8),
+                                                                           std::stof(param_9)));
             }
             break;
         default:

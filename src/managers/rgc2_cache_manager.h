@@ -34,10 +34,12 @@ public:
         cur_half_ = init_half_;
         max_points_ = (1 << max_points_bits_) - 1;
         ghost_size_ = size_ * ghost_size_ratio;
-        min_level_non_empty_ = max_points_;
-        min_level_non_empty_ghost_ = max_points_;
-        real_lru_.resize(max_points_);
-        ghost_lru_.resize(max_points_);
+        for (int p = 0; p < 3; p++) {
+            min_level_non_empty_[p] = max_points_;
+            min_level_non_empty_ghost_[p] = max_points_;
+            real_lru_[p].resize(max_points_);
+            ghost_lru_[p].resize(max_points_);
+        }
         UpdateHalf(init_half_);
         lru_size_ = std::max(1, (int)(top_ratio_ * size));
         rgc_size_ = size_ - lru_size_;
@@ -60,11 +62,12 @@ public:
                 // use level in ghost
                 std::list<Key>::iterator hit_iter = ghost_map_[key].key_iter;
                 int level = GetCurrentLevel(ghost_map_[key]);
+                int p = GetCurrentPart(ghost_map_[key]);
                 // erase key in ghost
-                ghost_lru_[level].erase(hit_iter);
+                ghost_lru_[p][level].erase(hit_iter);
                 ghost_map_.erase(key);
-                while (ghost_lru_[min_level_non_empty_ghost_].empty() && min_level_non_empty_ghost_ <= max_points_) {
-                    min_level_non_empty_ghost_++;
+                while (ghost_lru_[p][min_level_non_empty_ghost_[p]].empty() && min_level_non_empty_ghost_[p] <= max_points_) {
+                    min_level_non_empty_ghost_[p]++;
                 }
 //                inserted_level += level * 2;
                 inserted_level += level;
@@ -76,13 +79,14 @@ public:
                 h1++;
                 std::list<Key>::iterator hit_iter = real_map_[key].key_iter;
                 int level = GetCurrentLevel(real_map_[key]); // real_map_[key].second;
+                int p = GetCurrentPart(ghost_map_[key]);
                 // erase key in real, use level in real
-                real_lru_[level].erase(hit_iter);
+                real_lru_[p][level].erase(hit_iter);
                 real_map_.erase(key);
                 //            inserted_level += level * 2;
                 inserted_level += level;
-                while(real_lru_[min_level_non_empty_].empty()) {
-                    min_level_non_empty_++;
+                while(real_lru_[p][min_level_non_empty_[p]].empty()) {
+                    min_level_non_empty_[p]++;
                 }
             } else {
                 h2++;
@@ -96,10 +100,10 @@ public:
         if (top_lru_.size() >= lru_size_) {
             Key key = top_lru_.back();
             int lvl = real_map_[key].insert_level;
-            real_lru_[lvl].push_front(key);
-            real_map_[key] = RGCEntry(real_lru_[lvl].begin(), lvl, cur_ts_, 0);
-            if (lvl < min_level_non_empty_) {
-                min_level_non_empty_ = lvl;
+            real_lru_[0][lvl].push_front(key);
+            real_map_[key] = RGCEntry(real_lru_[0][lvl].begin(), lvl, cur_ts_, 0);
+            if (lvl < min_level_non_empty_[0]) {
+                min_level_non_empty_[0] = lvl;
             }
             top_lru_.pop_back();
         }
@@ -124,64 +128,77 @@ public:
         Key evict_key;
         int evict_level;
         int mx_ts = 0, sum = 0;
+        int sp = -1;
 //        if (min_level_non_empty_ <= hit_points_) {
 //        evict_level = min_level_non_empty_;
 //        evict_key = real_lru_[min_level_non_empty_].front();
 //        sum = real_lru_[min_level_non_empty_].size();
-        for (int i = min_level_non_empty_; i < max_points_; i++) {
-            if (real_lru_[i].empty()) {
-                continue;
-            }
-            // MRU
-            if (real_map_[real_lru_[i].front()].insert_ts > mx_ts) {
-                mx_ts = real_map_[real_lru_[i].front()].insert_ts;
-                evict_key = real_lru_[i].front();
-                evict_level = i;
-            }
-            sum += real_lru_[i].size();
-            if (sum > mru_ratio_ * size_) {
-                break;
+        for (int i = std::min(std::min(min_level_non_empty_[0], min_level_non_empty_[1]), min_level_non_empty_[2]); i < max_points_; i++) {
+            for (int p = 0; p >= 0; p--) {
+                if (real_lru_[p][i].empty()) {
+                    continue;
+                }
+                // MRU
+                if (real_map_[real_lru_[p][i].front()].insert_ts > mx_ts) {
+                    mx_ts = real_map_[real_lru_[p][i].front()].insert_ts;
+                    evict_key = real_lru_[p][i].front();
+                    evict_level = i;
+                    sp = p;
+                }
+                sum += real_lru_[p][i].size();
+                if (sum > mru_ratio_ * size_) {
+                    break;
+                }
             }
         }
-        real_lru_[evict_level].pop_front();
+        real_lru_[sp][evict_level].pop_front();
 //        } else {
 //            evict_key = real_lru_[min_level_non_empty_].back();
 //            real_lru_[min_level_non_empty_].pop_back();
 //        }
+        int inserted_lv = real_map_[evict_key].insert_level;
+        int inserted_ts = real_map_[evict_key].insert_ts;
         real_map_.erase(evict_key);
         // move to ghost
         if (ghost_size_ != 0 && evict_level != 0) {
             // evict ghost
             if (ghost_map_.size() >= ghost_size_) {
-                Key evict_key = ghost_lru_[min_level_non_empty_ghost_].back();
-                ghost_lru_[min_level_non_empty_ghost_].pop_back();
+                Key evict_key = ghost_lru_[sp][min_level_non_empty_ghost_[sp]].back();
+                ghost_lru_[sp][min_level_non_empty_ghost_[sp]].pop_back();
                 ghost_map_.erase(evict_key);
-                while (ghost_lru_[min_level_non_empty_ghost_].empty() && min_level_non_empty_ghost_ < max_points_ + 1) {
-                    min_level_non_empty_ghost_++;
+                while (ghost_lru_[sp][min_level_non_empty_ghost_[sp]].empty() && min_level_non_empty_ghost_[sp] < max_points_ + 1) {
+                    min_level_non_empty_ghost_[sp]++;
                 }
             }
             // min_level_non_empty_ == evict_key's level
-            ghost_lru_[evict_level].push_front(evict_key);
-            ghost_map_[evict_key] = RGCEntry(ghost_lru_[evict_level].begin(), evict_level, cur_ts_, 0);
-            if (min_level_non_empty_ghost_ > evict_level) {
-                min_level_non_empty_ghost_ = evict_level;
+            ghost_lru_[sp][evict_level].push_front(evict_key);
+            ghost_map_[evict_key] = RGCEntry(ghost_lru_[sp][evict_level].begin(), inserted_lv, inserted_ts, 0);
+            if (min_level_non_empty_ghost_[sp] > evict_level) {
+                min_level_non_empty_ghost_[sp] = evict_level;
             }
         }
-        while (real_lru_[min_level_non_empty_].empty()) {
-            min_level_non_empty_++;
+        while (real_lru_[sp][min_level_non_empty_[sp]].empty()) {
+            min_level_non_empty_[sp]++;
         }
     }
     void Rolling() {
-        for (int i = 1; i < max_points_; i++) {
-            if (!real_lru_[i].empty()) {
-                real_lru_[i / 2].splice(real_lru_[i / 2].end(), real_lru_[i]);
-                if (!real_lru_[i / 2].empty()) {
-                    min_level_non_empty_ = std::min(min_level_non_empty_, i / 2);
+        for (int p = 0; p >= 0; p--) {
+//            int t = p == 2 ? p + 1 : p;
+            int t = p;
+            int r = p == 2 ? 2 : 2;
+            for (int i = 1; i < max_points_; i++) {
+                if (!real_lru_[p][i].empty()) {
+                    real_lru_[t][i / r].splice(real_lru_[t][i / r].end(), real_lru_[p][i]);
+                    if (!real_lru_[t][i / r].empty()) {
+                        min_level_non_empty_[t]  = std::min(min_level_non_empty_[t], i / r);
+                    }
                 }
-            }
-            ghost_lru_[i / 2].splice(ghost_lru_[i / 2].end(), ghost_lru_[i]);
-            if (!ghost_lru_[i / 2].empty()) {
-                min_level_non_empty_ghost_ = std::min(min_level_non_empty_ghost_, i / 2);
+                if (!ghost_lru_[p][i].empty()) {
+                    ghost_lru_[t][i / r].splice(ghost_lru_[t][i / r].end(), ghost_lru_[p][i]);
+                    if (!ghost_lru_[t][i / r].empty()) {
+                        min_level_non_empty_ghost_[t] = std::min(min_level_non_empty_ghost_[t], i / r);
+                    }
+                }
             }
         }
         next_rolling_ts_ = cur_ts_ + cur_half_ * size_;
@@ -189,6 +206,20 @@ public:
         if (rolling_ts.size() > max_points_bits_) {
             rolling_ts.pop_front();
         }
+//
+//            for (int i = 1; i < max_points_; i++) {
+//                if (!real_lru_[i].empty()) {
+//                    lr_real_lru_[i / 2].splice(lr_real_lru_[i / 2].end(), real_lru_[i]);
+//                    if (!lr_real_lru_[i / 2].empty()) {
+//                        lr_min_level_non_empty_ = std::min(lr_min_level_non_empty_, i / 2);
+//                    }
+//                }
+//                lr_ghost_lru_[i / 2].splice(lr_ghost_lru_[i / 2].end(), ghost_lru_[i]);
+//                if (!lr_ghost_lru_[i / 2].empty()) {
+//                    lr_min_level_non_empty_ghost_ = std::min(lr_min_level_non_empty_ghost_, i / 2);
+//                }
+//            }
+
     }
     void UpdateHalf(double cur_half) {
         cur_half_ = cur_half;
@@ -221,10 +252,35 @@ private:
         auto iter = rolling_ts.begin();
         for (int i = 0; i < rolling_ts.size(); i++) {
             if (status.insert_ts < *iter) {
-                est_level >>= rolling_ts.size() - i;
+                int times = rolling_ts.size() - i;
+                est_level >>= times;
+//                if (times <= 2) {
+//                    est_level >>= times;
+//                } else {
+//                    est_level >>= 2 + (times - 2) * 2;
+//                }
                 break;
             }
             iter++;
+        }
+        return est_level;
+    }
+    int32_t GetCurrentPart(const RGCEntry &status) {
+        return 0;
+        int32_t est_level = 0;
+        if (rolling_ts.empty()) {
+            return est_level;
+        }
+        auto iter = rolling_ts.begin();
+        for (int i = 0; i < rolling_ts.size(); i++) {
+            if (status.insert_ts < *iter) {
+                est_level += rolling_ts.size() - i;
+                break;
+            }
+            iter++;
+        }
+        if (est_level >= 3) {
+            est_level = 2;
         }
         return est_level;
     }
@@ -239,8 +295,6 @@ private:
     double hit_points_; // 命中后得分
     int32_t max_points_bits_; // 最高得分为 (1 << max_points_bits_) - 1
     int32_t max_points_; // 最高得分
-    int32_t min_level_non_empty_; // 当前最小的得分
-    int32_t min_level_non_empty_ghost_; // 虚缓存当前最小的得分
     double ghost_size_ratio_; // 虚缓存大小比例
     int32_t ghost_size_;
     int32_t interval_hit_count_ = 0; // 统计区间命中次数
@@ -248,7 +302,15 @@ private:
     int32_t interval_hit_top_ = 0; // 在top上命中次数
     int32_t next_rolling_ts_ = INT32_MAX; // 下一次滚动的时间戳
     int32_t cur_ts_ = 0; // 当前时间戳
-    std::vector<std::list<Key> > real_lru_, ghost_lru_;
+
+    std::vector<std::list<Key> > real_lru_[3], ghost_lru_[3];
+    int32_t min_level_non_empty_[3]; // 当前最小的得分
+    int32_t min_level_non_empty_ghost_[3]; // 虚缓存当前最小的得分
+
+//    std::vector<std::list<Key> > lr_real_lru_, lr_ghost_lru_;
+//    int32_t lr_min_level_non_empty_; // 当前最小的得分
+//    int32_t lr_min_level_non_empty_ghost_; // 虚缓存当前最小的得分
+
     std::list<Key> top_lru_;
     std::unordered_map<Key, RGCEntry> real_map_, ghost_map_;
     std::list<int32_t> rolling_ts;
