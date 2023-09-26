@@ -20,6 +20,7 @@ RC RGC2CacheManager::get(const Key &key) {
         double r_hr = (double) r_hc / (r_mc + r_hc);
         double s_hr = (double) s_hc / (s_mc + s_hc);
         double cur_half = replacer_r_.GetCurHalf();
+        double ghost_ratio = replacer_r_.GetCurGhostRatio();
         if (r_hr != 0 && s_hr != 0) {
             if (fabs(s_hr - r_hr) >= EPSILON) {
                 stable_count_ = 0;
@@ -29,28 +30,33 @@ RC RGC2CacheManager::get(const Key &key) {
                         delta_ratio = delta_bound_;
                     }
                     replacer_r_.UpdateHalf(cur_half / (1 + delta_ratio * lambda_));
+                    replacer_r_.UpdateGhostRatio(ghost_ratio / (1 + delta_ratio * 0.5));
                 } else {
                     double delta_ratio = (r_hr / s_hr - 1);
                     if (delta_ratio > delta_bound_) {
                         delta_ratio = delta_bound_;
                     }
                     replacer_r_.UpdateHalf(cur_half * (1 + delta_ratio * lambda_));
+                    replacer_r_.UpdateGhostRatio(ghost_ratio * (1 + delta_ratio * 0.5));
                 }
             } else {
                 stable_count_++;
                 if (stable_count_ == 5) {
                     if (cur_half < init_half_) {
                         replacer_r_.UpdateHalf(cur_half * (1.1));
+                        replacer_r_.UpdateGhostRatio(ghost_ratio * 1.1);
                     } else {
                         replacer_r_.UpdateHalf(cur_half / (1.1));
+                        replacer_r_.UpdateGhostRatio(ghost_ratio / 1.1);
                     }
                     stable_count_ = 0;
                 }
             }
         }
         replacer_s_.UpdateHalf(replacer_r_.GetCurHalf() / (1 + simulator_ratio_));
+        replacer_s_.UpdateGhostRatio(replacer_r_.GetCurGhostRatio() / (1 + simulator_ratio_));
 #ifdef LOG
-        printf("reality: %.2f simulator: %.2f r_cur_half: %.8f %d %d\n", r_hr * 100, s_hr * 100, replacer_r_.GetCurHalf(), replacer_r_.h1, replacer_r_.h2);
+        printf("reality: %.2f simulator: %.2f r_cur_half: %.8f r_cur_ghost: %.8f %d %d\n", r_hr * 100, s_hr * 100, replacer_r_.GetCurHalf(), replacer_r_.GetCurGhostRatio(), replacer_r_.h1, replacer_r_.h2);
         std::cout << statics() << '\n';
 #endif
     }

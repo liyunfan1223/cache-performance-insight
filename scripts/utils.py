@@ -7,13 +7,20 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
+    'websearch',
+    'webusers',
+    # 'Home1',
+    # 'Home2',
+    # 'Home3',
+    # 'Home4',
+    # #
     'msr_prxy_0_1d',
     'msr_proj_0_1d',
-    # 'msr_wdev_0_1d',
-    # 'msr_stg_0_1d',
-    # 'msr_mds_0_1d',
-    # 'msr_web_0_1d',
-    # 'msr_hm_0_1d',
+    'msr_wdev_0_1d',
+    'msr_stg_0_1d',
+    'msr_mds_0_1d',
+    'msr_web_0_1d',
+    'msr_hm_0_1d',
 
     'P1',
     'P2',
@@ -27,17 +34,11 @@ TRACES_LIST = [
     'OLTP',
 
     #
-    "cloudvps26391",
-    "cloudvps26107",
+    # "cloudvps26391",
+    # "cloudvps26107",
     # #
     # # #
-    "webmail",
-    'websearch',
-    'webusers',
-    'Home1',
-    'Home2',
-    'Home3',
-    'Home4',
+    # "webmail",
 
     # #
     # # #

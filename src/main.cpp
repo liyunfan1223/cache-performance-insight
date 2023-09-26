@@ -95,6 +95,7 @@ int main(int argc, char **argv) {
     char* param_7 = argv[11];
     char* param_8 = argv[12];
     char* param_9 = argv[13];
+    char* param_10 = argv[14];
     timeval start_time;
     gettimeofday(&start_time, NULL);
     switch (cachePolicy.at(cache_policy)) {
@@ -329,7 +330,8 @@ int main(int argc, char **argv) {
                                                                                            std::stof(param_6),
                                                                                            std::stof(param_7),
                                                                                            std::stof(param_8),
-                                                                                           std::stof(param_9)));
+                                                                                           std::stof(param_9),
+                                                                                           std::stof(param_10)));
             }
             break;
         case CachePolicy::RGC2:
@@ -348,7 +350,8 @@ int main(int argc, char **argv) {
                                                                            std::stof(param_6),
                                                                            std::stof(param_7),
                                                                            std::stof(param_8),
-                                                                           std::stof(param_9)));
+                                                                           std::stof(param_9)
+                                                                            ));
             }
             break;
         default:

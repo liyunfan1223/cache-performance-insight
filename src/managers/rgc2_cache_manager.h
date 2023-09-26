@@ -166,7 +166,7 @@ public:
         // move to ghost
         if (ghost_size_ != 0 && evict_level != 0) {
             // evict ghost
-            if (ghost_map_.size() >= ghost_size_) {
+            while (ghost_map_.size() >= ghost_size_) {
 
                 Key g_evict_key;
                 int g_evict_level;
@@ -223,7 +223,7 @@ public:
         for (int p = tiers_ - 1; p >= 0; p--) {
             int t = p == tiers_ - 1 ? p : p + 1;
 //            int r = p == tiers_ - 1 ? LAST_TIER_RATIO : 2;
-            int r = 1 << p;
+            int r = 1 << (p + 1);
             for (int i = 1; i < max_points_; i++) {
                 if (!real_lru_[p][i].empty()) {
                     real_lru_[t][i / r].splice(real_lru_[t][i / r].end(), real_lru_[p][i]);
@@ -251,6 +251,15 @@ public:
         }
         next_rolling_ts_ = std::min(next_rolling_ts_, cur_ts_ + (int)(cur_half_ * size_));
     }
+    void UpdateGhostRatio(double ghost_ratio) {
+//        return;
+        ghost_size_ratio_ = ghost_ratio;
+        ghost_size_ = ghost_size_ratio_ * size_;
+        if (ghost_size_ratio_ > 8.0) {
+            ghost_size_ratio_ = 8.0;
+        }
+//        next_rolling_ts_ = std::min(next_rolling_ts_, cur_ts_ + (int)(cur_half_ * size_));
+    }
     void ReportAndClear(int32_t &miss_count, int32_t &hit_count/*, int32_t &hit_top*/) {
         miss_count = interval_miss_count_;
         hit_count = interval_hit_count_;
@@ -262,6 +271,9 @@ public:
     double GetCurHalf() const {
         return cur_half_;
     }
+    double GetCurGhostRatio() const {
+        return ghost_size_ratio_;
+    }
     int h1, h2; //debug
 private:
     int32_t GetCurrentLevel(const RGCEntry &status) {
@@ -270,7 +282,7 @@ private:
             return est_level;
         }
         auto iter = rolling_ts.begin();
-        int pos = 0;
+        int pos = 1;
         for (int i = 0; i < rolling_ts.size(); i++) {
             if (status.insert_ts < *iter) {
                 est_level >>= pos;
@@ -350,8 +362,8 @@ public:
                      double lambda = 1.0f, int32_t update_interval = 20000, double simulator_ratio = 0.25f, double top_ratio = 0.01f,
                      double mru_ratio = 0.01f, double delta_bound = 10000.0f):
             CacheManager(buffer_size),
-            replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, 3),
-            replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, 3),
+            replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, 1),
+            replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio / (1 + simulator_ratio), top_ratio, mru_ratio, 1),
             lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio), delta_bound_(delta_bound) {
     }
     RC get(const Key &key) override;
