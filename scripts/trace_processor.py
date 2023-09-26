@@ -153,13 +153,47 @@ def process_fiu(input=None, output=None):
     print(idx)
     processed.close()
 
+def process_cloudvps(trace_file_list, write_trace_path, block=8):
+    access = []
+    for raw_trace_file in trace_file_list:
+        raw_trace_path = RAW_TRACE_FOLDER + raw_trace_file
+        if not os.path.exists(raw_trace_path):
+            print(f"{raw_trace_path} not found, skip.")
+            continue
+        f = open(raw_trace_path, 'r')
+        for lines in f.readlines():
+            offset, size = lines.split(' ')
+            # print(offset, size)
+            access.append((int(offset) // block, int(size) // block))
+        f.close()
+    fw = open(write_trace_path, 'w')
+    print(len(access))
+    last = -1
+    last_len = 0
+    idx = 0
+    for order, size in access:
+        if order != last + last_len and last_len != 0:
+            if last != -1:
+                fw.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+            idx += 1
+            last_len = 0
+            last = order
+        # last = order
+        last_len += size
+    if last_len != 0:
+        fw.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+        idx += 1
+    print(idx)
+    fw.close()
+
+
 if __name__ == "__main__":
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_ssd_trace(RAW_TRACE_FOLDER + 'ssdtrace-07', './traces/Rocks8.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESHMSA01-lvm0.csv', OUTPUT_FOLDER + 'msr_hm_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESISAA02-lvm0.csv', OUTPUT_FOLDER + 'msr_prxy_0.lis')
-    # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm0.csv', OUTPUT_FOLDER + 'msr_proj_0.lis')
+    process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm0.csv', OUTPUT_FOLDER + 'msr_proj_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWEBA03-lvm0.csv', OUTPUT_FOLDER + 'msr_web_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWMSA03-lvm0.csv', OUTPUT_FOLDER + 'msr_mds_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESSTGA01-lvm0.csv', OUTPUT_FOLDER + 'msr_stg_0.lis')
@@ -169,5 +203,7 @@ if __name__ == "__main__":
     # process_blkparse([f"webmail.cs.fiu.edu-110108-113008.{i}.blkparse" for i in range(1, 20 + 1)], './traces/webmail.lis')
     # process_blkparse([f"casa-110108-112108.{i}.blkparse" for i in range(1, 21 + 1)], './traces/Home1.lis')
     # process_blkparse([f"madmax-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home3.lis')
-    process_blkparse([f"topgun-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home4.lis')
+    # process_blkparse([f"topgun-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home4.lis')
+    # process_cloudvps(["vps26391.blkparse"], './traces/cloudvps26391.lis')
+    # process_cloudvps(["vps26107.blkparse"], './traces/cloudvps26107.lis')
 

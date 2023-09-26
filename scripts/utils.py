@@ -7,7 +7,14 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
-    'OLTP',
+    'msr_prxy_0_1d',
+    'msr_proj_0_1d',
+    # 'msr_wdev_0_1d',
+    # 'msr_stg_0_1d',
+    # 'msr_mds_0_1d',
+    # 'msr_web_0_1d',
+    # 'msr_hm_0_1d',
+
     'P1',
     'P2',
     'P3',
@@ -17,44 +24,43 @@ TRACES_LIST = [
     'P7',
     'P12',
     'DS1',
+    'OLTP',
+
     #
+    "cloudvps26391",
+    "cloudvps26107",
     # #
-    # # "webmail",
-    # 'websearch',
-    # 'webusers',
-    # 'msr_prxy_0_1d',
-    #
-    # 'Home4',
+    # # #
+    "webmail",
+    'websearch',
+    'webusers',
+    'Home1',
+    'Home2',
+    'Home3',
+    'Home4',
+
     # #
-    # 'Home1',
-    # 'Home2',
-    # # 'Home3',
+    # # #
+    # # #
     # #
-    #
-    # #MSR
-    # 'msr_proj_0_1d',
-    # 'msr_wdev_0_1d',
-    # 'msr_stg_0_1d',
-    # 'msr_mds_0_1d',
-    # 'msr_web_0_1d',
-    # # # 'msr_proj_1_1d', # TOO LARGE?
-    # # # 'msr_usr_1_1d', # TOO LARGE
-    # 'msr_hm_0_1d',
-    # # # FIU
-    # #
+    # # #MSR
+    # # # # 'msr_proj_1_1d', # TOO LARGE?
+    # # # # 'msr_usr_1_1d', # TOO LARGE
+    # # # # FIU
+    # # #
     # 'readrandom_5',
     # 'readrandom_6',
     # 'readrandom_7',
     # # # 'readseq_3',
-    # 'randseq_1',
-    # #
-    # # # 'msr_usr_1_sample',
-    # #
-    # # # 'Rocks4',
-    # # # 'Rocks5',
-    # # # 'Rocks6',
-    # # # 'Rocks7',
-    # # # 'Rocks8',
+    # # 'randseq_1',
+    # # #
+    # # # # 'msr_usr_1_sample',
+    # # #
+    # # # # 'Rocks4',
+    # # # # 'Rocks5',
+    # # # # 'Rocks6',
+    # # # # 'Rocks7',
+    # # # # 'Rocks8',
 
 ]
 BUFFER_LIST_FOR_TRACES = {
@@ -67,39 +73,40 @@ BUFFER_LIST_FOR_TRACES = {
     'P7': [2 ** k for k in range(11, 18 + 1)],
     'P12': [2 ** k for k in range(11, 18 + 1)],
     'OLTP': [2 ** k for k in range(5, 15 + 1)],
-    'DS1': [2 ** k for k in range(18, 24 + 1)],
-    'Home1': [2 ** k for k in range(4, 12 + 1)],
-    'Home2': [2 ** k for k in range(4, 12 + 1)],
-    'Home4': [2 ** k for k in range(4, 18 + 1)],
-    'readrandom_5': [2 ** k for k in range(5, 13 + 1)],
-    'readrandom_6': [2 ** k for k in range(5, 13 + 1)],
-    'readrandom_7': [2 ** k for k in range(5, 13 + 1)],
-    'readseq_1': [2 ** k for k in range(3, 10 + 1)],
-    'readseq_2': [2 ** k for k in range(3, 10 + 1)],
-    'readseq_3': [2 ** k for k in range(3, 10 + 1)],
-    'randseq_1': [2 ** k for k in range(5, 13 + 1)],
-    'Rocks1': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks2': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks3': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks4': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks5': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks6': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks7': [2 ** k for k in range(21, 25 + 1)],
-    'Rocks8': [2 ** k for k in range(21, 25 + 1)],
-    # 'Rocks9': [2 ** k for k in range(21, 25 + 1)],
-    # 'Rocks10': [2 ** k for k in range(21, 25 + 1)],
-    'msr_hm_0': [2 ** k for k in range(10, 22 + 1)],
-    'msr_prxy_0': [2 ** k for k in range(10, 22 + 1)],
-    'msr_proj_0': [2 ** k for k in range(10, 22 + 1)],
-    'msr_proj_1': [2 ** k for k in range(16, 26 + 1)],
-    'msr_web_0': [2 ** k for k in range(10, 22 + 1)],
-    'msr_mds_0': [2 ** k for k in range(10, 22 + 1)],
-    'msr_stg_0': [2 ** k for k in range(10, 22 + 1)],
-    'msr_usr_1': [2 ** k for k in range(16, 20 + 1)],
-    'msr_usr_1_sample': [2 ** k for k in range(16, 20 + 1)],
-    # 'msr_usr_1': [2 ** k for k in range(10, 22 + 1)],
-    'websearch': [2 ** k for k in range(2, 16)],
-    'webusers': [2 ** k for k in range(2, 16)],
+    # 'DS1': [2 ** k for k in range(18, 24 + 1)],
+
+    # 'Home1': [2 ** k for k in range(4, 12 + 1)],
+    # 'Home2': [2 ** k for k in range(4, 12 + 1)],
+    # 'Home4': [2 ** k for k in range(4, 18 + 1)],
+    # 'readrandom_5': [2 ** k for k in range(5, 13 + 1)],
+    # 'readrandom_6': [2 ** k for k in range(5, 13 + 1)],
+    # 'readrandom_7': [2 ** k for k in range(5, 13 + 1)],
+    # 'readseq_1': [2 ** k for k in range(3, 10 + 1)],
+    # 'readseq_2': [2 ** k for k in range(3, 10 + 1)],
+    # 'readseq_3': [2 ** k for k in range(3, 10 + 1)],
+    # 'randseq_1': [2 ** k for k in range(5, 13 + 1)],
+    # 'Rocks1': [2 ** k for k in range(21, 25 + 1)],
+    # 'Rocks2': [2 ** k for k in range(21, 25 + 1)],
+    # 'Rocks3': [2 ** k for k in range(21, 25 + 1)],
+    # 'Rocks4': [2 ** k for k in range(21, 25 + 1)],
+    # 'Rocks5': [2 ** k for k in range(21, 25 + 1)],
+    # 'Rocks6': [2 ** k for k in range(21, 25 + 1)],
+    # 'Rocks7': [2 ** k for k in range(21, 25 + 1)],
+    # 'Rocks8': [2 ** k for k in range(21, 25 + 1)],
+    # # 'Rocks9': [2 ** k for k in range(21, 25 + 1)],
+    # # 'Rocks10': [2 ** k for k in range(21, 25 + 1)],
+    # 'msr_hm_0': [2 ** k for k in range(10, 22 + 1)],
+    # 'msr_prxy_0': [2 ** k for k in range(10, 22 + 1)],
+    # 'msr_proj_0': [2 ** k for k in range(10, 22 + 1)],
+    # 'msr_proj_1': [2 ** k for k in range(16, 26 + 1)],
+    # 'msr_web_0': [2 ** k for k in range(10, 22 + 1)],
+    # 'msr_mds_0': [2 ** k for k in range(10, 22 + 1)],
+    # 'msr_stg_0': [2 ** k for k in range(10, 22 + 1)],
+    # 'msr_usr_1': [2 ** k for k in range(16, 20 + 1)],
+    # 'msr_usr_1_sample': [2 ** k for k in range(16, 20 + 1)],
+    # # 'msr_usr_1': [2 ** k for k in range(10, 22 + 1)],
+    # 'websearch': [2 ** k for k in range(2, 16)],
+    # 'webusers': [2 ** k for k in range(2, 16)],
 }
 
 class Recorder:
