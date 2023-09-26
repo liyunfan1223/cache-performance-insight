@@ -13,7 +13,7 @@ MAX_BUFFER_SIZE = 5
 BUFFER_SIZE_LIST = [(0.01 * (2 ** k)) for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 # BUFFER_SIZE_LIST = [0.000625, 0.00125, 0.0025, 0.005, 0.01, 0.02, 0.04, 0.08]
 # BUFFER_SIZE_LIST = [0.4]
-PREFIX = '926'
+PREFIX = '926b'
 # TRACE_FILE_LIST = [
 #     'P1',
 # ]
@@ -23,7 +23,7 @@ stats = StatisticsCompareLRU()
 if __name__ == '__main__':
     print(f'Start run tests. Trace file: {TRACES_LIST}.')
     for trace in TRACES_LIST:
-        # BUFFER_SIZE_LIST = BUFFER_LIST_FOR_TRACES[trace]
+        BUFFER_SIZE_LIST = BUFFER_LIST_FOR_TRACES[trace]
         trace_file = f'traces/{trace}.lis'
         fig, ax = plt.subplots(figsize=(14, 7))
         ax.set_xlim(BUFFER_SIZE_LIST[0] // 2, BUFFER_SIZE_LIST[-1] * 2)
@@ -222,6 +222,23 @@ if __name__ == '__main__':
         ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC {params_list}', marker='+', linestyle='-')
         stats.statistic(lru_result, rgc_result, "New-RGC10")
 
+        params_list = [20, 4, 10, 4, 1.0, 20000, 1.0, 0.01, 0.01, 1]
+        runner = MultiTestRunner(['RGC'], BUFFER_SIZE_LIST, trace_file, params_list)
+        rgc_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC {params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, rgc_result, "New-RGC11")
+
+        # params_list = [20, 8, 10, 1, 1.0, 20000, 1.0, 0.01, 0.01, 5]
+        # runner = MultiTestRunner(['RGC'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # rgc_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC {params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, rgc_result, "New-RGC12")
+
+        params_list = [20, 8, 10, 1, 1.0, 20000, 0.5, 0.01, 0.01, 1]
+        runner = MultiTestRunner(['RGC'], BUFFER_SIZE_LIST, trace_file, params_list)
+        rgc_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC {params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, rgc_result, "New-RGC13")
         # params_list = [20, 4, 10, 1, 1.0, 20000, 1.0, 0.01, 0.01, 10000]
         # runner = MultiTestRunner(['RGC'], BUFFER_SIZE_LIST, trace_file, params_list)
         # rgc_result = runner.get_hit_rate_list()
