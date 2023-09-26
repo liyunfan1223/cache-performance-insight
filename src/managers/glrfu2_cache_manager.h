@@ -30,7 +30,7 @@ class GhostALRFU2Indicator;
     public:
         GhostALRFU2CacheManager(int32_t buffer_size, int32_t update_interval = 20000,
                                 double cur_half = 5, double delta_ratio = 0.1, double lambda = 5, int start_level = 8,
-                                int count_level_bits = 10, double ghost_ratio = 1) : CacheManager(buffer_size),
+                                int count_level_bits = 10, double ghost_ratio = 1, double delta_bound = 10000.0f) : CacheManager(buffer_size),
                                                                                      update_interval_(update_interval),
                                                                                      cur_half_(cur_half),
                                                                                      delta_ratio_(delta_ratio),
