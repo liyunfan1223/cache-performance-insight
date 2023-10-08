@@ -7,21 +7,25 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
-    'websearch',
-    'webusers',
-    # 'Home1',
-    # 'Home2',
-    # 'Home3',
-    # 'Home4',
-    # #
-    'msr_prxy_0_1d',
     'msr_proj_0_1d',
+    'msr_prxy_0_1d',
     'msr_wdev_0_1d',
     'msr_stg_0_1d',
     'msr_mds_0_1d',
     'msr_web_0_1d',
     'msr_hm_0_1d',
 
+    "cloudvps26391",
+    "cloudvps26107",
+
+    'websearch',
+    'webusers',
+    "webmail",
+    'Home1',
+    'Home2',
+    'Home3',
+    'Home4',
+    # # # # #
     'P1',
     'P2',
     'P3',
@@ -30,15 +34,14 @@ TRACES_LIST = [
     'P6',
     'P7',
     'P12',
-    'DS1',
+    # 'DS1',
     'OLTP',
+    #
+
 
     #
-    # "cloudvps26391",
-    # "cloudvps26107",
     # #
     # # #
-    # "webmail",
 
     # #
     # # #
@@ -46,7 +49,8 @@ TRACES_LIST = [
     # #
     # # #MSR
     # # # # 'msr_proj_1_1d', # TOO LARGE?
-    # # # # 'msr_usr_1_1d', # TOO LARGE
+    # 'msr_usr_1_1d', # TOO LARGE
+    # 'msr_usr_1', # TOO LARGE
     # # # # FIU
     # # #
     # 'readrandom_5',

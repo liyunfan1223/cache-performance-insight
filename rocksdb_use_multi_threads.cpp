@@ -157,7 +157,7 @@ void* subprocess_work(void * arg)
     memcached_st * memc = memcached(config_string, strlen(config_string));
     if (!memc) {
         cerr << "Memcached initialization failed!" << std::endl;
-        return 0;
+        return nullptr;
     }
     timeval end_time;
     int i = thread_id;
@@ -265,7 +265,7 @@ void* subprocess_work(void * arg)
             pthread_mutex_unlock(&stats_mutex);
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /* argv: threadNum - maxLength - traceFile - earlyStop - threadsSync - hasWarmup */

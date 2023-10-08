@@ -2,14 +2,14 @@
 // Created by MorphLing on 2023/5/23.
 //
 
-#ifndef CACHE_PERFORMANCE_INSIGHT_RGC_CACHE_MANAGER_H
-#define CACHE_PERFORMANCE_INSIGHT_RGC_CACHE_MANAGER_H
+#ifndef CACHE_PERFORMANCE_INSIGHT_RGC3_CACHE_MANAGER_H
+#define CACHE_PERFORMANCE_INSIGHT_RGC3_CACHE_MANAGER_H
 
 #include "def.h"
 #include "managers/cache_manager.h"
 #include "data_structures/multi_lru.h"
 
-class RGCReplacer {
+class RGC3Replacer {
     struct RGCEntry {
         RGCEntry() = default;
         RGCEntry(std::list<Key>::iterator key_iter, int insert_level, int insert_ts, bool h_recency) {
@@ -22,22 +22,22 @@ class RGCReplacer {
         std::list<Key>::iterator key_iter;
         int insert_level{};
         int insert_ts{};
-        bool h_recency; // 高时近性 说明在顶层LRU中
+        bool h_recency{}; // 高时近性 说明在顶层LRU中
     };
 public:
-    RGCReplacer(int32_t size, double init_half,
+    RGC3Replacer(int32_t size, double init_half,
                 double hit_points, int max_points_bits, double ghost_size_ratio, double top_ratio, double mru_ratio, int32_t mru_threshold):
-                size_(size), init_half_(init_half), hit_points_(hit_points),
-                max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio),
-                mru_ratio_(mru_ratio), mru_threshold_(mru_threshold)
+            size_(size), init_half_(init_half), hit_points_(hit_points),
+            max_points_bits_(max_points_bits), ghost_size_ratio_(ghost_size_ratio), top_ratio_(top_ratio),
+            mru_ratio_(mru_ratio), mru_threshold_(mru_threshold)
     {
         cur_half_ = init_half_;
         max_points_ = (1 << max_points_bits_) - 1;
         ghost_size_ = size_ * ghost_size_ratio;
         min_level_non_empty_ = max_points_;
-        min_level_non_empty_ghost_ = max_points_;
+//        min_level_non_empty_ghost_ = max_points_;
         real_lru_.resize(max_points_);
-        ghost_lru_.resize(max_points_);
+//        ghost_lru_.resize(max_points_);
         UpdateHalf(init_half_);
         lru_size_ = std::max(1, (int)(top_ratio_ * size));
         rgc_size_ = size_ - lru_size_;
@@ -61,11 +61,11 @@ public:
                 std::list<Key>::iterator hit_iter = ghost_map_[key].key_iter;
                 int level = GetCurrentLevel(ghost_map_[key]);
                 // erase key in ghost
-                ghost_lru_[level].erase(hit_iter);
+                ghost_lru2_.erase(hit_iter);
                 ghost_map_.erase(key);
-                while (ghost_lru_[min_level_non_empty_ghost_].empty() && min_level_non_empty_ghost_ <= max_points_) {
-                    min_level_non_empty_ghost_++;
-                }
+//                while (ghost_lru2_.empty() && min_level_non_empty_ghost_ <= max_points_) {
+//                    min_level_non_empty_ghost_++;
+//                }
 //                inserted_level += level * 2;
                 inserted_level += level;
             }
@@ -79,7 +79,7 @@ public:
                 // erase key in real, use level in real
                 real_lru_[level].erase(hit_iter);
                 real_map_.erase(key);
-    //            inserted_level += level * 2;
+                //            inserted_level += level * 2;
                 inserted_level += level;
                 while(real_lru_[min_level_non_empty_].empty()) {
                     min_level_non_empty_++;
@@ -168,19 +168,19 @@ public:
         if (ghost_size_ != 0 && evict_level != 0) {
             // evict ghost
             if (ghost_map_.size() >= ghost_size_) {
-                Key evict_key = ghost_lru_[min_level_non_empty_ghost_].back();
-                ghost_lru_[min_level_non_empty_ghost_].pop_back();
+                Key evict_key = ghost_lru2_.back();
+                ghost_lru2_.pop_back();
                 ghost_map_.erase(evict_key);
-                while (ghost_lru_[min_level_non_empty_ghost_].empty() && min_level_non_empty_ghost_ < max_points_ + 1) {
-                    min_level_non_empty_ghost_++;
-                }
+//                while (ghost_lru2_.empty() && min_level_non_empty_ghost_ < max_points_ + 1) {
+//                    min_level_non_empty_ghost_++;
+//                }
             }
             // min_level_non_empty_ == evict_key's level
-            ghost_lru_[evict_level].push_front(evict_key);
-            ghost_map_[evict_key] = RGCEntry(ghost_lru_[evict_level].begin(), evict_level, cur_ts_, 0);
-            if (min_level_non_empty_ghost_ > evict_level) {
-                min_level_non_empty_ghost_ = evict_level;
-            }
+            ghost_lru2_.push_front(evict_key);
+            ghost_map_[evict_key] = RGCEntry(ghost_lru2_.begin(), evict_level, cur_ts_, 0);
+//            if (min_level_non_empty_ghost_ > evict_level) {
+//                min_level_non_empty_ghost_ = evict_level;
+//            }
         }
         while (real_lru_[min_level_non_empty_].empty()) {
             min_level_non_empty_++;
@@ -194,10 +194,10 @@ public:
                     min_level_non_empty_ = std::min(min_level_non_empty_, i / 2);
                 }
             }
-            ghost_lru_[i / 2].splice(ghost_lru_[i / 2].end(), ghost_lru_[i]);
-            if (!ghost_lru_[i / 2].empty()) {
-                min_level_non_empty_ghost_ = std::min(min_level_non_empty_ghost_, i / 2);
-            }
+//            ghost_lru2_[i / 2].splice(ghost_lru_[i / 2].end(), ghost_lru_[i]);
+//            if (!ghost_lru_[i / 2].empty()) {
+//                min_level_non_empty_ghost_ = std::min(min_level_non_empty_ghost_, i / 2);
+//            }
         }
         next_rolling_ts_ = cur_ts_ + cur_half_ * size_;
         rolling_ts.push_back(cur_ts_);
@@ -255,7 +255,7 @@ private:
     int32_t max_points_bits_; // 最高得分为 (1 << max_points_bits_) - 1
     int32_t max_points_; // 最高得分
     int32_t min_level_non_empty_; // 当前最小的得分
-    int32_t min_level_non_empty_ghost_; // 虚缓存当前最小的得分
+//    int32_t min_level_non_empty_ghost_; // 虚缓存当前最小的得分
     double ghost_size_ratio_; // 虚缓存大小比例
     int32_t ghost_size_;
     int32_t interval_hit_count_ = 0; // 统计区间命中次数
@@ -263,7 +263,8 @@ private:
     int32_t interval_hit_top_ = 0; // 在top上命中次数
     int32_t next_rolling_ts_ = INT32_MAX; // 下一次滚动的时间戳
     int32_t cur_ts_ = 0; // 当前时间戳
-    std::vector<std::list<Key> > real_lru_, ghost_lru_;
+    std::vector<std::list<Key> > real_lru_;
+    std::list<Key> ghost_lru2_;
     std::list<Key> top_lru_;
     std::unordered_map<Key, RGCEntry> real_map_, ghost_map_;
     std::list<int32_t> rolling_ts;
@@ -271,16 +272,16 @@ private:
     int32_t mru_threshold_;
 };
 
-class RGCCacheManager: public CacheManager {
+class RGC3CacheManager: public CacheManager {
 public:
-    RGCCacheManager(int32_t buffer_size, double init_half = 20.0f,
+    RGC3CacheManager(int32_t buffer_size, double init_half = 20.0f,
                     double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
                     double lambda = 1.0f, int32_t update_interval = 20000, double simulator_ratio = 0.5f, double top_ratio = 0.01f,
                     double mru_ratio = 0.01f, double delta_bound = 5.0f, bool update_equals_size = false, int32_t mru_threshold = 1024):
-        CacheManager(buffer_size),
-        replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, mru_threshold),
-        replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, mru_threshold),
-        lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio), delta_bound_(delta_bound) {
+            CacheManager(buffer_size),
+            replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, mru_threshold),
+            replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, mru_threshold),
+            lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio), delta_bound_(delta_bound) {
         if (update_equals_size) {
             update_interval_ = std::max(100, buffer_size);
         }
@@ -291,8 +292,8 @@ public:
 
     std::string get_name() override;
 private:
-    RGCReplacer replacer_r_;
-    RGCReplacer replacer_s_;
+    RGC3Replacer replacer_r_;
+    RGC3Replacer replacer_s_;
     double lambda_; // 学习率
     int32_t update_interval_; // 更新间隔
     int32_t ts_{};
@@ -302,5 +303,4 @@ private:
     double delta_bound_;
 };
 
-
-#endif //CACHE_PERFORMANCE_INSIGHT_RGC_CACHE_MANAGER_H
+#endif //CACHE_PERFORMANCE_INSIGHT_RGC3_CACHE_MANAGER_H

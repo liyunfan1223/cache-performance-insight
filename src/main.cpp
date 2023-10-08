@@ -33,6 +33,7 @@
 #include "managers/lirs_cache_manager.h"
 #include "managers/rgc_cache_manager.h"
 #include "managers/rgc2_cache_manager.h"
+#include "managers/rgc3_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -47,7 +48,7 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"SRRIP", CachePolicy::SRRIP},
         {"DRRIP", CachePolicy::DRRIP},
         {"EFSW", CachePolicy::EFSW},
-        {"LRFU", CachePolicy::LRFU},
+        {"LRFU", CachePolicy ::LRFU},
         {"ALRFU", CachePolicy::ALRFU},
         {"ALRFU2", CachePolicy::ALRFU2},
         {"ALRFU3", CachePolicy::ALRFU3},
@@ -60,6 +61,7 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LIRS", CachePolicy::LIRS},
         {"RGC", CachePolicy::RGC},
         {"RGC2", CachePolicy::RGC2},
+        {"RGC3", CachePolicy::RGC3},
 };
 
 void usage() {
@@ -96,6 +98,7 @@ int main(int argc, char **argv) {
     char* param_8 = argv[12];
     char* param_9 = argv[13];
     char* param_10 = argv[14];
+    char* param_11 = argv[15];
     timeval start_time;
     gettimeofday(&start_time, NULL);
     switch (cachePolicy.at(cache_policy)) {
@@ -331,7 +334,8 @@ int main(int argc, char **argv) {
                                                                                            std::stof(param_7),
                                                                                            std::stof(param_8),
                                                                                            std::stof(param_9),
-                                                                                           std::stof(param_10)));
+                                                                                           std::stof(param_10),
+                                                                                           std::stof(param_11)));
             }
             break;
         case CachePolicy::RGC2:
@@ -352,6 +356,28 @@ int main(int argc, char **argv) {
                                                                            std::stof(param_8),
                                                                            std::stof(param_9)
                                                                             ));
+            }
+            break;
+        case CachePolicy::RGC3:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<RGC3CacheManager>(buffer_size));
+            }else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<RGC3CacheManager>(buffer_size,
+                                                                            std::stof(param_0),
+                                                                            std::stof(param_1),
+                                                                            std::stof(param_2),
+                                                                            std::stof(param_3),
+                                                                            std::stof(param_4),
+                                                                            std::stof(param_5),
+                                                                            std::stof(param_6),
+                                                                            std::stof(param_7),
+                                                                            std::stof(param_8),
+                                                                            std::stof(param_9),
+                                                                            std::stof(param_10),
+                                                                            std::stof(param_11)
+                                         ));
             }
             break;
         default:

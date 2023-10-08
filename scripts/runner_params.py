@@ -77,27 +77,29 @@ def optimizer_glrfu2(cache_policy=None, buffer_size=None, trace_name=None, ax=No
     ax.plot(PL, hit_rate_list, label=f'{cache_policy}_{buffer_size}', marker='+', linestyle='dashed')
 
 def EFSW():
-    for trace_name in TRACE_FILES:
-        print("TRACE NAME:", trace_name)
-        fig, ax = plt.subplots(figsize=(14, 7))
-        ax.set_xlabel('Param (lambda)')
-        ax.set_ylabel('Hit Ratio(%)')
-        ax.set_title(trace_name)
-        ax.set_xscale('log')
-        trace_file = f'traces/{trace_name}.lis'
-        ax.set_xlim(PARAM_LIST[0] / 2, PARAM_LIST[-1] * 2)
-        # PL = [math.pow(2, i) for i in np.arange(0, 9)]
-        ax.set_xlim(PARAM_LIST[0] / 2, PARAM_LIST[-1] * 2)
-        for buffer_size in BUFFER_LIST_FOR_TRACES[trace_name]:
-            print("BUFFER SIZE:", buffer_size)
-            # optimizer_arc_prior(CACHE_POLICY, buffer_size, trace_name, ax)
-            optimizer_arc_prior('EFSW', buffer_size, trace_name, ax)
-        plt.legend(loc=2)
-        if not os.path.exists('local'):
-            os.mkdir('local')
-        fig_path = f'local/param_plot_{trace_name}_{"EFSW"}.png'
-        plt.savefig(fig_path)
-        print(f'Fig generated path: {fig_path}. ')
+    # for trace_name in TRACE_FILES:
+    trace_name = 'msr_proj_0_1d'
+    print("TRACE NAME:", trace_name)
+    fig, ax = plt.subplots(figsize=(14, 7))
+    ax.set_xlabel('Param (lambda)')
+    ax.set_ylabel('Hit Ratio(%)')
+    ax.set_title(trace_name)
+    ax.set_xscale('log')
+    trace_file = f'traces/{trace_name}.lis'
+    ax.set_xlim(PARAM_LIST[0] / 2, PARAM_LIST[-1] * 2)
+    # PL = [math.pow(2, i) for i in np.arange(0, 9)]
+    ax.set_xlim(PARAM_LIST[0] / 2, PARAM_LIST[-1] * 2)
+    # for buffer_size in BUFFER_LIST_FOR_TRACES[trace_name]:
+    buffer_size = 0.04
+    print("BUFFER SIZE:", buffer_size)
+    # optimizer_arc_prior(CACHE_POLICY, buffer_size, trace_name, ax)
+    optimizer_arc_prior('EFSW', buffer_size, trace_name, ax)
+    plt.legend(loc=2)
+    if not os.path.exists('local'):
+        os.mkdir('local')
+    fig_path = f'local/param_plot_{trace_name}_{"EFSW"}.png'
+    plt.savefig(fig_path)
+    print(f'Fig generated path: {fig_path}. ')
 
 def glrfu4():
     for trace_name in TRACES_LIST:
@@ -148,4 +150,5 @@ def glrfu2():
         print(f'Fig generated path: {fig_path}. ')
 
 if __name__ == '__main__':
-    glrfu2()
+    # glrfu2()
+    EFSW()

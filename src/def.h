@@ -63,6 +63,7 @@ enum class CachePolicy {
     LIRS,
     RGC,
     RGC2,
+    RGC3,
     UNKNOWN,
 };
 

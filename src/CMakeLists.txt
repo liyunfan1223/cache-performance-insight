@@ -12,7 +12,9 @@ FILE(GLOB MAIN_SRC main.cpp)
 MESSAGE("MAIN SRC: " ${MAIN_SRC})
 FOREACH (F ${ALL_SRC})
     IF (NOT ${F} STREQUAL ${MAIN_SRC})
-        SET(LIB_SRC ${LIB_SRC} ${F})
+        SET(LIB_SRC ${LIB_SRC} ${F}
+                managers/rgc3_cache_manager.cpp
+                managers/rgc3_cache_manager.h)
     ENDIF()
     MESSAGE("Use " ${F})
 ENDFOREACH (F)
