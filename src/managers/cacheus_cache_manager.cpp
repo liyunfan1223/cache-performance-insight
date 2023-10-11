@@ -28,9 +28,11 @@ RC CacheusCacheManager::get(const Key &key) {
     } else {
         increase_hit_count();
     }
+#ifdef LOG
     if (ts % 20000 == 0) {
         std::cout << statics();
     }
+#endif
     return RC::SUCCESS;
 }
 
@@ -123,7 +125,6 @@ Key CacheusCacheManager::Evict() {
 
     lfu.Remove(evicted_entry.key);
     evicted_entry.evicted_time = ts;
-    // pollution?
 
     AddToHistory(evicted_entry, policy);
     return evicted_entry.key;

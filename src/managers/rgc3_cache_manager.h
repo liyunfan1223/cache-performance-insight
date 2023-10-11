@@ -189,7 +189,11 @@ public:
     void Rolling() {
         for (int i = 1; i < max_points_; i++) {
             if (!real_lru_[i].empty()) {
-                real_lru_[i / 2].splice(real_lru_[i / 2].end(), real_lru_[i]);
+                if (mru_threshold_ != -1) {
+                    real_lru_[i / 2].splice(real_lru_[i / 2].end(), real_lru_[i]);
+                } else {
+                    real_lru_[i / 2].splice(real_lru_[i / 2].begin(), real_lru_[i]);
+                }
                 if (!real_lru_[i / 2].empty()) {
                     min_level_non_empty_ = std::min(min_level_non_empty_, i / 2);
                 }

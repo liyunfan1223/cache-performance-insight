@@ -149,8 +149,8 @@ private:
     Key Evict();
     Key Miss(Key key);
     void AdjustWeights(double rewardLRU, double rewardLFU) {
-        rewardLRU = exp(rewardLRU * learning_rate);
-        rewardLFU = exp(rewardLFU * learning_rate);
+        rewardLRU = exp(rewardLRU * lr.Get());
+        rewardLFU = exp(rewardLFU * lr.Get());
         W[0] *= rewardLRU;
         W[1] *= rewardLFU;
         double sum = W[0] + W[1];
@@ -196,7 +196,7 @@ private:
     int32_t ts{};
     int32_t dem_count{}, s_size{}, q_size{}, s_limit{}, nor_count{}, q_limit{}, history_size{};
     double W[2];
-    double learning_rate{0.005};
+//    double learning_rate{0.005};
     CacheusLearningRate lr;
 };
 
