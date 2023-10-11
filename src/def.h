@@ -64,6 +64,7 @@ enum class CachePolicy {
     RGC,
     RGC2,
     RGC3,
+    CACHEUS,
     UNKNOWN,
 };
 

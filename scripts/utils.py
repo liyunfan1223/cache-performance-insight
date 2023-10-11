@@ -25,7 +25,7 @@ TRACES_LIST = [
     'Home2',
     'Home3',
     'Home4',
-    # # # # #
+    # # # # # #
     'P1',
     'P2',
     'P3',
@@ -34,7 +34,7 @@ TRACES_LIST = [
     'P6',
     'P7',
     'P12',
-    # 'DS1',
+    'DS1',
     'OLTP',
     #
 

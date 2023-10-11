@@ -34,6 +34,7 @@
 #include "managers/rgc_cache_manager.h"
 #include "managers/rgc2_cache_manager.h"
 #include "managers/rgc3_cache_manager.h"
+#include "managers/cacheus_cache_manager.h"
 
 std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"LRU", CachePolicy::LRU},
@@ -62,6 +63,7 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"RGC", CachePolicy::RGC},
         {"RGC2", CachePolicy::RGC2},
         {"RGC3", CachePolicy::RGC3},
+        {"CACHEUS", CachePolicy::CACHEUS},
 };
 
 void usage() {
@@ -379,6 +381,10 @@ int main(int argc, char **argv) {
                                                                             std::stof(param_11)
                                          ));
             }
+            break;
+        case CachePolicy::CACHEUS:
+            UnittestUtils::make_test(trace_file,
+                                     std::make_shared<CacheusCacheManager>(buffer_size));
             break;
         default:
             break;
