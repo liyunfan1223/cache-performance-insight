@@ -11,6 +11,7 @@
 #include <rocksdb/options.h>
 #include <libmemcached/memcached.h>
 #include <thread>
+#include <csignal>
 #include "src/def.h"
 
 using ROCKSDB_NAMESPACE::DB;
@@ -30,6 +31,7 @@ const uint32_t  warmup_seconds = 30;
 const uint32_t  warmup_access = 1 << 20;
 const uint32_t  report_interval = 1 << 14;
 
+const uint32_t simulated_network_latency = 5; // 5ms - 10ms for network request
 bool earlyStop = false;
 uint32_t maxLength;
 uint32_t threadNum;
@@ -52,6 +54,10 @@ pthread_mutex_t stats_mutex;
 int global_i;
 pthread_mutex_t i_mutex;
 bool threadsSync = false;
+
+double GenerateRandomRTT() {
+    return (1 + rand() % 100 / 100.0) * simulated_network_latency;
+}
 
 DB* rocksdb_create()
 {
@@ -93,6 +99,7 @@ bool save_to_memcached( const char * key, string& value, uint32_t v_len, memcach
 
 bool request_from_rocksdb( const char * key, string& value )
 {
+    usleep(GenerateRandomRTT() * 1000);
     Status status = rocksDB->Get(ReadOptions(), key, &value);
     assert(!status.ok() || value.length() >= maxLength / 2);
     return status.ok();

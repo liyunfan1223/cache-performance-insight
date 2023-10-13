@@ -7,35 +7,44 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
+    # 'msr_proj_0',
+    # 'msr_prxy_0',
+    # 'msr_wdev_0',
+    # 'msr_stg_0',
+    # 'msr_mds_0',
+    # 'msr_web_0',
+    # 'msr_hm_0',
+    "cloudvps26391",
+    'websearch',
     'msr_proj_0_1d',
+
+    'webusers',
+    "webmail",
+    "cloudvps26107",
+
     'msr_prxy_0_1d',
     'msr_wdev_0_1d',
     'msr_stg_0_1d',
     'msr_mds_0_1d',
     'msr_web_0_1d',
     'msr_hm_0_1d',
+    #
 
-    "cloudvps26391",
-    "cloudvps26107",
-
-    'websearch',
-    'webusers',
-    "webmail",
-    'Home1',
-    'Home2',
-    'Home3',
-    'Home4',
-    # # # # # #
-    'P1',
-    'P2',
-    'P3',
-    'P4',
-    'P5',
-    'P6',
-    'P7',
-    'P12',
-    'DS1',
-    'OLTP',
+    # 'Home1',
+    # 'Home2',
+    # 'Home3',
+    # 'Home4',
+    # # # # # # #
+    # 'P1',
+    # 'P2',
+    # 'P3',
+    # 'P4',
+    # 'P5',
+    # 'P6',
+    # 'P7',
+    # 'P12',
+    # 'DS1',
+    # 'OLTP',
     #
 
 
@@ -205,8 +214,8 @@ class StatisticsCompareLRU:
                 self.perf[compared_label] = perf
                 self.count[compared_label] = 1
 
-
     def print_result(self):
         for label in self.data.keys():
-            # print(f"Hit rate of {label}: {self.data[label] / self.count[label] * 100}% average higher than lru.")
             print(f"Performance rate of {label}: {self.perf[label] / self.count[label] * 100}% average higher than lru.")
+        for label in self.data.keys():
+            print(f"Hit rate of {label}: {self.data[label] / self.count[label] * 100}% average higher than lru.")
