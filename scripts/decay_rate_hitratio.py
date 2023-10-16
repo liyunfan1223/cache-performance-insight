@@ -6,6 +6,9 @@ import os
 import matplotlib.pyplot as plt
 import math
 import numpy as np
+
+cache_file_path = 'local/decay_rate_hitratio.json'
+
 plt.style.use('seaborn-v0_8-paper')
 
 # print(matplotlib.l)
@@ -50,7 +53,8 @@ def LRFU_OLTP():
         for buffer_size in [1000, 2000, 5000, 10000, 15000]:
             hit_rate_list = []
             for half_life_ratio in param_list:
-                runner = SingleTestRunner("LRFU", buffer_size, trace_file, [half_life_ratio, 1, 1])
+                runner = SingleTestRunner("LRFU", buffer_size, trace_file, [half_life_ratio, 1, 1],
+                                          cache_file_path=cache_file_path)
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)
             ax.plot(param_list, hit_rate_list, label=f'{"LRFU"}_{buffer_size}', marker='+', linestyle='dashed')
@@ -76,7 +80,8 @@ def LRFU_P1():
         for buffer_size in [8192, 16384, 32768, 65536, 131072]:
             hit_rate_list = []
             for half_life_ratio in param_list:
-                runner = SingleTestRunner("LRFU", buffer_size, trace_file, [half_life_ratio, 1, 1])
+                runner = SingleTestRunner("LRFU", buffer_size, trace_file, [half_life_ratio, 1, 1],
+                                          cache_file_path=cache_file_path)
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)
             ax.plot(param_list, hit_rate_list, label=f'{"LRFU"}_{buffer_size}', marker='+', linestyle='dashed')
@@ -102,7 +107,8 @@ def EFSW_OLTP():
         for buffer_size in [1000, 2000, 5000, 10000, 15000]:
             hit_rate_list = []
             for half_life_ratio in param_list:
-                runner = SingleTestRunner("EFSW", buffer_size, trace_file, [half_life_ratio, 1, 1])
+                runner = SingleTestRunner("EFSW", buffer_size, trace_file, [half_life_ratio, 1, 1],
+                                          cache_file_path=cache_file_path)
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)
             ax.plot(param_list, hit_rate_list, label=f'{"EFSW"}_{buffer_size}', marker='+', linestyle='dashed')
@@ -128,7 +134,8 @@ def EFSW_P1():
         for buffer_size in [8192, 16384, 32768, 65536, 131072]:
             hit_rate_list = []
             for half_life_ratio in param_list:
-                runner = SingleTestRunner("EFSW", buffer_size, trace_file, [half_life_ratio, 1, 1])
+                runner = SingleTestRunner("EFSW", buffer_size, trace_file, [half_life_ratio, 1, 1],
+                                          cache_file_path=cache_file_path)
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)
             ax.plot(param_list, hit_rate_list, label=f'{"ESFW"}_{buffer_size}', marker='+', linestyle='dashed')
@@ -153,10 +160,11 @@ def COMBINE():
         param_list = [math.pow(10, i) for i in np.arange(-6, 0, 0.1)]
         ax.set_xlim(param_list[0] / 2, param_list[-1] * 2)
         x = param_list
-        for idx, buffer_size in enumerate([0.00125, 0.01, 0.08]):
+        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02]):
             hit_rate_list = []
             for half_life_ratio in param_list:
-                runner = SingleTestRunner("LRFU", buffer_size, trace_file, [half_life_ratio, 1, 1])
+                runner = SingleTestRunner("LRFU", buffer_size, trace_file, [half_life_ratio, 1, 1],
+                                          cache_file_path=cache_file_path)
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)
             ax.plot(param_list, hit_rate_list, label=f'size={buffer_size}', marker='+', linestyle=linestyles[idx])
@@ -175,10 +183,11 @@ def COMBINE():
         param_list = [math.pow(10, i) for i in np.arange(-2, 3, 0.1)]
         ax.set_xlim(param_list[0] / 2, param_list[-1] * 2)
         x = param_list
-        for idx, buffer_size in enumerate([0.00125, 0.01, 0.08]):
+        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02]):
             hit_rate_list = []
             for half_life_ratio in param_list:
-                runner = SingleTestRunner("EFSW", buffer_size, trace_file, [half_life_ratio, 1, 1])
+                runner = SingleTestRunner("EFSW", buffer_size, trace_file, [half_life_ratio, 1, 1],
+                                          cache_file_path=cache_file_path)
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)
             ax.plot(param_list, hit_rate_list, label=f'size={buffer_size}', marker='+', linestyle=linestyles[idx])

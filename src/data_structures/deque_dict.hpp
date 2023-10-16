@@ -56,6 +56,10 @@ class DequeDict
             DequeEntry entry = list_.front();
             return entry.value;
         }
+        void InplaceUpdate(Key key, V value) {
+            assert(k_map_.find(key) != k_map_.end());
+            k_map_[key]->value = value;
+        }
         int32_t Size() { return k_map_.size(); }
     private:
         std::list<DequeEntry> list_;

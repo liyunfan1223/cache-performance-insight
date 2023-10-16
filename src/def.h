@@ -21,6 +21,17 @@
 #include <cmath>
 #include <sys/time.h>
 
+// defined for LIRS
+#define NEED_PRUNING(n) ((n)->type != LIR)
+#define NONEVALUE ((long long)-11)
+#define INVALID (NONEVALUE)
+#define IS_VALID(value) ((value) != NONEVALUE && (value) != INVALID)
+enum lirs_type {
+    LIR = 101,
+    HIR,
+    NHIR,
+};
+// end
 struct trace_line {
     int starting_block;
     int number_of_blocks;
@@ -61,6 +72,7 @@ enum class CachePolicy {
     GLRFU3,
     GLRFU4,
     LIRS,
+    DLIRS,
     RGC,
     RGC2,
     RGC3,

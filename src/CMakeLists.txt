@@ -15,7 +15,9 @@ FOREACH (F ${ALL_SRC})
         SET(LIB_SRC ${LIB_SRC} ${F}
                 managers/rgc3_cache_manager.cpp
                 managers/rgc3_cache_manager.h
-                data_structures/deque_dict.hpp)
+                data_structures/deque_dict.hpp
+                managers/dlirs_cache_manager.cpp
+                managers/dlirs_cache_manager.h)
     ENDIF()
     MESSAGE("Use " ${F})
 ENDFOREACH (F)

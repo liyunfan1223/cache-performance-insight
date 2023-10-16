@@ -14,7 +14,7 @@ MAX_BUFFER_SIZE = 4
 BASIC_BUFFER_SIZE_LIST = [(0.01 * (2 ** k)) for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 # BUFFER_SIZE_LIST = [0.000625, 0.00125, 0.0025, 0.005, 0.01, 0.02, 0.04, 0.08]
 # BUFFER_SIZE_LIST = [0.4]
-PREFIX = '1013'
+PREFIX = '1016'
 # TRACE_FILE_LIST = [
 #     'P1',
 # ]
@@ -66,6 +66,12 @@ if __name__ == '__main__':
         lirs2_result = lirs2_runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, lirs2_result, label=f'LIRS-{params_list}', marker='+', linestyle='dashed')
         stats.statistic(lru_result, lirs2_result, "LIRS2")
+
+        params_list = [2]
+        dlirs2_runner = MultiTestRunner(['DLIRS'], BUFFER_SIZE_LIST, trace_file, params_list)
+        dlirs2_result = dlirs2_runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, dlirs2_result, label=f'DLIRS-{params_list}', marker='+', linestyle='dashed')
+        stats.statistic(lru_result, dlirs2_result, "DLIRS2")
 
         params_list = []
         cacheus_runner = MultiTestRunner(['CACHEUS'], BUFFER_SIZE_LIST, trace_file, params_list)
@@ -395,11 +401,54 @@ if __name__ == '__main__':
         # ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
         # stats.statistic(lru_result, rgc_result, "New-RGC3(34)")
 
+
         params_list = [16, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 0.1, 1, 1024]
         runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
         rgc_result = runner.get_hit_rate_list()
         ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
         stats.statistic(lru_result, rgc_result, "New-RGC3(35)")
+
+        # params_list = [16, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 0.5, 1, 1024]
+        # runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # rgc_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, rgc_result, "New-RGC3(36)")
+        #
+        # params_list = [16, 1, 6, 4, 1.0, 20000, 0.5, 0.00, 0.00, 0.1, 1, -1]
+        # runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # rgc_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, rgc_result, "New-RGC3(37)")
+        #
+        # params_list = [16, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 0.05, 1, 1024]
+        # runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # rgc_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, rgc_result, "New-RGC3(38)")
+
+        params_list = [16, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 0.01, 1, 1024]
+        runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        rgc_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, rgc_result, "New-RGC3(39)")
+
+        params_list = [16, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 0.00, 1, 1024]
+        runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        rgc_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, rgc_result, "New-RGC3(40)")
+
+        # params_list = [10000, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 0.00, 1, 1024]
+        # runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        # rgc_result = runner.get_hit_rate_list()
+        # ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
+        # stats.statistic(lru_result, rgc_result, "New-RGC3(41)")
+
+        params_list = [8, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 0.01, 1, 1024]
+        runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
+        rgc_result = runner.get_hit_rate_list()
+        ax.plot(BUFFER_SIZE_LIST, rgc_result, label=f'RGC3 {params_list}', marker='+', linestyle='-')
+        stats.statistic(lru_result, rgc_result, "New-RGC3(42)")
 
         # params_list = [20, 1, 6, 4, 1.0, 20000, 0.5, 0.10, 0.00, 5, 1, 1024]
         # runner = MultiTestRunner(['RGC3'], BUFFER_SIZE_LIST, trace_file, params_list)
@@ -516,7 +565,8 @@ if __name__ == '__main__':
         ax.set_xticks(BUFFER_SIZE_LIST)
         ax.set_xticklabels(BUFFER_SIZE_LIST)
         ax.set_xlim(BUFFER_SIZE_LIST[0] / 2, BUFFER_SIZE_LIST[-1] * 2)
-        plt.legend(loc=4)
+        # plt.legend(loc=3)
+        plt.legend(loc=0)
         if not os.path.exists('local'):
             os.mkdir('local')
         fig_path = f'local/{PREFIX}_plot_{trace}.png'

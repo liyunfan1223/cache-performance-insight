@@ -40,9 +40,9 @@ RC RGC3CacheManager::get(const Key &key) {
                 stable_count_++;
                 if (stable_count_ == 5) {
                     if (cur_half < init_half_) {
-                        replacer_r_.UpdateHalf(cur_half * (1.1));
+                        replacer_r_.UpdateHalf(cur_half * (1 + 0.1 * lambda_));
                     } else {
-                        replacer_r_.UpdateHalf(cur_half / (1.1));
+                        replacer_r_.UpdateHalf(cur_half / (1 + 0.1 * lambda_));
                     }
                     stable_count_ = 0;
                 }

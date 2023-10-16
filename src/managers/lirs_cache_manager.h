@@ -14,37 +14,26 @@
 #include <stdio.h>
 #include <managers/cache_manager.h>
 
-#define NEED_PRUNING(n) ((n)->type != LIR)
-#define NONE ((long long)-11)
-#define INVALID (NONE)
-#define IS_VALID(value) ((value) != NONE && (value) != INVALID)
-struct lirs_node;
-typedef std::list<lirs_node*>::iterator lirs_iterator;
-
-enum lirs_type {
-    LIR = 101,
-    HIR,
-    NHIR,
-};
-
-struct lirs_node {
-    long long key;
-    long long value;
-
-    lirs_type type;
-    lirs_iterator s;
-    lirs_iterator q;
-    lirs_iterator hirs;
-    lirs_node(long long _key, long long _value, lirs_iterator ends, lirs_iterator endq)
-            : key(_key), value(_value), s(ends), q(endq), type(LIR) {}
-    lirs_node(long long _key, long long _value, lirs_iterator ends, lirs_iterator endq, lirs_type _type)
-            : key(_key), value(_value), s(ends), q(endq), type(_type) {}
-
-    void Set(lirs_type _type) { type = _type;}
-};
 
 class LIRSCacheManager: public CacheManager {
 public:
+    struct lirs_node;
+    typedef std::list<lirs_node*>::iterator lirs_iterator;
+    struct lirs_node {
+        long long key;
+        long long value;
+
+        lirs_type type;
+        lirs_iterator s;
+        lirs_iterator q;
+        lirs_iterator hirs;
+        lirs_node(long long _key, long long _value, lirs_iterator ends, lirs_iterator endq)
+                : key(_key), value(_value), s(ends), q(endq), type(LIR) {}
+        lirs_node(long long _key, long long _value, lirs_iterator ends, lirs_iterator endq, lirs_type _type)
+                : key(_key), value(_value), s(ends), q(endq), type(_type) {}
+
+        void Set(lirs_type _type) { type = _type;}
+    };
     LIRSCacheManager(int32_t buffer_size, double limit_ratio = 100.0f) : CacheManager(buffer_size), cache_size_(buffer_size), used_size_(0), limit_ratio_(limit_ratio) {
         q_size_ = std::max(1, (int)(0.01 * buffer_size));
 //        q_size_ = 1;
@@ -122,7 +111,7 @@ public:
 
     long long Get(long long key, long long value = 10) {
         if (map_.find(key) == map_.end()) {
-            return NONE;
+            return NONEVALUE;
         }
         auto p = map_[key];
 
@@ -184,7 +173,7 @@ public:
     }
 
     long long Peek(long long key) {
-        long long value = NONE;
+        long long value = NONEVALUE;
         if (map_.find(key) != map_.end()) {
             value = map_[key]->value;
         }

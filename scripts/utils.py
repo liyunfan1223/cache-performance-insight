@@ -15,36 +15,37 @@ TRACES_LIST = [
     # 'msr_web_0',
     # 'msr_hm_0',
     "cloudvps26391",
-    'websearch',
-    'msr_proj_0_1d',
-
-    'webusers',
-    "webmail",
     "cloudvps26107",
 
+    'websearch',
+    'webusers',
+    "webmail",
+    'Home1',
+    'Home2',
+    'Home3',
+    'Home4',
+    'online',
+    #
+    'msr_proj_0_1d',
     'msr_prxy_0_1d',
     'msr_wdev_0_1d',
     'msr_stg_0_1d',
     'msr_mds_0_1d',
     'msr_web_0_1d',
     'msr_hm_0_1d',
+    # #
     #
-
-    # 'Home1',
-    # 'Home2',
-    # 'Home3',
-    # 'Home4',
-    # # # # # # #
-    # 'P1',
-    # 'P2',
-    # 'P3',
-    # 'P4',
-    # 'P5',
-    # 'P6',
-    # 'P7',
-    # 'P12',
-    # 'DS1',
-    # 'OLTP',
+    # # # # # # # #
+    'P1',
+    'P2',
+    'P3',
+    'P4',
+    'P5',
+    'P6',
+    'P7',
+    'P12',
+    'DS1',
+    'OLTP',
     #
 
 
@@ -130,21 +131,22 @@ class Recorder:
 class SingleTestRunner:
     EXECUTION_PATH = './build/src/main'
     START_POSITION = len('hit_rate:')
-    CACHE_FILE_PATH = 'local/single_test_runner_cache.json'
+    # CACHE_FILE_PATH = 'local/single_test_runner_cache.json'
 
-    def __init__(self, cache_policy=None, buffer_size=None, trace_file=None, params=None):
+    def __init__(self, cache_policy=None, buffer_size=None, trace_file=None, params=None, cache_file_path='local/single_test_runner_cache.json'):
         self.cache_policy = cache_policy
         self.buffer_size = buffer_size
         self.trace_file = trace_file
         self.params = params
+        self.cache_file_path = cache_file_path
 
     def make_cache_key_string(self):
         return str(self.cache_policy) + '_' + str(self.buffer_size) + '_' + \
             str(self.trace_file) + '_' + str(self.params)
 
     def get_hit_rate(self, read_cache=True, write_cache=True):
-        if read_cache and os.path.exists(self.CACHE_FILE_PATH):
-            with open(self.CACHE_FILE_PATH, 'r') as f:
+        if read_cache and os.path.exists(self.cache_file_path):
+            with open(self.cache_file_path, 'r') as f:
                 data: dict = json.load(f)
             if self.make_cache_key_string() in data.keys():
                 return data[self.make_cache_key_string()]
@@ -156,13 +158,13 @@ class SingleTestRunner:
         res = os.popen(cmdline).read().strip()
         print('No cache can be used. Result: ', res)
         if write_cache:
-            if os.path.exists(self.CACHE_FILE_PATH):
-                with open(self.CACHE_FILE_PATH, 'r') as f:
+            if os.path.exists(self.cache_file_path):
+                with open(self.cache_file_path, 'r') as f:
                     data: dict = json.load(f)
             else:
                 data = dict()
             data[self.make_cache_key_string()] = float(res.split()[-1][self.START_POSITION:-1])
-            with open(self.CACHE_FILE_PATH, 'w') as f:
+            with open(self.cache_file_path, 'w') as f:
                 json.dump(data, f)
             print(f'Result saved in cache file. key:{self.make_cache_key_string()}')
         return float(res.split()[-1][self.START_POSITION:-1])
@@ -191,6 +193,10 @@ class MultiTestRunner:
               '\n\thit rate list: ', hit_rate_list)
         return hit_rate_list
 
+    def get_miss_rate_list(self):
+        hit_rate_list = self.get_hit_rate_list()
+        miss_rate_list = [(100 - x) for x in hit_rate_list]
+        return miss_rate_list
 class StatisticsCompareLRU:
 
     def __init__(self):

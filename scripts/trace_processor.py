@@ -192,7 +192,7 @@ if __name__ == "__main__":
     # process_blkparse(TRACE_FILE_LIST, WRITE_TRACE_PATH)
     # process_ssd_trace(RAW_TRACE_FOLDER + 'ssdtrace-07', './traces/Rocks8.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESHMSA01-lvm0.csv', OUTPUT_FOLDER + 'msr_hm_0.lis')
-    process_msr(RAW_TRACE_FOLDER + 'CAMRESISAA02-lvm0.csv', OUTPUT_FOLDER + 'msr_prxy_0.lis')
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESISAA02-lvm0.csv', OUTPUT_FOLDER + 'msr_prxy_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm0.csv', OUTPUT_FOLDER + 'msr_proj_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWEBA03-lvm0.csv', OUTPUT_FOLDER + 'msr_web_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESWMSA03-lvm0.csv', OUTPUT_FOLDER + 'msr_mds_0.lis')
@@ -204,6 +204,9 @@ if __name__ == "__main__":
     # process_blkparse([f"casa-110108-112108.{i}.blkparse" for i in range(1, 21 + 1)], './traces/Home1.lis')
     # process_blkparse([f"madmax-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home3.lis')
     # process_blkparse([f"topgun-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home4.lis')
+    # process_blkparse([f"online.cs.fiu.edu-110108-113008.{i}.blkparse" for i in range(1, 20 + 1)], './traces/online.lis')
+    process_blkparse([f"cheetah.cs.fiu.edu-110108-113008.{7}.blkparse" for i in range(1, 21 + 1)], './traces/mail.lis')
+
     # process_cloudvps(["vps26391.blkparse"], './traces/cloudvps26391.lis')
     # process_cloudvps(["vps26107.blkparse"], './traces/cloudvps26107.lis')
 

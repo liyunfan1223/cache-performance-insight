@@ -31,6 +31,7 @@
 #include "managers/glrfu3_cache_manager.h"
 #include "managers/glrfu4_cache_manager.h"
 #include "managers/lirs_cache_manager.h"
+#include "managers/dlirs_cache_manager.h"
 #include "managers/rgc_cache_manager.h"
 #include "managers/rgc2_cache_manager.h"
 #include "managers/rgc3_cache_manager.h"
@@ -60,6 +61,7 @@ std::unordered_map<std::string, CachePolicy> cachePolicy = {
         {"GLRFU3", CachePolicy::GLRFU3},
         {"GLRFU4", CachePolicy::GLRFU4},
         {"LIRS", CachePolicy::LIRS},
+        {"DLIRS", CachePolicy::DLIRS},
         {"RGC", CachePolicy::RGC},
         {"RGC2", CachePolicy::RGC2},
         {"RGC3", CachePolicy::RGC3},
@@ -317,6 +319,15 @@ int main(int argc, char **argv) {
             } else {
                 UnittestUtils::make_test(trace_file,
                                          std::make_shared<LIRSCacheManager>(buffer_size, std::stof(param_0)));
+            }
+            break;
+        case CachePolicy::DLIRS:
+            if (argc <= BASIC_MAIN_ARG_NUM) {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<DLIRSCacheManager>(buffer_size));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<DLIRSCacheManager>(buffer_size, std::stof(param_0)));
             }
             break;
         case CachePolicy::RGC:
