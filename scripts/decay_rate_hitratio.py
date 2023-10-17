@@ -21,20 +21,24 @@ BUFFER_SIZES = [
     1000,
     2000
 ]
-CACHE_POLICY = 'GLRFU3'
-TRACE_FILES = [
-    # 'Home1',
-    'P1',
-    'P2',
-    'P3',
-    'P4',
-    'P5',
-    'P6',
-    'P7',
-    'P12',
-    'OLTP',
-    'DS1'
-]
+# CACHE_POLICY = 'GLRFU3'
+# TRACE_FILES = [
+#     # 'Home1',
+#     'P1',
+#     'P2',
+#     'P3',
+#     'P4',
+#     'P5',
+#     'P6',
+#     'P7',
+#     'P12',
+#     'OLTP',
+#     'DS1'
+# ]
+
+MIN_BUFFER_SIZE = -3
+MAX_BUFFER_SIZE = 4
+BASIC_BUFFER_SIZE_LIST = [(0.01 * (2 ** k)) for k in range(MIN_BUFFER_SIZE, MAX_BUFFER_SIZE + 1)]
 
 def LRFU_OLTP():
     for trace_name in ["OLTP"]:
