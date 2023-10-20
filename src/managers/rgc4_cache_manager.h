@@ -255,13 +255,17 @@ public:
     RGC4CacheManager(int32_t buffer_size, double init_half = 20.0f,
                      double hit_point = 4.0f, int32_t max_points_bits = 10, double ghost_size_ratio = 4.0f,
                      double lambda = 1.0f, int32_t update_interval = 20000, double simulator_ratio = 0.5f, double top_ratio = 0.01f,
-                     double mru_ratio = 0.01f, double delta_bound = 5.0f, bool update_equals_size = false, int32_t mru_threshold = 1024):
+                     double mru_ratio = 0.01f, double delta_bound = 5.0f, bool update_equals_size = false, int32_t mru_threshold = 1024,
+                     int32_t minimal_update_size = -1):
             CacheManager(buffer_size),
             replacer_r_(buffer_size, init_half, hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, mru_threshold),
             replacer_s_(buffer_size, init_half / (1 + simulator_ratio), hit_point, max_points_bits, ghost_size_ratio, top_ratio, mru_ratio, mru_threshold),
             lambda_(lambda), update_interval_(update_interval), init_half_(init_half), simulator_ratio_(simulator_ratio), delta_bound_(delta_bound) {
         if (update_equals_size) {
-            update_interval_ = std::max(100, buffer_size);
+            if (minimal_update_size != -1) {
+                update_interval_ = std::max(100, buffer_size);
+                update_interval_ = std::min(minimal_update_size, buffer_size);
+            }
         }
     }
     RC get(const Key &key) override;
@@ -279,6 +283,7 @@ private:
     double init_half_;
     double simulator_ratio_;
     double delta_bound_;
+    int32_t report_ct{};
 };
 
 #endif //CACHE_PERFORMANCE_INSIGHT_RGC4_CACHE_MANAGER_H

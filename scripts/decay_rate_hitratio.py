@@ -164,7 +164,7 @@ def COMBINE():
         param_list = [math.pow(10, i) for i in np.arange(-6, 0, 0.1)]
         ax.set_xlim(param_list[0] / 2, param_list[-1] * 2)
         x = param_list
-        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02]):
+        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02, 0.05, 0.1]):
             hit_rate_list = []
             for half_life_ratio in param_list:
                 runner = SingleTestRunner("LRFU", buffer_size, trace_file, [half_life_ratio, 1, 1],
@@ -187,7 +187,7 @@ def COMBINE():
         param_list = [math.pow(10, i) for i in np.arange(-2, 3, 0.1)]
         ax.set_xlim(param_list[0] / 2, param_list[-1] * 2)
         x = param_list
-        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02]):
+        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02, 0.05, 0.1]):
             hit_rate_list = []
             for half_life_ratio in param_list:
                 runner = SingleTestRunner("EFSW", buffer_size, trace_file, [half_life_ratio, 1, 1],
@@ -219,10 +219,10 @@ def COMBINE_RGC():
         param_list = [0.001 * math.pow(10, i) for i in np.arange(0, 7.1, 0.1)]
         ax.set_xlim(param_list[0] / 2, param_list[-1] * 2)
         x = param_list
-        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02]):
+        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02, 0.05, 0.1]):
             hit_rate_list = []
             for half_life_ratio in param_list:
-                runner = SingleTestRunner("RGC4", buffer_size, trace_file, [half_life_ratio, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024],
+                runner = SingleTestRunner("RGC4", buffer_size, trace_file, [half_life_ratio, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000],
                                           cache_file_path=cache_file_path)
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)

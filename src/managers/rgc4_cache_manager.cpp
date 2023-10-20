@@ -54,7 +54,8 @@ RC RGC4CacheManager::get(const Key &key) {
         }
         replacer_s_.UpdateHalf(replacer_r_.GetCurHalf() / (1 + simulator_ratio_));
 #ifdef LOG
-        printf("reality: %.2f simulator: %.2f r_cur_half: %.8f %d %d\n", r_hr * 100, s_hr * 100, replacer_r_.GetCurHalf(), replacer_r_.h1, replacer_r_.h2);
+        report_ct++;
+        printf("ct: %d reality: %.2f simulator: %.2f r_cur_half: %.8f %d %d\n", report_ct, r_hr * 100, s_hr * 100, replacer_r_.GetCurHalf(), replacer_r_.h1, replacer_r_.h2);
         std::cout << statics() << '\n';
 #endif
     }
