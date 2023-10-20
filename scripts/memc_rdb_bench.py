@@ -3,12 +3,17 @@ import time
 
 THREADS_LIST = [512, 256, 128, 64, 32, 16, 8, 4, 2, 1]
 TRACE_FILE_LIST = ["P6", "P1"]
+LOGFILE = 'log1018c.txt'
 results = []
 
-def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_stop=True, threads_sync=True, has_warmup=True):
+def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_stop=True, threads_sync=True, has_warmup=True, est_item_counts=0):
     print(f"Started. Args: threads-{thread_num} value_size-{value_size} memcached_mem-{memcached_mem} "
           f"trace-{trace_file} memc_suffix-{memc_suffix} earle_stop-{early_stop} threads_sync-{threads_sync} has_warmup-{has_warmup}")
-    memc_process = subprocess.Popen([f"/tmp/memcached/memcached-{memc_suffix}", "-m", f"{memcached_mem}", "-o", "no_lru_crawler", "-o", "no_lru_maintainer"])
+    params = [f"/tmp/memcached/memcached-{memc_suffix}", "-m", f"{memcached_mem}", "-o", "no_lru_crawler", "-o", "no_lru_maintainer"]
+    if est_item_counts != 0:
+        params.append("-E")
+        params.append(f"{est_item_counts}")
+    memc_process = subprocess.Popen(params)
     # print(1)
     time.sleep(3)
     # print(5)
@@ -22,15 +27,19 @@ def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_
         try:
             result = output.decode('utf-8')
             # print(result)
-            result = result.split("\n")[-3]
+            result = result.split("\n")[-20:]
+            result_str = ''
+            for item in result:
+                result_str += item + '\n'
             log = f"Time: {time.time()} Args: threads-{thread_num} value_size-{value_size} memcached_mem-{memcached_mem} "\
-                  f"trace-{trace_file} memc_suffix-{memc_suffix} earle_stop-{early_stop} threads_sync-{threads_sync} has_warmup-{has_warmup} \n{result}"
-            results.append(log)
+                  f"trace-{trace_file} memc_suffix-{memc_suffix} earle_stop-{early_stop} threads_sync-{threads_sync} has_warmup-{has_warmup} \n{result_str}"
+            # results.append(log)
+            # result_str = log + result_str
             print("result: ", log)
-            with open("local/logs0516.txt", "a") as f:
+            with open(f"local/{LOGFILE}.txt", "a") as f:
                 f.write(f"{log}\n")
         except Exception as e:
-            with open("local/logs0516.txt", "a") as f:
+            with open(f"local/{LOGFILE}.txt", "a") as f:
                 f.write(f"Error occurred: {e}\n")
             print(f"Error occurred: {e}")
     memc_process.terminate()
@@ -49,7 +58,7 @@ def bench_memtier( memcached_mem, memc_suffix, threads, data_size):
 
     print(output.split('\n')[7:13])
     outputs = output.split('\n')[7:13]
-    with open("local/logstier0523.txt", "a") as f:
+    with open(f"local/{LOGFILE}_memtier.txt", "a") as f:
         f.write(f"{args}\n")
         for o in outputs:
             f.write(f"{o}\n")
@@ -61,17 +70,28 @@ def bench_memtier( memcached_mem, memc_suffix, threads, data_size):
 if __name__ == "__main__":
 
 
-    # bench_memtier(4, "rgc12", 8, 1024)
-    # bench_memtier(4, "lru", 8, 1024)
-    for thread in THREADS_LIST[3:]:
+    # bench_memtier(4, "rgc", 128, 1024)
+    # bench_memtier(4, "lru", 128, 1024)
+    for thread in THREADS_LIST:
         bench_memtier(128, "lru", thread, 32768)
-        bench_memtier(128, "rgc12", thread, 32768)
-    for thread in THREADS_LIST[3:]:
+        bench_memtier(128, "rgc", thread, 32768)
+    for thread in THREADS_LIST:
     # for thread in [1]:
         bench_memtier(4, "lru", thread, 1024)
-        bench_memtier(4, "rgc12", thread, 1024)
+        bench_memtier(4, "rgc", thread, 1024)
 
 
+    # """ online 28M + 1K """
+    # for threads in THREADS_LIST:
+    #     for trace_file in ["online"]:
+    #         bench(threads, 1 * 1024, 28, trace_file, "lru", early_stop=False, has_warmup=False)
+    #         bench(threads, 1 * 1024, 28, trace_file, "rgc", early_stop=False, has_warmup=False, est_item_counts=32768)
+
+    # """ Home3 24M + 1K """
+    # for threads in THREADS_LIST:
+    #     for trace_file in ["Home3"]:
+    #         bench(threads, 1 * 1024, 24, trace_file, "lru", early_stop=False, has_warmup=False)
+    #         bench(threads, 1 * 1024, 24, trace_file, "rgc", early_stop=False, has_warmup=False, est_item_counts=32768)
 
     # """ OLTP 216M+256K """
     # for threads in THREADS_LIST:

@@ -162,6 +162,8 @@ def process_cloudvps(trace_file_list, write_trace_path, block=8):
             continue
         f = open(raw_trace_path, 'r')
         for lines in f.readlines():
+            if lines.startswith('CPU'):
+                break
             offset, size = lines.split(' ')
             # print(offset, size)
             access.append((int(offset) // block, int(size) // block))
@@ -199,14 +201,25 @@ if __name__ == "__main__":
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESSTGA01-lvm0.csv', OUTPUT_FOLDER + 'msr_stg_0.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAM-02-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_proj_1.lis')
     # process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm1.csv', OUTPUT_FOLDER + 'msr_usr_1.lis', 4096)
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESIRA01-lvm0.csv', OUTPUT_FOLDER + 'msr_rsrch_0.lis', 4096)
+    # process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm0.csv', OUTPUT_FOLDER + 'msr_usr_0.lis', 4096)
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESTSA01-lvm0.csv', OUTPUT_FOLDER + 'msr_ts_0.lis', 4096)
+    # process_msr(RAW_TRACE_FOLDER + 'CAM-USP-01-lvm0.csv', OUTPUT_FOLDER + 'msr_prn_0.lis', 4096)
+    process_msr(RAW_TRACE_FOLDER + 'CAMRESSDPA03-lvm0.csv', OUTPUT_FOLDER + 'msr_src2_0.lis', 4096)
+
     # process_msr(RAW_TRACE_FOLDER + 'CAMWEBDEV-lvm0.csv', OUTPUT_FOLDER + 'msr_wdev_0.lis', 4096)
     # process_blkparse([f"webmail.cs.fiu.edu-110108-113008.{i}.blkparse" for i in range(1, 20 + 1)], './traces/webmail.lis')
     # process_blkparse([f"casa-110108-112108.{i}.blkparse" for i in range(1, 21 + 1)], './traces/Home1.lis')
     # process_blkparse([f"madmax-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home3.lis')
     # process_blkparse([f"topgun-110108-112108.{i}.blkparse" for i in range(1, 20 + 1)], './traces/Home4.lis')
     # process_blkparse([f"online.cs.fiu.edu-110108-113008.{i}.blkparse" for i in range(1, 20 + 1)], './traces/online.lis')
-    process_blkparse([f"cheetah.cs.fiu.edu-110108-113008.{7}.blkparse" for i in range(1, 21 + 1)], './traces/mail.lis')
+    # process_blkparse([f"cheetah.cs.fiu.edu-110108-113008.{7}.blkparse" for i in range(1, 21 + 1)], './traces/mail.lis')
 
     # process_cloudvps(["vps26391.blkparse"], './traces/cloudvps26391.lis')
     # process_cloudvps(["vps26107.blkparse"], './traces/cloudvps26107.lis')
-
+    # process_cloudvps(["vps26136.blkparse"], './traces/cloudvps26136.lis')
+    # process_cloudvps(["vps26148.blkparse"], './traces/cloudvps26148.lis')
+    # process_cloudvps(["vps26215.blkparse"], './traces/cloudvps26215.lis')
+    # process_cloudvps(["vps26255.blkparse"], './traces/cloudvps26255.lis')
+    # process_cloudvps(["vps26330.blkparse"], './traces/cloudvps26330.lis')
+    # process_cloudvps(["vps26511.blkparse"], './traces/cloudvps26511.lis')

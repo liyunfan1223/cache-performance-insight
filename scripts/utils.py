@@ -7,45 +7,61 @@ import json
 from collections import defaultdict
 
 TRACES_LIST = [
-    # 'msr_proj_0',
-    # 'msr_prxy_0',
-    # 'msr_wdev_0',
-    # 'msr_stg_0',
-    # 'msr_mds_0',
-    # 'msr_web_0',
-    # 'msr_hm_0',
-    "cloudvps26391",
+    # 'P1',
+    # 'P2',
+    # 'P3',
+    # 'P4',
+    # 'P5',
+    # 'P6',
+    # 'P7',
+    # 'P12',
+
+    'Home4',
+    "webmail",
     "cloudvps26107",
+
 
     'websearch',
     'webusers',
-    "webmail",
     'Home1',
     'Home2',
     'Home3',
-    'Home4',
     'online',
-    #
-    'msr_proj_0_1d',
-    'msr_prxy_0_1d',
-    'msr_wdev_0_1d',
-    'msr_stg_0_1d',
-    'msr_mds_0_1d',
-    'msr_web_0_1d',
-    'msr_hm_0_1d',
+
+    "cloudvps26391",
+    'cloudvps26136',
+    'cloudvps26148',
+    'cloudvps26215',
+    'cloudvps26255',
+    'cloudvps26330',
+    'cloudvps26511',
+
+    'msr_usr_0',
+    'msr_proj_0',
+    'msr_prn_0',
+    'msr_hm_0',
+    'msr_rsrch_0',
+    'msr_prxy_0',
+    'msr_src2_0',
+    'msr_stg_0',
+    'msr_ts_0',
+    'msr_web_0',
+    'msr_mds_0',
+    'msr_wdev_0',
+
     # #
-    #
-    # # # # # # # #
-    'P1',
-    'P2',
-    'P3',
-    'P4',
-    'P5',
-    'P6',
-    'P7',
-    'P12',
-    'DS1',
-    'OLTP',
+    # # 'msr_proj_0_1d',
+    # # 'msr_prxy_0_1d',
+    # # 'msr_wdev_0_1d',
+    # # 'msr_stg_0_1d',
+    # # 'msr_mds_0_1d',
+    # # 'msr_web_0_1d',
+    # # 'msr_hm_0_1d',
+    # # # # #
+    # # # #
+    # # # # # # # # # # #
+    # 'DS1',
+    # 'OLTP',
     #
 
 
@@ -203,8 +219,10 @@ class StatisticsCompareLRU:
         self.data = defaultdict()
         self.count = defaultdict()
         self.perf = defaultdict()
+        self.lru = None
 
     def statistic(self, lru_result, compared_result, compared_label='default'):
+        self.lru = lru_result
         for lru, compared in zip(lru_result, compared_result):
             if lru == 0:
                 ratio = 0
@@ -221,6 +239,7 @@ class StatisticsCompareLRU:
                 self.count[compared_label] = 1
 
     def print_result(self):
+        # print(f"LRU average hit rate: {sum(self.lru) / len(self.lru)}%")
         for label in self.data.keys():
             print(f"Performance rate of {label}: {self.perf[label] / self.count[label] * 100}% average higher than lru.")
         for label in self.data.keys():

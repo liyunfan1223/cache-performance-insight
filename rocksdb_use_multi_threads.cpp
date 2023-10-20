@@ -12,6 +12,7 @@
 #include <libmemcached/memcached.h>
 #include <thread>
 #include <csignal>
+#include <queue>
 #include "src/def.h"
 
 using ROCKSDB_NAMESPACE::DB;
@@ -32,6 +33,7 @@ const uint32_t  warmup_access = 1 << 20;
 const uint32_t  report_interval = 1 << 14;
 
 const uint32_t simulated_network_latency = 5; // 5ms - 10ms for network request
+//const uint32_t simulated_network_latency = 0; // 5ms - 10ms for network request
 bool earlyStop = false;
 uint32_t maxLength;
 uint32_t threadNum;
@@ -54,6 +56,10 @@ pthread_mutex_t stats_mutex;
 int global_i;
 pthread_mutex_t i_mutex;
 bool threadsSync = false;
+
+static std::vector<double> stastic_percentiles{0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, 0.95, 0.99, 0.999, 0.9999};
+std::vector<double> latency_vec;
+std::mutex latency_mutex;
 
 double GenerateRandomRTT() {
     return (1 + rand() % 100 / 100.0) * simulated_network_latency;
@@ -150,6 +156,12 @@ RequestResult request_item(const char * key, int thread_id, memcached_st * memc)
     double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
     counter[thread_id][rr]++;
     timer[thread_id][rr] += time;
+    if (rand() % 100 <= 10) {
+        if (latency_mutex.try_lock()) {
+            latency_vec.push_back(time);
+            latency_mutex.unlock();
+        }
+    }
     return rr;
 }
 
@@ -346,6 +358,11 @@ int main(int argc, char* argv[])
     pthread_join(threads[0], NULL);
     for (int i = 1; i < threadNum; i++) {
         pthread_join(threads[i], NULL);
+    }
+    printf("Sampled %zu, now calculating tail latency...\n", latency_vec.size());
+    std::sort(latency_vec.begin(), latency_vec.end());
+    for (double percentile : stastic_percentiles) {
+        printf("Percentage %.2f%%: %.2fms\n", percentile * 100, latency_vec[(int)(latency_vec.size() * percentile)]);
     }
     delete rocksDB;
     return 0;

@@ -17,7 +17,9 @@ FOREACH (F ${ALL_SRC})
                 managers/rgc3_cache_manager.h
                 data_structures/deque_dict.hpp
                 managers/dlirs_cache_manager.cpp
-                managers/dlirs_cache_manager.h)
+                managers/dlirs_cache_manager.h
+                managers/rgc4_cache_manager.cpp
+                managers/rgc4_cache_manager.h)
     ENDIF()
     MESSAGE("Use " ${F})
 ENDFOREACH (F)
