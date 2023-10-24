@@ -284,6 +284,8 @@ private:
     double simulator_ratio_;
     double delta_bound_;
     int32_t report_ct{};
+    std::list<int32_t> hit_recorder;
+    int32_t recorder_hit_count{};
 };
 
 #endif //CACHE_PERFORMANCE_INSIGHT_RGC4_CACHE_MANAGER_H

@@ -8,9 +8,20 @@ RC RGC4CacheManager::get(const Key &key) {
     ts_++;
     if (replacer_r_.Access(key)) {
         increase_hit_count();
+        hit_recorder.push_back(1);
+        recorder_hit_count++;
     } else {
         increase_miss_count();
+        hit_recorder.push_back(0);
     }
+
+    if (hit_recorder.size() >= 500000) {
+        if (hit_recorder.front() == 1) {
+            recorder_hit_count--;
+        }
+        hit_recorder.pop_front();
+    }
+
     replacer_s_.Access(key);
     if (ts_ % update_interval_ == 0) {
         int32_t r_mc, r_hc;
@@ -53,12 +64,22 @@ RC RGC4CacheManager::get(const Key &key) {
             }
         }
         replacer_s_.UpdateHalf(replacer_r_.GetCurHalf() / (1 + simulator_ratio_));
-#ifdef LOG
-        report_ct++;
-        printf("ct: %d reality: %.2f simulator: %.2f r_cur_half: %.8f %d %d\n", report_ct, r_hr * 100, s_hr * 100, replacer_r_.GetCurHalf(), replacer_r_.h1, replacer_r_.h2);
-        std::cout << statics() << '\n';
-#endif
+//#ifdef LOG
+//        report_ct++;
+//        printf("ct: %d reality: %.2f simulator: %.2f r_cur_half: %.8f %d %d\n", report_ct, r_hr * 100, s_hr * 100, replacer_r_.GetCurHalf(), replacer_r_.h1, replacer_r_.h2);
+////        std::cout << statics() << '\n';
+//#endif
     }
+#ifdef LOG
+    if (ts_ % 100 == 0) {
+        report_ct++;
+        printf("ct: %d reality: %.8f simulator: %.8f r_cur_half: %.8f %d %d\n",
+               report_ct,
+               ((double) recorder_hit_count / hit_recorder.size()),
+               (double)0, replacer_r_.GetCurHalf(), replacer_r_.h1, replacer_r_.h2);
+    }
+#endif
+
     return RC::SUCCESS;
 }
 

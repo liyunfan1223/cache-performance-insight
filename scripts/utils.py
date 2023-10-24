@@ -15,19 +15,16 @@ TRACES_LIST = [
     # 'P6',
     # 'P7',
     # 'P12',
-
-    'Home4',
     "webmail",
-    "cloudvps26107",
-
-
     'websearch',
     'webusers',
+    'online',
     'Home1',
     'Home2',
     'Home3',
-    'online',
+    'Home4',
 
+    "cloudvps26107",
     "cloudvps26391",
     'cloudvps26136',
     'cloudvps26148',
@@ -35,7 +32,7 @@ TRACES_LIST = [
     'cloudvps26255',
     'cloudvps26330',
     'cloudvps26511',
-
+    #
     'msr_usr_0',
     'msr_proj_0',
     'msr_prn_0',
@@ -145,16 +142,18 @@ class Recorder:
 
 
 class SingleTestRunner:
-    EXECUTION_PATH = './build/src/main'
+    # EXECUTION_PATH = './build/src/main'
+    execution_path = './'
     START_POSITION = len('hit_rate:')
     # CACHE_FILE_PATH = 'local/single_test_runner_cache.json'
 
-    def __init__(self, cache_policy=None, buffer_size=None, trace_file=None, params=None, cache_file_path='local/single_test_runner_cache.json'):
+    def __init__(self, cache_policy=None, buffer_size=None, trace_file=None, params=None, execution_path = './build/src/main', cache_file_path='local/single_test_runner_cache.json'):
         self.cache_policy = cache_policy
         self.buffer_size = buffer_size
         self.trace_file = trace_file
         self.params = params
         self.cache_file_path = cache_file_path
+        self.execution_path = execution_path
 
     def make_cache_key_string(self):
         return str(self.cache_policy) + '_' + str(self.buffer_size) + '_' + \
@@ -166,7 +165,7 @@ class SingleTestRunner:
                 data: dict = json.load(f)
             if self.make_cache_key_string() in data.keys():
                 return data[self.make_cache_key_string()]
-        cmdline = self.EXECUTION_PATH + f" {self.cache_policy} {self.buffer_size} {self.trace_file}"
+        cmdline = self.execution_path + f" {self.cache_policy} {self.buffer_size} {self.trace_file}"
         if self.params is not None:
             for param in self.params:
                 cmdline += f" {param}"
@@ -185,7 +184,14 @@ class SingleTestRunner:
             print(f'Result saved in cache file. key:{self.make_cache_key_string()}')
         return float(res.split()[-1][self.START_POSITION:-1])
 
-
+    def get_outputs(self):
+        cmdline = self.execution_path + f" {self.cache_policy} {self.buffer_size} {self.trace_file}"
+        if self.params is not None:
+            for param in self.params:
+                cmdline += f" {param}"
+        print('cmdline: ', cmdline)
+        res = os.popen(cmdline).read().strip()
+        return res
 class MultiTestRunner:
 
     def __init__(self, cache_policy_list=None, buffer_size_list=None, trace_file=None, params=None):

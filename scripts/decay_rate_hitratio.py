@@ -227,16 +227,82 @@ def COMBINE_RGC():
                 hit_rate = runner.get_hit_rate()
                 hit_rate_list.append(hit_rate)
             ax.plot(param_list, hit_rate_list, label=f'size={buffer_size}', marker='+', linestyle=linestyles[idx])
-        fig_path =f'local/decay_ratio_RGC_{trace_name}.png'
+        fig_path =f'local/decay_ratio_RGC_{trace_name}_1023.png'
         plt.legend(loc=9, bbox_to_anchor=(-0.15, -0.065), ncol=5)
         plt.savefig(fig_path)
         print(f'Fig generated path: {fig_path}. ')
+
+def COMBINE_RGC_1s():
+    for trace_name in TRACES_LIST:
+        fig = plt.figure(figsize=(11, 4))
+        fig.tight_layout()
+        ax = fig.subplots()
+        ax.set_title("$\lambda$")
+        print("TRACE NAME:", trace_name)
+        # fig, ax = plt.subplots(figsize=(10, 5))
+
+        ax.set_ylabel('Hit Ratio(%)')
+        ax.set_xscale('log')
+        trace_file = f'traces/{trace_name}.lis'
+        # 0.001 -> 10000
+        param_list = [0.001 * math.pow(10, i) for i in np.arange(0, 7.1, 0.1)]
+        ax.set_xlim(param_list[0] / 2, param_list[-1] * 2)
+        x = param_list
+        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02, 0.05, 0.1]):
+            hit_rate_list = []
+            for half_life_ratio in param_list:
+                runner = SingleTestRunner("RGC4", buffer_size, trace_file, [half_life_ratio, 1, 6, 1, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000],
+                                          cache_file_path=cache_file_path)
+                hit_rate = runner.get_hit_rate()
+                hit_rate_list.append(hit_rate)
+            ax.plot(param_list, hit_rate_list, label=f'size={buffer_size}', marker='+', linestyle=linestyles[idx])
+        fig_path =f'local/decay_ratio_RGC_{trace_name}_1023.png'
+        plt.legend(loc=9, bbox_to_anchor=(-0.15, -0.065), ncol=5)
+        plt.savefig(fig_path)
+        print(f'Fig generated path: {fig_path}. ')
+
+def BEST_COMBINE_RGC_1s():
+    for trace_name in TRACES_LIST:
+        fig = plt.figure(figsize=(11, 4))
+        fig.tight_layout()
+        ax = fig.subplots()
+        ax.set_title("$\lambda$")
+        print("TRACE NAME:", trace_name)
+        # fig, ax = plt.subplots(figsize=(10, 5))
+
+        ax.set_ylabel('Hit Ratio(%)')
+        ax.set_xscale('log')
+        trace_file = f'traces/{trace_name}.lis'
+        # 0.001 -> 10000
+        param_list = [0.001 * math.pow(10, i) for i in np.arange(0, 7.1, 0.1)]
+        ax.set_xlim(param_list[0] / 2, param_list[-1] * 2)
+        x = param_list
+        for idx, buffer_size in enumerate([0.00125, 0.005, 0.01, 0.02, 0.05, 0.1]):
+            hit_rate_list = []
+            best = 0
+            best_p = 0
+            for half_life_ratio in param_list:
+                runner = SingleTestRunner("RGC4", buffer_size, trace_file, [half_life_ratio, 1, 6, 1, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000],
+                                          cache_file_path=cache_file_path)
+                hit_rate = runner.get_hit_rate()
+                if hit_rate > best:
+                    best = hit_rate
+                    best_p = half_life_ratio
+                hit_rate_list.append(hit_rate)
+            ax.plot(param_list, hit_rate_list, label=f'size={buffer_size}', marker='+', linestyle=linestyles[idx])
+            print(f'best {buffer_size} {best} {best_p}')
+        # fig_path =f'local/decay_ratio_RGC_{trace_name}_1023.png'
+        # plt.legend(loc=9, bbox_to_anchor=(-0.15, -0.065), ncol=5)
+        # plt.savefig(fig_path)
+        # print(f'Fig generated path: {fig_path}. ')
 
 if __name__ == '__main__':
     # LRFU_OLTP()
     # EFSW_OLTP()
 
     # COMBINE()
-    COMBINE_RGC()
+    # COMBINE_RGC()
+    # COMBINE_RGC_1s()
+    BEST_COMBINE_RGC_1s()
     # LRFU_P1()
     # EFSW_P1()
