@@ -72,7 +72,7 @@ def RunAndGetHitRateAndParam(policy, buffer_size, ptrace, param):
     for line in lines:
         print(line)
         _, _, _, hr, _, _, _, p, _, _ = line.strip().split(' ')
-        hrs.append(float(hr))
+        hrs.append(float(hr) * 100)
         ps.append(float(p))
     dhrs = [0]
     dps = [param[0]]
@@ -91,14 +91,15 @@ def RunAndGetHitRateAndParam(policy, buffer_size, ptrace, param):
         tsum_hr += hr
     return dhrs, dps
 
-total_size = 2000
-buffer_size = 0.001
-trace = 'proj_prxy'
-p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000]
-p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
-p3 = [64, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
 
-if __name__ == "__main__":
+
+def online():
+    total_size = 2000
+    buffer_size = 0.1
+    trace = 'online'
+    p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.05, 1, 1024, 10000]
+    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
+    p3 = [8, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
     # sim_hrs, sim_ps = GetHitRateAndParam('local/webmail_0.001_sim.log')
     sim_hrs, sim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1)
     nosim_hrs, nosim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p2)
@@ -132,6 +133,47 @@ if __name__ == "__main__":
     ax.plot(X, nosim_ps2, label='nosim2')
     plt.legend()
     plt.savefig(f'plots/D4.2/{trace}_2.png')
+
+def webmail():
+    total_size = 2000
+    buffer_size = 0.001
+    trace = 'webmail'
+    p1 = [64, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000]
+    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
+    p3 = [64, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
+    # sim_hrs, sim_ps = GetHitRateAndParam('local/webmail_0.001_sim.log')
+    sim_hrs, sim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1)
+    nosim_hrs, nosim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p2)
+    nosim_hrs2, nosim_ps2 = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p3)
+    # nosim_hrs, nosim_ps = GetHitRateAndParam('local/webmail_0.001_nosim.log')
+
+    X = np.arange(len(sim_hrs))
+    # print(X, len(sim_hrs), down_sample_group_size)
+    fig, axes = plt.subplots(2, 1, figsize=(12, 6), sharex=True)
+
+    ax = axes[0]
+    ax.plot(X, sim_hrs, label='RGC')
+    ax.plot(X, nosim_hrs, label='RGC($R_t$=1)')
+    ax.plot(X, nosim_hrs2, label='RGC($R_t$=64)')
+    # ax.xaxis.set_visible(False)
+    # ax.set_yticks(0)
+    # ax.set_ytickslabel('')
+    ax.set_ylabel('Hit Rate(%)')
+
+    ax = axes[1]
+    ax.plot(X, sim_ps, label='RGC')
+    ax.plot(X, nosim_ps, label='RGC($R_t$=1)')
+    ax.plot(X, nosim_ps2, label='RGC($R_t$=64)')
+    ax.set_ylabel('$R_t$')
+    ax.set_xlabel(r'Requests($\times$10000)')
+
+    fig.tight_layout(w_pad=2)
+
+    plt.legend()
+    plt.savefig(f'plots/D4.2/{trace}_2.png')
+
+if __name__ == "__main__":
+    webmail()
 
     #
     # fig.tight_layout(h_pad=1.5, w_pad=0.0)
