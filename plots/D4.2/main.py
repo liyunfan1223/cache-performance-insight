@@ -80,7 +80,7 @@ def RunAndGetHitRateAndParam(policy, buffer_size, ptrace, param):
     tsum_hr = 0
     tsum_p = 0
 
-    down_sample_group_size = len(hrs) // total_size
+    down_sample_group_size = 100
     for idx, (hr, p) in enumerate(zip(hrs, ps)):
         if (idx + 1) % down_sample_group_size == 0:
             dhrs.append(tsum_hr / down_sample_group_size)
@@ -91,16 +91,18 @@ def RunAndGetHitRateAndParam(policy, buffer_size, ptrace, param):
         tsum_hr += hr
     return dhrs, dps
 
-total_size = 500
-buffer_size = 0.1
-trace = 'msr_prn_0'
-p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 1000]
-p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 1000]
+total_size = 2000
+buffer_size = 0.001
+trace = 'proj_prxy'
+p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000]
+p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
+p3 = [64, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
 
 if __name__ == "__main__":
     # sim_hrs, sim_ps = GetHitRateAndParam('local/webmail_0.001_sim.log')
     sim_hrs, sim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1)
     nosim_hrs, nosim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p2)
+    nosim_hrs2, nosim_ps2 = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p3)
     # nosim_hrs, nosim_ps = GetHitRateAndParam('local/webmail_0.001_nosim.log')
 
     X = np.arange(len(sim_hrs))
@@ -108,17 +110,10 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(2, 1, figsize=(12, 6))
 
     ax = axes[0]
-    # x_smooth = np.linspace(X.min(), X.max(), 300)
-    # spl = make_interp_spline(X, sim_hrs)
-    # sim_hrs_smooth = spl(x_smooth)
-    # ax.plot(x_smooth, sim_hrs_smooth, label='sim')
     ax.plot(X, sim_hrs, label='sim')
 
-    # spl = make_interp_spline(X, nosim_hrs)
-    # nosim_hrs_smooth = spl(x_smooth)
-    # ax.plot(x_smooth, nosim_hrs_smooth, label='nosim')
     ax.plot(X, nosim_hrs, label='nosim')
-
+    ax.plot(X, nosim_hrs2, label='nosim2')
     # plt.legend()
     # plt.savefig(f'plots/D4.2/{trace}_1.png')
 
@@ -134,7 +129,7 @@ if __name__ == "__main__":
     # nosim_ps_smooth = spl(x_smooth)
     # ax.plot(x_smooth, nosim_ps_smooth, label='nosim')
     ax.plot(X, nosim_ps, label='nosim')
-
+    ax.plot(X, nosim_ps2, label='nosim2')
     plt.legend()
     plt.savefig(f'plots/D4.2/{trace}_2.png')
 
