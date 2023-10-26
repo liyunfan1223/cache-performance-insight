@@ -3,7 +3,7 @@ import time
 
 THREADS_LIST = [512, 256, 128, 64, 32, 16, 8, 4, 2, 1]
 TRACE_FILE_LIST = ["P6", "P1"]
-LOGFILE = 'log1018c.txt'
+LOGFILE = 'log1026'
 results = []
 
 def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_stop=True, threads_sync=True, has_warmup=True, est_item_counts=0):
@@ -27,7 +27,7 @@ def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_
         try:
             result = output.decode('utf-8')
             # print(result)
-            result = result.split("\n")[-20:]
+            result = result.split("\n")[-120:]
             result_str = ''
             for item in result:
                 result_str += item + '\n'
@@ -72,20 +72,20 @@ if __name__ == "__main__":
 
     # bench_memtier(4, "rgc", 128, 1024)
     # bench_memtier(4, "lru", 128, 1024)
-    for thread in THREADS_LIST:
-        bench_memtier(128, "lru", thread, 32768)
-        bench_memtier(128, "rgc", thread, 32768)
-    for thread in THREADS_LIST:
-    # for thread in [1]:
-        bench_memtier(4, "lru", thread, 1024)
-        bench_memtier(4, "rgc", thread, 1024)
+    # for thread in THREADS_LIST:
+    #     bench_memtier(128, "lru", thread, 32768)
+    #     bench_memtier(128, "rgc", thread, 32768)
+    # for thread in THREADS_LIST:
+    # # for thread in [1]:
+    #     bench_memtier(4, "lru", thread, 1024)
+    #     bench_memtier(4, "rgc", thread, 1024)
 
 
-    # """ online 28M + 1K """
-    # for threads in THREADS_LIST:
-    #     for trace_file in ["online"]:
-    #         bench(threads, 1 * 1024, 28, trace_file, "lru", early_stop=False, has_warmup=False)
-    #         bench(threads, 1 * 1024, 28, trace_file, "rgc", early_stop=False, has_warmup=False, est_item_counts=32768)
+    """ online 28M + 1K """
+    for threads in THREADS_LIST:
+        for trace_file in ["online"]:
+            bench(threads, 1 * 1024, 28, trace_file, "lru", early_stop=False, has_warmup=False)
+            bench(threads, 1 * 1024, 28, trace_file, "rgc", early_stop=False, has_warmup=False, est_item_counts=32768)
 
     # """ Home3 24M + 1K """
     # for threads in THREADS_LIST:

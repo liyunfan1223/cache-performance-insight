@@ -57,7 +57,6 @@ int global_i;
 pthread_mutex_t i_mutex;
 bool threadsSync = false;
 
-static std::vector<double> stastic_percentiles{0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, 0.95, 0.99, 0.999, 0.9999};
 std::vector<double> latency_vec;
 std::mutex latency_mutex;
 
@@ -361,8 +360,19 @@ int main(int argc, char* argv[])
     }
     printf("Sampled %zu, now calculating tail latency...\n", latency_vec.size());
     std::sort(latency_vec.begin(), latency_vec.end());
+    static std::vector<double> stastic_percentiles;
+    for (int i = 0; i <= 100; i++) {
+        stastic_percentiles.push_back(i / 100.0);
+    }
+    stastic_percentiles.push_back(0.90);
+    stastic_percentiles.push_back(0.95);
+    stastic_percentiles.push_back(0.99);
+    stastic_percentiles.push_back(0.999);
+    stastic_percentiles.push_back(0.9999);
+    stastic_percentiles.push_back(0.99999);
+//    {0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, 0.95, 0.99, 0.999, 0.9999};
     for (double percentile : stastic_percentiles) {
-        printf("Percentage %.2f%%: %.2fms\n", percentile * 100, latency_vec[(int)(latency_vec.size() * percentile)]);
+        printf("Percentage %.8f%%: %.8fms\n", percentile * 100, latency_vec[(int)(latency_vec.size() * percentile)]);
     }
     delete rocksDB;
     return 0;

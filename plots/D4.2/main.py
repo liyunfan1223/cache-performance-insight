@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
 import sys
-from scipy.interpolate import make_interp_spline
 sys.path.append("/home/ubuntu22/cache-performance-insight")
 
 from scripts.utils import SingleTestRunner, MultiTestRunner, BUFFER_LIST_FOR_TRACES, TRACES_LIST
@@ -138,38 +137,53 @@ def webmail():
     total_size = 2000
     buffer_size = 0.001
     trace = 'webmail'
-    p1 = [64, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000]
-    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
-    p3 = [64, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
+    p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 3000]
+    p1b = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 3000]
+    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 3000]
+    p3 = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 3000]
     # sim_hrs, sim_ps = GetHitRateAndParam('local/webmail_0.001_sim.log')
     sim_hrs, sim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1)
+    simb_hrs, simb_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1b)
     nosim_hrs, nosim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p2)
     nosim_hrs2, nosim_ps2 = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p3)
     # nosim_hrs, nosim_ps = GetHitRateAndParam('local/webmail_0.001_nosim.log')
 
     X = np.arange(len(sim_hrs))
     # print(X, len(sim_hrs), down_sample_group_size)
-    fig, axes = plt.subplots(2, 1, figsize=(12, 6), sharex=True)
+    fig, axes = plt.subplots(2, 1, figsize=(10, 5), sharex=True)
+
+
+
+    ax = axes[1]
+    ax.plot(X, sim_ps, label='RGC($R_0=1$)')
+    ax.plot(X, simb_ps, label='RGC($R_0=128$)')
+    ax.plot(X, nosim_ps, label='RGC($R_t=1$)', linestyle='--')
+    ax.plot(X, nosim_ps2, label='RGC($R_t=128$)', linestyle='--')
+    ax.set_ylabel('$R_t$', fontsize=14)
+    ax.set_xlabel(r'Requests($\times$10000)', fontsize=14)
+    # ax.set_yticks([1, 8, 64])
+    ax.set_yscale('log')
+    ax.tick_params(axis='x', labelsize=14)
+    ax.tick_params(axis='y', labelsize=14)
 
     ax = axes[0]
-    ax.plot(X, sim_hrs, label='RGC')
-    ax.plot(X, nosim_hrs, label='RGC($R_t$=1)')
-    ax.plot(X, nosim_hrs2, label='RGC($R_t$=64)')
+    ax.plot(X, sim_hrs, label='RGC($R_0=1$)')
+    ax.plot(X, simb_hrs, label='RGC($R_0=128$)')
+    ax.plot(X, nosim_hrs, label='RGC($R_t=1$)', linestyle='--')
+    ax.plot(X, nosim_hrs2, label='RGC($R_t=128$)', linestyle='--')
     # ax.xaxis.set_visible(False)
     # ax.set_yticks(0)
     # ax.set_ytickslabel('')
-    ax.set_ylabel('Hit Rate(%)')
+    ax.tick_params(axis='x', labelsize=14)
+    ax.tick_params(axis='y', labelsize=14)
+    # ax.set_ylim(5, 60)
+    ax.set_ylabel('Hit Rate(%)', fontsize=14)
+    # ax.legend()
+    # ax.legend(loc='upper center', bbox_to_anchor=(0, -0.5), ncols=4)
+    # plt.legend()
+    fig.tight_layout()
 
-    ax = axes[1]
-    ax.plot(X, sim_ps, label='RGC')
-    ax.plot(X, nosim_ps, label='RGC($R_t$=1)')
-    ax.plot(X, nosim_ps2, label='RGC($R_t$=64)')
-    ax.set_ylabel('$R_t$')
-    ax.set_xlabel(r'Requests($\times$10000)')
 
-    fig.tight_layout(w_pad=2)
-
-    plt.legend()
     plt.savefig(f'plots/D4.2/{trace}_2.png')
 
 if __name__ == "__main__":

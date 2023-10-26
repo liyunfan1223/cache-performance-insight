@@ -22,7 +22,7 @@ hatches = ['//', '\\', '||', '-', '+',]
 
 policies = ['LFU', 'LRU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC4', 'OPT']
 policies_tag = ['LFU', 'LRU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC', 'OPT']
-params = [None, None, None, [2], [2], [], [16, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.05, 1, 1024, 10000], None]
+params = [None, None, None, [2], [2], [], [16, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000], None]
 buffer_sizes = [0.001, 0.01, 0.05, 0.1]
 buffer_sizes_tag = ['0.1%', '1%', '5%', '10%']
 # buffer_sizes = [0.0005, 0.001, 0.005]#, 0.01, 0.05, 0.1]
@@ -40,7 +40,7 @@ X = np.arange(len(buffer_sizes))
 if __name__ == "__main__":
     fig, axes = plt.subplots(3, 3, figsize=(8, 5))
 
-    fig.tight_layout(h_pad=1.5, w_pad=0.0)
+
     # plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
     for i_trace, trace in enumerate(traces):
         ax = axes[i_trace // 3][i_trace % 3]
@@ -69,10 +69,13 @@ if __name__ == "__main__":
             color = None
             ax.bar(x, y, width=1/n_policy, label=policies_tag[i], bottom=0, linewidth=1, color=colors[i])
         # plt.legend()
+    fig.tight_layout(h_pad=1.0, w_pad=0.0)
+
     print(f'Generate plots/D4.1/1.png')
     # plt.legend(bbox_to_anchor=(0, -0.1), ncol=len(policies_tag))
     # plt.subplots_adjust(hspace=0.2)
     fig.savefig(f'plots/D4.1/1.png')
+    fig.savefig(f'plots/D4.1/1.eps')
 
     # for i, policy in enumerate(data.keys()):
     #     hatch = hatches[i]
