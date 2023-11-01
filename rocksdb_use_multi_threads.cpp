@@ -24,16 +24,16 @@ using ROCKSDB_NAMESPACE::WriteBatch;
 using ROCKSDB_NAMESPACE::WriteOptions;
 using namespace std;
 
-const uint32_t MAX_THREAD_NUM = 1024;
-const uint32_t MAX_TOTAL_COUNTER = 1 << 22;
+const uint32_t MAX_THREAD_NUM = 1 << 20;
+const uint32_t MAX_TOTAL_COUNTER = 1 << 20;
 const uint32_t MEGABYTES = 1 << 20;
 const char * config_string = "--SERVER=127.0.0.1";
 const uint32_t  warmup_seconds = 30;
 const uint32_t  warmup_access = 1 << 20;
 const uint32_t  report_interval = 1 << 14;
 
-const uint32_t simulated_network_latency = 5; // 5ms - 10ms for network request
-//const uint32_t simulated_network_latency = 0; // 5ms - 10ms for network request
+//const uint32_t simulated_network_latency = 5; // 5ms - 10ms for network request
+uint32_t simulated_network_latency = 0;
 bool earlyStop = false;
 uint32_t maxLength;
 uint32_t threadNum;
@@ -44,6 +44,10 @@ string default_str;
 
 double timer[MAX_THREAD_NUM + 1][3];
 uint32_t counter[MAX_THREAD_NUM + 1][3];
+
+double memc_timer[MAX_THREAD_NUM + 1];
+uint32_t memc_counter[MAX_THREAD_NUM + 1];
+
 bool warming_up[MAX_THREAD_NUM + 1];
 timeval start_time[MAX_THREAD_NUM + 1];
 
@@ -61,7 +65,11 @@ std::vector<double> latency_vec;
 std::mutex latency_mutex;
 
 double GenerateRandomRTT() {
-    return (1 + rand() % 100 / 100.0) * simulated_network_latency;
+    return (1 + rand() % 200 / 100.0) * simulated_network_latency;
+}
+
+double GenrateRandomRatio() {
+    return pow(1.25, rand() % 10000 / 2500.0);
 }
 
 DB* rocksdb_create()
@@ -72,19 +80,32 @@ DB* rocksdb_create()
     options.use_direct_io_for_flush_and_compaction = true;
     options.IncreaseParallelism(threadNum);
     options.max_background_jobs = threadNum * 4;
-    //文件夹没有数据就创建
+    // 文件夹没有数据就创建
     options.create_if_missing = true;
     // 打开数据库，加载数据到内存
     Status s=DB::Open(options,kDBPath,&db);
     return db;
 }
 
-bool request_from_memcached( const char * key, string &value, memcached_st * memc )
+bool request_from_memcached( const char * key, string &value, memcached_st * memc, int32_t thread_id )
 {
     memcached_return_t ret;
     size_t value_len;
     uint32_t flags;
-    char * v = memcached_get(memc, key, strlen(key), &value_len, &flags, &ret);
+    uint32_t key_length = strlen(key);
+
+
+
+
+    const auto start = std::chrono::high_resolution_clock::now();
+
+    char * v = memcached_get(memc, key, key_length, &value_len, &flags, &ret);
+    const auto end = std::chrono::high_resolution_clock::now();
+    const std::chrono::duration<double, std::milli> elapsed = end - start;
+    double time = elapsed.count(); // ms
+    memc_counter[thread_id] ++;
+    memc_timer[thread_id] += time;
+
     if (ret == MEMCACHED_SUCCESS) {
         value = v;
         // must free manually
@@ -93,21 +114,32 @@ bool request_from_memcached( const char * key, string &value, memcached_st * mem
     return ret == MEMCACHED_SUCCESS;
 }
 
-bool save_to_memcached( const char * key, string& value, uint32_t v_len, memcached_st * memc )
+bool save_to_memcached( const char * key, string& value, uint32_t v_len, memcached_st * memc, int thread_id )
 {
     memcached_return_t ret;
     size_t value_len;
     uint32_t flags;
-    ret = memcached_set(memc, key, strlen(key), value.substr(0, v_len).c_str(), v_len, 0, 0);
+    uint32_t key_length = strlen(key);
+    string val = value.substr(0, v_len);
+//    timeval start_time, end_time;
+//    gettimeofday(&start_time, nullptr);
+    ret = memcached_set(memc, key, key_length, val.c_str(), v_len, 0, 0);
+//    gettimeofday(&end_time, nullptr);
+//    double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
+//    memc_counter[thread_id] ++;
+//    memc_timer[thread_id] += time;
     return ret == 0;
 }
 
 bool request_from_rocksdb( const char * key, string& value )
 {
-    usleep(GenerateRandomRTT() * 1000);
+//    usleep(GenerateRandomRTT() * 1000);
+    std::this_thread::sleep_for(GenerateRandomRTT() * 1ms);
+//    std::this_thread::sleep_for(300us);
     Status status = rocksDB->Get(ReadOptions(), key, &value);
     assert(!status.ok() || value.length() >= maxLength / 2);
     return status.ok();
+    return true;
 }
 
 bool save_to_rocksdb( const char * key, string &value, uint32_t v_len)
@@ -123,41 +155,43 @@ enum RequestResult {
     unknown,
 };
 
-RequestResult do_request_item(const char * key, memcached_st * memc)
+RequestResult do_request_item(const char * key, memcached_st * memc, int32_t thread_id)
 {
     string value;
-    timeval start_time, end_time;
 //    gettimeofday(&start_time, NULL);
-    if (request_from_memcached(key, value, memc)) {
+    if (request_from_memcached(key, value, memc, thread_id)) {
         return in_memcached;
     }
 //    gettimeofday(&end_time, NULL);
 //    double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
 //    printf("memcached miss time: %.2f\n", time);
     if (request_from_rocksdb(key, value)) {
-        save_to_memcached(key, value, value.length(), memc);
+        save_to_memcached(key, value, value.length(), memc, thread_id);
         return in_rocksdb;
     }
-
-    uint32_t v_len = rand() % (maxLength / 2) + (maxLength / 2) + 1;
+    uint32_t v_len = rand() % (int)(maxLength * 0.6) + maxLength * 0.4 + 1;
+//    uint32_t v_len = maxLength;
     save_to_rocksdb(key, default_str, v_len);
-    save_to_memcached(key, default_str, v_len, memc);
+    save_to_memcached(key, default_str, v_len, memc, thread_id);
     return not_found;
 }
 
 RequestResult request_item(const char * key, int thread_id, memcached_st * memc)
 {
     timeval start_time, end_time;
-    gettimeofday(&start_time, NULL);
+//    gettimeofday(&start_time, NULL);
+    const auto start = std::chrono::high_resolution_clock::now();
     RequestResult rr;
-    rr = do_request_item(key, memc);
-    gettimeofday(&end_time, NULL);
-    double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
+    rr = do_request_item(key, memc, thread_id);
+//    gettimeofday(&end_time, NULL);
+//    double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
+    const auto end = std::chrono::high_resolution_clock::now();
+    const std::chrono::duration<double, std::milli> elapsed = end - start;
     counter[thread_id][rr]++;
-    timer[thread_id][rr] += time;
+    timer[thread_id][rr] += elapsed.count();
     if (rand() % 100 <= 10) {
         if (latency_mutex.try_lock()) {
-            latency_vec.push_back(time);
+            latency_vec.push_back(elapsed.count());
             latency_mutex.unlock();
         }
     }
@@ -200,6 +234,8 @@ void* subprocess_work(void * arg)
                     for (int j = 0; j < 3; j++) {
                         timer[thread_id][j] = 0;
                         counter[thread_id][j] = 0;
+                        memc_counter[thread_id] = 0;
+                        memc_timer[thread_id] = 0;
                     }
                     warming_up_counter++;
                     printf("Thread-%d warmed up.\n", thread_id);
@@ -222,15 +258,19 @@ void* subprocess_work(void * arg)
             for (int k = 0; k < 3; k++) {
                 timer[0][k] = 0;
                 counter[0][k] = 0;
+                memc_counter[0] = 0;
+                memc_timer[0] = 0;
                 for (int j = 1; j <= threadNum; j++) {
                     timer[0][k] += timer[j][k];
                     counter[0][k] += counter[j][k];
+                    memc_counter[0] += memc_counter[j];
+                    memc_timer[0] += memc_timer[j];
                 }
 
             }
             uint32_t tot_counter = counter[0][0] + counter[0][1] + counter[0][2];
             double average_latency = (timer[0][0] + timer[0][1] + timer[0][2]) / tot_counter;
-            double mem_latency = counter[0][0] ? timer[0][0] / counter[0][0] : 0;
+            double mem_latency = memc_counter[0] ? memc_timer[0] / memc_counter[0] : 0;
             double rdb_latency = counter[0][1] ? timer[0][1] / counter[0][1] : 0;
             double nf_latency = counter[0][2] ? timer[0][2] / counter[0][2] : 0;
             double throughput_req = tot_counter / total_time;
@@ -259,7 +299,7 @@ void* subprocess_work(void * arg)
             pthread_mutex_unlock(&stats_mutex);
             if (earlyStop && tot_counter > MAX_TOTAL_COUNTER) {
                 test_finished = true;
-                printf("Finished.\n");
+//                printf("Finished.\n");
             }
         }
         if (test_finished && earlyStop) return 0;
@@ -274,6 +314,8 @@ void* subprocess_work(void * arg)
             for (int j = 0; j < 3; j++) {
                 timer[thread_id][j] = 0;
                 counter[thread_id][j] = 0;
+                memc_counter[0] += memc_counter[j];
+                memc_timer[0] += memc_timer[j];
             }
             gettimeofday(&start_time[thread_id], NULL);
             warming_up_counter++;
@@ -286,7 +328,7 @@ void* subprocess_work(void * arg)
     return nullptr;
 }
 
-/* argv: threadNum - maxLength - traceFile - earlyStop - threadsSync - hasWarmup */
+/* argv: threadNum - maxLength - traceFile - earlyStop - threadsSync - hasWarmup - manualLatency*/
 int main(int argc, char* argv[])
 {
     printf("Bench started.\n");
@@ -303,7 +345,7 @@ int main(int argc, char* argv[])
     } else {
         str_length = to_string(maxLength);
     }
-    kDBPath = "/tmp/rocksdb_simple_" + str_length + "_" + traceFile;
+    kDBPath = "/tmp/new_rocksdb_simple_" + str_length + "_" + traceFile;
     if (argv[4] == nullptr) {
         cerr << "No early stop option." << std::endl;
         return 0;
@@ -319,6 +361,9 @@ int main(int argc, char* argv[])
         return 0;
     }
     hasWarmup = stoi(argv[6]);
+    if (argv[7] != nullptr) {
+        simulated_network_latency = stoi(argv[7]);
+    }
     /* initialize connection of rocksdb & memcached */
     rocksDB = rocksdb_create();
     if (!rocksDB) {
@@ -354,8 +399,8 @@ int main(int argc, char* argv[])
         pthread_create(&threads[i], NULL, subprocess_work, (void *)(targ));
         pthread_setname_np(threads[i], ("THREAD-" + to_string(i + 1)).c_str());
     }
-    pthread_join(threads[0], NULL);
-    for (int i = 1; i < threadNum; i++) {
+//    pthread_join(threads[0], NULL);
+    for (int i = 0; i < threadNum; i++) {
         pthread_join(threads[i], NULL);
     }
     printf("Sampled %zu, now calculating tail latency...\n", latency_vec.size());

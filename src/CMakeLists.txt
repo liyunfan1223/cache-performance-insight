@@ -19,7 +19,9 @@ FOREACH (F ${ALL_SRC})
                 managers/dlirs_cache_manager.cpp
                 managers/dlirs_cache_manager.h
                 managers/rgc4_cache_manager.cpp
-                managers/rgc4_cache_manager.h)
+                managers/rgc4_cache_manager.h
+                managers/rgc5_cache_manager.cpp
+                managers/rgc5_cache_manager.h)
     ENDIF()
     MESSAGE("Use " ${F})
 ENDFOREACH (F)

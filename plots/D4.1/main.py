@@ -24,7 +24,7 @@ policies = ['LFU', 'LRU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC4', 'OPT']
 policies_tag = ['LFU', 'LRU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC', 'OPT']
 params = [None, None, None, [2], [2], [], [16, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000], None]
 buffer_sizes = [0.001, 0.01, 0.05, 0.1]
-buffer_sizes_tag = ['0.1%', '1%', '5%', '10%']
+buffer_sizes_tag = ['0.1', '1', '5', '10']
 # buffer_sizes = [0.0005, 0.001, 0.005]#, 0.01, 0.05, 0.1]
 
 traces = ['online', 'webusers', 'webmail', 'cloudvps26107', 'cloudvps26215', 'cloudvps26511', 'msr_prn_0', 'msr_ts_0', 'msr_usr_0']
@@ -38,17 +38,20 @@ plt.set_cmap(matplotlib.colormaps['viridis'])
 n_policy = len(policies)
 X = np.arange(len(buffer_sizes))
 if __name__ == "__main__":
-    fig, axes = plt.subplots(3, 3, figsize=(8, 5))
+    fig, axes = plt.subplots(3, 3, figsize=(8, 6.5))
 
 
     # plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
     for i_trace, trace in enumerate(traces):
         ax = axes[i_trace // 3][i_trace % 3]
-        ax.set_title(f'{traces_tag[i_trace]}', fontsize=10)
+        ax.set_title(f'{traces_tag[i_trace]}', fontsize=11)
         ax.set_xticks(X * interval + 0.5)
-        ax.set_xticklabels(buffer_sizes_tag, fontsize=10)
+        ax.set_xticklabels(buffer_sizes_tag, fontsize=11)
+        if i_trace == 7:
+            ax.set_xlabel('Cache size / Footprint size(%)', fontsize=11)
         # fig.set_label('Cache Size / Workload Size')
-        ax.set_ylabel('Hit Rate(%)', fontsize=10)
+        if i_trace % 3 == 0:
+            ax.set_ylabel('Hit Rate(%)', fontsize=11)
         # if i_trace < len(ylims):
         #     ax.set_ylim(ylims[i_trace][0], ylims[i_trace][1])
 
@@ -69,11 +72,15 @@ if __name__ == "__main__":
             color = None
             ax.bar(x, y, width=1/n_policy, label=policies_tag[i], bottom=0, linewidth=1, color=colors[i])
         # plt.legend()
-    fig.tight_layout(h_pad=1.0, w_pad=0.0)
+    # fig.tight_layout(h_pad=1.0, w_pad=0.0)
 
     print(f'Generate plots/D4.1/1.png')
-    # plt.legend(bbox_to_anchor=(0, -0.1), ncol=len(policies_tag))
     # plt.subplots_adjust(hspace=0.2)
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.9, right=0.95)
+    # plt.suptitle('Cache Size / Footprint Size(%)')
+    plt.legend(loc='upper center', ncol=len(policies_tag), bbox_to_anchor=(-0.75, 4.3))
+    # plt.tight_layout()
     fig.savefig(f'plots/D4.1/1.png')
     fig.savefig(f'plots/D4.1/1.eps')
 

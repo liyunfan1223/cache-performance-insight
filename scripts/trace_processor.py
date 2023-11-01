@@ -125,6 +125,35 @@ def process_msr(input=None, output=None, block=512):
     print(idx)
     processed.close()
 
+def process_systor(input=None, output=None, block=512):
+    raw = open(input)
+    raw.readline()
+    processed = open(output, 'w')
+    access = []
+    for idx, line in enumerate(raw.readlines()):
+        ts, response, iotype, lun, offset, size = line.split(',')
+        access.append((int(offset) // block, int(size) // block))
+        # processed.write(f'{int(offset) // block} {int(size) // block} 0 {idx}\n')
+    raw.close()
+    print(len(access))
+    last = -1
+    last_len = 0
+    idx = 0
+    for order, size in access:
+        if order != last + last_len:
+            if last != -1:
+                processed.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+            idx += 1
+            last_len = 0
+            last = order
+        # last = order
+        last_len += size
+    if last_len != 0:
+        processed.write(f"{str(last)} {str(last_len)} 0 {idx}\n")
+        idx += 1
+    print(idx)
+    processed.close()
+
 def process_fiu(input=None, output=None):
     raw = open(input)
     processed = open(output, 'w')
@@ -205,8 +234,8 @@ if __name__ == "__main__":
     # process_msr(RAW_TRACE_FOLDER + 'CAM-01-SRV-lvm0.csv', OUTPUT_FOLDER + 'msr_usr_0.lis', 4096)
     # process_msr(RAW_TRACE_FOLDER + 'CAMRESTSA01-lvm0.csv', OUTPUT_FOLDER + 'msr_ts_0.lis', 4096)
     # process_msr(RAW_TRACE_FOLDER + 'CAM-USP-01-lvm0.csv', OUTPUT_FOLDER + 'msr_prn_0.lis', 4096)
-    process_msr(RAW_TRACE_FOLDER + 'CAMRESSDPA03-lvm0.csv', OUTPUT_FOLDER + 'msr_src2_0.lis', 4096)
-
+    # process_msr(RAW_TRACE_FOLDER + 'CAMRESSDPA03-lvm0.csv', OUTPUT_FOLDER + 'msr_src2_0.lis', 4096)
+    process_systor(RAW_TRACE_FOLDER + '2016022209-LUN2.csv', OUTPUT_FOLDER + 'lun2.lis', 512)
     # process_msr(RAW_TRACE_FOLDER + 'CAMWEBDEV-lvm0.csv', OUTPUT_FOLDER + 'msr_wdev_0.lis', 4096)
     # process_blkparse([f"webmail.cs.fiu.edu-110108-113008.{i}.blkparse" for i in range(1, 20 + 1)], './traces/webmail.lis')
     # process_blkparse([f"casa-110108-112108.{i}.blkparse" for i in range(1, 21 + 1)], './traces/Home1.lis')

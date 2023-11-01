@@ -16,7 +16,7 @@ colors = ['#4c90b0', '#55a868', '#c44e52', '#8172b2', '#ccb974', '#86a38d', '#78
 # X = np.arange(7)
 
 
-plt.style.use('seaborn-v0_8')
+plt.style.use('seaborn-v0_8-paper')
 
 hatches = ['//', '\\', '||', '-', '+',]
 
@@ -94,44 +94,63 @@ def RunAndGetHitRateAndParam(policy, buffer_size, ptrace, param):
 
 def online():
     total_size = 2000
-    buffer_size = 0.1
-    trace = 'online'
-    p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.05, 1, 1024, 10000]
-    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
-    p3 = [8, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
+    buffer_size = 0.05
+    trace = 'msr_proj_0'
+    p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 3000]
+    p1b = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 3000]
+    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 3000]
+    p3 = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 3000]
     # sim_hrs, sim_ps = GetHitRateAndParam('local/webmail_0.001_sim.log')
     sim_hrs, sim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1)
+    simb_hrs, simb_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1b)
     nosim_hrs, nosim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p2)
     nosim_hrs2, nosim_ps2 = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p3)
     # nosim_hrs, nosim_ps = GetHitRateAndParam('local/webmail_0.001_nosim.log')
 
     X = np.arange(len(sim_hrs))
     # print(X, len(sim_hrs), down_sample_group_size)
-    fig, axes = plt.subplots(2, 1, figsize=(12, 6))
+    fig, axes = plt.subplots(2, 1, figsize=(10, 5), sharex=True)
 
-    ax = axes[0]
-    ax.plot(X, sim_hrs, label='sim')
 
-    ax.plot(X, nosim_hrs, label='nosim')
-    ax.plot(X, nosim_hrs2, label='nosim2')
-    # plt.legend()
-    # plt.savefig(f'plots/D4.2/{trace}_1.png')
 
     ax = axes[1]
-    # fig, ax = plt.subplots(figsize=(8, 5))
+    ax.plot(X, sim_ps, label='RGC($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_ps, label='RGC($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_ps, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_ps2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
+    ax.set_ylabel('$R_t$', fontsize=14)
+    ax.set_xlabel(r'Requests($\times$10000)', fontsize=14)
+    # ax.set_yticks([1, 8, 64])
+    ax.set_yscale('log')
+    ax.tick_params(axis='x', labelsize=14)
+    ax.tick_params(axis='y', labelsize=14)
+    ax.yaxis.grid(True)
+    # ax.xaxis.grid(True)
 
-    # spl = make_interp_spline(X, sim_ps)
-    # sim_ps_smooth = spl(x_smooth)
-    # ax.plot(x_smooth, sim_ps_smooth, label='sim')
-    ax.plot(X, sim_ps, label='sim')
+    ax = axes[0]
+    ax.plot(X, sim_hrs, label='RGC($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_hrs, label='RGC($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_hrs, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_hrs2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
+    # ax.xaxis.set_visible(False)
+    # ax.set_yticks(0)
+    # ax.set_ytickslabel('')
+    ax.tick_params(axis='x', labelsize=14)
+    ax.tick_params(axis='y', labelsize=14)
+    # ax.set_ylim(5, 60)
+    ax.set_ylabel('Hit Rate(%)', fontsize=14)
+    # ax.legend()
+    # plt.legend()
+    ax.yaxis.grid(True)
+    # ax.xaxis.grid(True)
+    fig.tight_layout()
+    fig.subplots_adjust(top=0.92)
+    legend = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25), ncols=4, fontsize=14)
+    legend.get_frame().set_linewidth(0)  # 设置边框宽度为0
+    legend.get_frame().set_facecolor('none')  # 设置背景颜色为透明
 
-    # spl = make_interp_spline(X, nosim_ps)
-    # nosim_ps_smooth = spl(x_smooth)
-    # ax.plot(x_smooth, nosim_ps_smooth, label='nosim')
-    ax.plot(X, nosim_ps, label='nosim')
-    ax.plot(X, nosim_ps2, label='nosim2')
-    plt.legend()
     plt.savefig(f'plots/D4.2/{trace}_2.png')
+    plt.savefig(f'plots/D4.2/{trace}_2.eps')
 
 def webmail():
     total_size = 2000
@@ -155,22 +174,24 @@ def webmail():
 
 
     ax = axes[1]
-    ax.plot(X, sim_ps, label='RGC($R_0=1$)')
-    ax.plot(X, simb_ps, label='RGC($R_0=128$)')
-    ax.plot(X, nosim_ps, label='RGC($R_t=1$)', linestyle='--')
-    ax.plot(X, nosim_ps2, label='RGC($R_t=128$)', linestyle='--')
+    ax.plot(X, sim_ps, label='RGC($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_ps, label='RGC($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_ps, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_ps2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
     ax.set_ylabel('$R_t$', fontsize=14)
     ax.set_xlabel(r'Requests($\times$10000)', fontsize=14)
     # ax.set_yticks([1, 8, 64])
     ax.set_yscale('log')
     ax.tick_params(axis='x', labelsize=14)
     ax.tick_params(axis='y', labelsize=14)
+    ax.yaxis.grid(True)
+    # ax.xaxis.grid(True)
 
     ax = axes[0]
-    ax.plot(X, sim_hrs, label='RGC($R_0=1$)')
-    ax.plot(X, simb_hrs, label='RGC($R_0=128$)')
-    ax.plot(X, nosim_hrs, label='RGC($R_t=1$)', linestyle='--')
-    ax.plot(X, nosim_hrs2, label='RGC($R_t=128$)', linestyle='--')
+    ax.plot(X, sim_hrs, label='RGC($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_hrs, label='RGC($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_hrs, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_hrs2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
     # ax.xaxis.set_visible(False)
     # ax.set_yticks(0)
     # ax.set_ytickslabel('')
@@ -179,15 +200,21 @@ def webmail():
     # ax.set_ylim(5, 60)
     ax.set_ylabel('Hit Rate(%)', fontsize=14)
     # ax.legend()
-    # ax.legend(loc='upper center', bbox_to_anchor=(0, -0.5), ncols=4)
     # plt.legend()
+    ax.yaxis.grid(True)
+    # ax.xaxis.grid(True)
     fig.tight_layout()
-
+    fig.subplots_adjust(top=0.92)
+    legend = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25), ncols=4, fontsize=14)
+    legend.get_frame().set_linewidth(0)  # 设置边框宽度为0
+    legend.get_frame().set_facecolor('none')  # 设置背景颜色为透明
 
     plt.savefig(f'plots/D4.2/{trace}_2.png')
+    plt.savefig(f'plots/D4.2/{trace}_2.eps')
 
 if __name__ == "__main__":
-    webmail()
+    online()
+    # webmail()
 
     #
     # fig.tight_layout(h_pad=1.5, w_pad=0.0)
