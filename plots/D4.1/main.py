@@ -21,7 +21,7 @@ plt.style.use('seaborn-v0_8')
 hatches = ['//', '\\', '||', '-', '+',]
 
 policies = ['LFU', 'LRU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC4', 'OPT']
-policies_tag = ['LFU', 'LRU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC', 'OPT']
+policies_tag = ['LFU', 'LRU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'AERF', 'OPT']
 params = [None, None, None, [2], [2], [], [16, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000], None]
 buffer_sizes = [0.001, 0.01, 0.05, 0.1]
 buffer_sizes_tag = ['0.1', '1', '5', '10']

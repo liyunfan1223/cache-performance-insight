@@ -10,7 +10,7 @@ plt.style.use('seaborn-v0_8-paper')
 
 def gen():
     policies = ['ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC4', 'RGC4', 'RGC4', 'RGC4']
-    policies_tag = ['ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC-naive', 'RGC-M', 'RGC-G', 'RGC']
+    policies_tag = ['ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'AERF-naive', 'AERF-M', 'AERF-G', 'AERF']
     sizes = [0.001, 0.01, 0.05, 0.1]
     params = [None, [2], [2], [],
               [16, 1, 6, 0, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, -1, 10000],

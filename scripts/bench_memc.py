@@ -5,7 +5,7 @@ from trace_analyzer import GetUniqueKeys
 
 THREADS_LIST = [32]
 TRACE_FILE_LIST = ["P6", "P1"]
-LOGFILE = 'log1030'
+LOGFILE = 'log1102_ideal'
 results = []
 
 def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_stop=True, threads_sync=True, has_warmup=True, est_item_counts=0):
@@ -51,14 +51,14 @@ def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, early_
 
 
 if __name__ == "__main__":
-    for p_size in [0.1, 0.05, 0.01, 0.001]:
+    for p_size in [0.1, 0.05, 0.01, 0.001, 0.2]:
         for trace_file in TRACES_LIST:
             keys = GetUniqueKeys(f'traces/{trace_file}.lis')
             est_items = keys * p_size
-            size = int(est_items / 1225)
+            size = int(est_items / 40.16) #* 32 / 1225)
             size = max(2, size)
             # bench(64, 1 * 1024, size, trace_file, "lru", early_stop=False, has_warmup=False)
-            bench(64, 1 * 1024, size, trace_file, "rgc", early_stop=False, has_warmup=False, est_item_counts=est_items)
+            bench(64, 32 * 1024, size, trace_file, "rgc", early_stop=False, has_warmup=False, est_item_counts=est_items)
             runner = SingleTestRunner('RGC4', p_size, f'traces/{trace_file}.lis',
                                       [16, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000])
             ideal = runner.get_hit_rate()

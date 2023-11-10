@@ -7,7 +7,6 @@
 
 #include "def.h"
 #include "managers/cache_manager.h"
-#include "data_structures/multi_lru.h"
 
 class RGCReplacer {
     struct RGCEntry {

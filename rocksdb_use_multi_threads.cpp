@@ -13,6 +13,7 @@
 #include <thread>
 #include <csignal>
 #include <queue>
+#include <random>
 #include "src/def.h"
 
 using ROCKSDB_NAMESPACE::DB;
@@ -65,7 +66,10 @@ std::vector<double> latency_vec;
 std::mutex latency_mutex;
 
 double GenerateRandomRTT() {
-    return (1 + rand() % 200 / 100.0) * simulated_network_latency;
+    std::default_random_engine generator(233);
+    // 第一个参数为高斯分布的平均值，第二个参数为标准差
+    std::normal_distribution<double> distribution(simulated_network_latency, simulated_network_latency / 4);
+    return distribution(generator);
 }
 
 double GenrateRandomRatio() {
@@ -121,13 +125,13 @@ bool save_to_memcached( const char * key, string& value, uint32_t v_len, memcach
     uint32_t flags;
     uint32_t key_length = strlen(key);
     string val = value.substr(0, v_len);
-//    timeval start_time, end_time;
-//    gettimeofday(&start_time, nullptr);
+    timeval start_time, end_time;
+    gettimeofday(&start_time, nullptr);
     ret = memcached_set(memc, key, key_length, val.c_str(), v_len, 0, 0);
-//    gettimeofday(&end_time, nullptr);
-//    double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
-//    memc_counter[thread_id] ++;
-//    memc_timer[thread_id] += time;
+    gettimeofday(&end_time, nullptr);
+    double time = (end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_usec - start_time.tv_usec) / 1000.0; // ms
+    memc_counter[thread_id] ++;
+    memc_timer[thread_id] += time;
     return ret == 0;
 }
 
@@ -266,7 +270,6 @@ void* subprocess_work(void * arg)
                     memc_counter[0] += memc_counter[j];
                     memc_timer[0] += memc_timer[j];
                 }
-
             }
             uint32_t tot_counter = counter[0][0] + counter[0][1] + counter[0][2];
             double average_latency = (timer[0][0] + timer[0][1] + timer[0][2]) / tot_counter;

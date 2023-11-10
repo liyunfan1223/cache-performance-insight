@@ -94,12 +94,12 @@ def RunAndGetHitRateAndParam(policy, buffer_size, ptrace, param):
 
 def online():
     total_size = 2000
-    buffer_size = 0.05
-    trace = 'msr_proj_0'
-    p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 3000]
-    p1b = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 3000]
-    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 3000]
-    p3 = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 3000]
+    buffer_size = 0.001
+    trace = 'online'
+    p1 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000]
+    p1b = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000]
+    p2 = [1, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
+    p3 = [128, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.00, 1, 1024, 10000]
     # sim_hrs, sim_ps = GetHitRateAndParam('local/webmail_0.001_sim.log')
     sim_hrs, sim_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1)
     simb_hrs, simb_ps = RunAndGetHitRateAndParam('RGC4', buffer_size, f'traces/{trace}.lis', p1b)
@@ -114,10 +114,10 @@ def online():
 
 
     ax = axes[1]
-    ax.plot(X, sim_ps, label='RGC($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_ps, label='RGC($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_ps, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_ps2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot(X, sim_ps, label='AERF($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_ps, label='AERF($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_ps, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_ps2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
     ax.set_ylabel('$R_t$', fontsize=14)
     ax.set_xlabel(r'Requests($\times$10000)', fontsize=14)
     # ax.set_yticks([1, 8, 64])
@@ -128,10 +128,10 @@ def online():
     # ax.xaxis.grid(True)
 
     ax = axes[0]
-    ax.plot(X, sim_hrs, label='RGC($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_hrs, label='RGC($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_hrs, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_hrs2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot(X, sim_hrs, label='AERF($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_hrs, label='AERF($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_hrs, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_hrs2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
     # ax.xaxis.set_visible(False)
     # ax.set_yticks(0)
     # ax.set_ytickslabel('')
@@ -174,10 +174,10 @@ def webmail():
 
 
     ax = axes[1]
-    ax.plot(X, sim_ps, label='RGC($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_ps, label='RGC($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_ps, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_ps2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot(X, sim_ps, label='AERF($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_ps, label='AERF($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_ps, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_ps2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
     ax.set_ylabel('$R_t$', fontsize=14)
     ax.set_xlabel(r'Requests($\times$10000)', fontsize=14)
     # ax.set_yticks([1, 8, 64])
@@ -188,10 +188,10 @@ def webmail():
     # ax.xaxis.grid(True)
 
     ax = axes[0]
-    ax.plot(X, sim_hrs, label='RGC($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_hrs, label='RGC($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_hrs, label='RGC($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_hrs2, label='RGC($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot(X, sim_hrs, label='AERF($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_hrs, label='AERF($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_hrs, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_hrs2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
     # ax.xaxis.set_visible(False)
     # ax.set_yticks(0)
     # ax.set_ytickslabel('')
@@ -213,8 +213,8 @@ def webmail():
     plt.savefig(f'plots/D4.2/{trace}_2.eps')
 
 if __name__ == "__main__":
-    online()
-    # webmail()
+    # online()
+    webmail()
 
     #
     # fig.tight_layout(h_pad=1.5, w_pad=0.0)

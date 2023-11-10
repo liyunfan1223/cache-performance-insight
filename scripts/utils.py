@@ -16,7 +16,7 @@ TRACES_LIST = [
     # 'P7',
     # 'P12',
     # "Rocks1",
-    'lun2',
+    # 'lun2',
 
     "webmail",
     'websearch',
