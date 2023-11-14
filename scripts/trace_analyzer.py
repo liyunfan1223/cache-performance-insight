@@ -81,9 +81,16 @@ def analyzer(trace_file):
             for i in range(k, k + r):
                 access.append(i)
     run(access)
-    GetUniqueKeys(access)
+    GetUniqueKeys(trace_file)
 
 if __name__ == "__main__":
-    for trace in ['websearch']:
+    sum = 0
+    count = 0
+    for trace in TRACES_LIST:
         print(f"Analyzing {trace}:")
-        analyzer(f"traces/{trace}.lis")
+        # analyzer(f"traces/{trace}.lis")
+        footprint = GetUniqueKeys(f"traces/{trace}.lis")
+        print(footprint)
+        sum += footprint
+        count += 1
+    print(f"AVG: {sum / count}")
