@@ -169,7 +169,7 @@ def webmail():
 
     X = np.arange(len(sim_hrs))
     # print(X, len(sim_hrs), down_sample_group_size)
-    fig, axes = plt.subplots(2, 1, figsize=(10, 5), sharex=True)
+    fig, axes = plt.subplots(2, 1, figsize=(10, 4), sharex=True)
 
 
 
@@ -178,12 +178,12 @@ def webmail():
     ax.plot(X, simb_ps, label='AERF($R_0=128$)', color=colors[1])
     ax.plot(X, nosim_ps, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
     ax.plot(X, nosim_ps2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
-    ax.set_ylabel('$R_t$', fontsize=14)
-    ax.set_xlabel(r'Requests($\times$10000)', fontsize=14)
+    ax.set_ylabel('$R_t$', fontsize=12)
+    ax.set_xlabel(r'Requests ($\times$10000)', fontsize=12)
     # ax.set_yticks([1, 8, 64])
     ax.set_yscale('log')
-    ax.tick_params(axis='x', labelsize=14)
-    ax.tick_params(axis='y', labelsize=14)
+    ax.tick_params(axis='x', labelsize=12)
+    ax.tick_params(axis='y', labelsize=12)
     ax.yaxis.grid(True)
     # ax.xaxis.grid(True)
 
@@ -195,22 +195,22 @@ def webmail():
     # ax.xaxis.set_visible(False)
     # ax.set_yticks(0)
     # ax.set_ytickslabel('')
-    ax.tick_params(axis='x', labelsize=14)
-    ax.tick_params(axis='y', labelsize=14)
+    ax.tick_params(axis='x', labelsize=12)
+    ax.tick_params(axis='y', labelsize=12)
     # ax.set_ylim(5, 60)
-    ax.set_ylabel('Hit Rate(%)', fontsize=14)
+    ax.set_ylabel('Hit Rate (%)', fontsize=12)
     # ax.legend()
     # plt.legend()
     ax.yaxis.grid(True)
     # ax.xaxis.grid(True)
     fig.tight_layout()
     fig.subplots_adjust(top=0.92)
-    legend = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25), ncols=4, fontsize=14)
+    legend = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.28), ncols=4, fontsize=12)
     legend.get_frame().set_linewidth(0)  # 设置边框宽度为0
     legend.get_frame().set_facecolor('none')  # 设置背景颜色为透明
 
-    plt.savefig(f'plots/D4.2/{trace}_2.png')
-    plt.savefig(f'plots/D4.2/{trace}_2.eps')
+    plt.savefig(f'plots/D4.2/{trace}_2b.png')
+    plt.savefig(f'plots/D4.2/{trace}_2b.eps')
 
 if __name__ == "__main__":
     # online()

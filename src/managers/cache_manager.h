@@ -42,6 +42,8 @@ protected:
     const int32_t buffer_size_;
     int32_t hit_count_;
     int32_t miss_count_;
+    int32_t quick_demote_count{};
+    double evicted_age_sum{};
     // bool is_count_started_;
 };
 

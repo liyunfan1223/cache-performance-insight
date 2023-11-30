@@ -70,6 +70,44 @@ def GetUniqueKeys(trace_file):
     avg_interval = interval / ninterval
     return len(mp.keys())
 
+def GetRequests(trace_file):
+    access = []
+    reqs = 0
+    with open(trace_file, "r") as f:
+        for line in f.readlines():
+            k, r, _, _ = line.strip().split()
+            k = int(k)
+            r = int(r)
+            reqs += r
+    return reqs
+    #         for i in range(k, k + r):
+    #             access.append(i)
+    # mp = {}
+    # ats = {}
+    # ts = 0
+    # interval = 0
+    # ninterval = 0
+    # tot_freq = 0
+    # nHiF = 1
+    # for i in access:
+    #     ts += 1
+    #     if i in mp.keys():
+    #         mp[i] += 1
+    #         interval += (ts - ats[i])
+    #         ninterval += 1
+    #         ats[i] = ts
+    #     else:
+    #         mp[i] = 1
+    #         ats[i] = ts
+    # sort_result = sorted(mp.items(), key=lambda x: x[1], reverse=True)
+    # for idx, item in enumerate(sort_result):
+    #     if (idx == nHiF):
+    #         break
+    #     tot_freq += item[1]
+    # avg_freq = len(access) / len(mp)
+    # avg_hiF = tot_freq / nHiF
+    # avg_interval = interval / ninterval
+    # return len(mp.keys())
 
 def analyzer(trace_file):
     access = []
@@ -89,8 +127,11 @@ if __name__ == "__main__":
     for trace in TRACES_LIST:
         print(f"Analyzing {trace}:")
         # analyzer(f"traces/{trace}.lis")
-        footprint = GetUniqueKeys(f"traces/{trace}.lis")
-        print(footprint)
-        sum += footprint
+        # footprint = GetUniqueKeys(f"traces/{trace}.lis")
+        reqs = GetRequests(f"traces/{trace}.lis")
+        # print(footprint)
+        # sum += footprint
+        # count += 1
+        sum += reqs
         count += 1
-    print(f"AVG: {sum / count}")
+    print(f"AVG Reqs: {sum / count}")
