@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
 import sys
-sys.path.append("/home/ubuntu22/cache-performance-insight")
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
 from scripts.utils import SingleTestRunner, MultiTestRunner, BUFFER_LIST_FOR_TRACES, TRACES_LIST
 
