@@ -2,7 +2,7 @@ import subprocess
 import time
 
 THREADS_LIST = [512, 256, 128, 64, 32, 16, 8, 4, 2, 1]
-LOGFILE = 'log1102c'
+LOGFILE = 'log1201'
 results = []
 
 def bench(thread_num, value_size, memcached_mem, trace_file, memc_suffix, server_thread, early_stop=True, threads_sync=True, has_warmup=True, est_item_counts=0):
@@ -107,8 +107,8 @@ if __name__ == "__main__":
 
     """ online 72M + 1K """
     # for threads in THREADS_LIST:
-    for size in [24, 48, 72, 96]:
-        for threads in [64]:
+    for size in [24, 48, 72]:
+        for threads in [128]:
             for server_thread in [8]:
                 for trace_file in ["online"]:
                     bench(threads, 1 * 1024, size, trace_file, "lru2", server_thread, early_stop=False, has_warmup=False)
