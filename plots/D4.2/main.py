@@ -114,10 +114,10 @@ def online():
 
 
     ax = axes[1]
-    ax.plot(X, sim_ps, label='AERF($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_ps, label='AERF($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_ps, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_ps2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot(X, sim_ps, label='Hill-Cache($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_ps, label='Hill-Cache($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_ps, label='Hill-Cache($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_ps2, label='Hill-Cache($R_t=128$)', linestyle='--', color=colors[3])
     ax.set_ylabel('$R_t$', fontsize=14)
     ax.set_xlabel(r'Requests($\times$10000)', fontsize=14)
     # ax.set_yticks([1, 8, 64])
@@ -128,10 +128,10 @@ def online():
     # ax.xaxis.grid(True)
 
     ax = axes[0]
-    ax.plot(X, sim_hrs, label='AERF($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_hrs, label='AERF($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_hrs, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_hrs2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot(X, sim_hrs, label='Hill-Cache($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_hrs, label='Hill-Cache($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_hrs, label='Hill-Cache($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_hrs2, label='Hill-Cache($R_t=128$)', linestyle='--', color=colors[3])
     # ax.xaxis.set_visible(False)
     # ax.set_yticks(0)
     # ax.set_ytickslabel('')
@@ -149,8 +149,8 @@ def online():
     legend.get_frame().set_linewidth(0)  # 设置边框宽度为0
     legend.get_frame().set_facecolor('none')  # 设置背景颜色为透明
 
-    plt.savefig(f'plots/D4.2/{trace}_2.png')
-    plt.savefig(f'plots/D4.2/{trace}_2.eps')
+    plt.savefig(f'plots/D4.2/{trace}_3.png')
+    plt.savefig(f'plots/D4.2/{trace}_3.eps')
 
 def webmail():
     total_size = 2000
@@ -168,49 +168,71 @@ def webmail():
     # nosim_hrs, nosim_ps = GetHitRateAndParam('local/webmail_0.001_nosim.log')
 
     X = np.arange(len(sim_hrs))
+    print("LEN:", len(X))
     # print(X, len(sim_hrs), down_sample_group_size)
-    fig, axes = plt.subplots(2, 1, figsize=(10, 4), sharex=True)
+    fig, axes = plt.subplots(2, 1, figsize=(10 * 0.8, 4 * 0.8), sharex=True)
 
 
 
     ax = axes[1]
-    ax.plot(X, sim_ps, label='AERF($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_ps, label='AERF($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_ps, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_ps2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
-    ax.set_ylabel('$R_t$', fontsize=12)
-    ax.set_xlabel(r'Requests ($\times$10000)', fontsize=12)
+    ax.plot(X, sim_ps, label='Hill($R_0=1$)', color=colors[0])
+    ax.plot(X, simb_ps, label='Hill($R_0=128$)', color=colors[1])
+    ax.plot(X, nosim_ps, label='Hill($R_t=1$)', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_ps2, label='Hill($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot((200, 200,), (0, 2000), color='black', linestyle='--',)
+    ax.plot((50, 50,), (0, 2000), color='black', linestyle='--',)
+
+    ax.set_ylabel('$R_t$', fontsize=14)
+    ax.set_xlabel(r'Requests ($\times$10000)', fontsize=14)
     # ax.set_yticks([1, 8, 64])
     ax.set_yscale('log')
-    ax.tick_params(axis='x', labelsize=12)
-    ax.tick_params(axis='y', labelsize=12)
+    ax.set_ylim(0.7, 200)
+    ax.tick_params(axis='x', labelsize=14)
+    ax.tick_params(axis='y', labelsize=14)
     ax.yaxis.grid(True)
     # ax.xaxis.grid(True)
 
     ax = axes[0]
-    ax.plot(X, sim_hrs, label='AERF($R_0=1$)', color=colors[0])
-    ax.plot(X, simb_hrs, label='AERF($R_0=128$)', color=colors[1])
-    ax.plot(X, nosim_hrs, label='AERF($R_t=1$)', linestyle='--', color=colors[2])
-    ax.plot(X, nosim_hrs2, label='AERF($R_t=128$)', linestyle='--', color=colors[3])
+    # ax.plot(X, sim_hrs, label='Hill ($R_0=1$)', color=colors[0])
+    # ax.plot(X, simb_hrs, label='Hill ($R_0=128$)', color=colors[1])
+    # ax.plot(X, nosim_hrs, label='Hill ($R_t=1$)', linestyle='--', color=colors[2])
+    # ax.plot(X, nosim_hrs2, label='Hill ($R_t=128$)', linestyle='--', color=colors[3])
+    ax.plot(X, sim_hrs, label='$R_0=1$', color=colors[0])
+    ax.plot(X, simb_hrs, label='$R_0=128$', color=colors[1])
+    ax.plot(X, nosim_hrs, label='$R_t=1$', linestyle='--', color=colors[2])
+    ax.plot(X, nosim_hrs2, label='$R_t=128$', linestyle='--', color=colors[3])
+    ax.plot((200, 200,), (0, 100), color='black', linestyle='--',)
+    ax.plot((50, 50,), (0, 100), color='black', linestyle='--',)
+    ax.text(56, 4, "T1", fontsize=14)
+    ax.text(206, 10, "T2", fontsize=14)
+    # ax.set_ylim(0, 65)
+    ax.set_ylim(0, 65)
     # ax.xaxis.set_visible(False)
     # ax.set_yticks(0)
     # ax.set_ytickslabel('')
-    ax.tick_params(axis='x', labelsize=12)
-    ax.tick_params(axis='y', labelsize=12)
+    ax.tick_params(axis='x', labelsize=14)
+    ax.tick_params(axis='y', labelsize=14)
+
     # ax.set_ylim(5, 60)
-    ax.set_ylabel('Hit Rate (%)', fontsize=12)
+    ax.set_ylabel('Hit Rate (%)', fontsize=14)
     # ax.legend()
     # plt.legend()
     ax.yaxis.grid(True)
     # ax.xaxis.grid(True)
     fig.tight_layout()
-    fig.subplots_adjust(top=0.92)
-    legend = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.28), ncols=4, fontsize=12)
+    fig.subplots_adjust(top=0.9)
+    legend = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.45), ncols=4, fontsize=14)
     legend.get_frame().set_linewidth(0)  # 设置边框宽度为0
     legend.get_frame().set_facecolor('none')  # 设置背景颜色为透明
 
-    plt.savefig(f'plots/D4.2/{trace}_2b.png')
-    plt.savefig(f'plots/D4.2/{trace}_2b.eps')
+    print(sim_ps[49], simb_ps[49], nosim_ps[49], nosim_ps2[49])
+    print(sim_hrs[49], simb_hrs[49], nosim_hrs[49], nosim_hrs2[49])
+    print(sim_ps[199], simb_ps[199], nosim_ps[199], nosim_ps2[199])
+    print(sim_hrs[199], simb_hrs[199], nosim_hrs[199], nosim_hrs2[199])
+
+    plt.savefig(f'plots/D4.2/{trace}_2e.png')
+    plt.savefig(f'plots/D4.2/{trace}_2e.eps')
+    plt.savefig(f'plots/D4.2/{trace}_2e.svg')
 
 if __name__ == "__main__":
     # online()

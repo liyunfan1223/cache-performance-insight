@@ -177,9 +177,12 @@ int main(int argc, char **argv) {
             if (argc <= BASIC_MAIN_ARG_NUM) {
                 UnittestUtils::make_test(trace_file,
                                          std::make_shared<LRFUCacheManager>(buffer_size));
-            } else {
+            } else if (argc <= BASIC_MAIN_ARG_NUM + 1) {
                 UnittestUtils::make_test(trace_file,
                                          std::make_shared<LRFUCacheManager>(buffer_size, std::stof(param_0)));
+            } else {
+                UnittestUtils::make_test(trace_file,
+                                         std::make_shared<LRFUCacheManager>(buffer_size, std::stof(param_0), std::stof(param_1)));
             }
             break;
         case CachePolicy::ALRFU:

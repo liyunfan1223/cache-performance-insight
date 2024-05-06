@@ -10,11 +10,16 @@
 class LRFUCacheManager: public CacheManager {
 public:
     LRFUCacheManager(int32_t buffer_size,
-                     double lambda = 1e-4) : CacheManager(buffer_size),
-                                             lu_heap_(pow(0.5, lambda)),
-                                             lu_heap_store_(pow(0.5, lambda))
+                     double lambda = 1e-4, bool ref_size = false) : CacheManager(buffer_size),
+                                            lambda_(ref_size ? 1 / (lambda * buffer_size) : lambda),
+                                             lu_heap_(pow(0.5, lambda_)),
+                                             lu_heap_store_(pow(0.5, lambda_))
     {
-        lambda_ = lambda;
+//        if (ref_size) {
+//            lambda_ = 1 / (lambda * buffer_size);
+//        } else {
+//            lambda_ = lambda;
+//        }
     }
 
     RC get(const Key &key) override;
@@ -24,6 +29,7 @@ public:
     std::string get_name() override;
 
 private:
+    double lambda_;
     LUHeap lu_heap_;
     LUHeap lu_heap_store_;
 //    struct Status {
@@ -47,5 +53,4 @@ private:
 //    std::set<Status> buffer_set_;
 //    std::unordered_map<Key, std::set<Status>::iterator> u_map_;
 //    int32_t ts_ = 0;
-    double lambda_;
 };

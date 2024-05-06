@@ -9,10 +9,10 @@ from scripts.utils import SingleTestRunner, MultiTestRunner, BUFFER_LIST_FOR_TRA
 plt.style.use('seaborn-v0_8-paper')
 
 def gen():
-    policies = ['ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC4', 'RGC4', 'RGC4', 'RGC4']
-    policies_tag = ['ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'AERF 4L', 'AERF-no mru', 'AERF-no ghost', 'AERF']
+    policies = ['LRFU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'RGC4', 'RGC4', 'RGC4', 'RGC4']
+    policies_tag = ['LRFU', 'ARC', 'LIRS', 'DLIRS', 'CACHEUS', 'HC-L', 'HC-M', 'HC-G', 'Hill-Cache']
     sizes = [0.001, 0.01, 0.05, 0.1]
-    params = [None, [2], [2], [],
+    params = [[1e-5], None, [2], [2], [],
               [16, 1, 2, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000],
               [16, 1, 6, 4, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, -1, 10000],
               [16, 1, 6, 0, 1.0, 20000, 0.5, 0.05, 0.00, 0.01, 1, 1024, 10000],
@@ -89,7 +89,7 @@ def gen():
                # whis=1.0)
                whis=(5, 95))  # will be used to label x-ticks
     # fill with colors
-    colors = ['#c44e52', '#8172b2', '#ccb974', '#86a38d', '#4c90b0', '#55a868', '#757272', '#78cbe3']
+    colors = ['#c9d8bf', '#c44e52', '#8172b2', '#ccb974', '#86a38d', '#4c90b0', '#55a868', '#757272', '#78cbe3']
 
     for patch, color in zip(bplot['boxes'], colors):
         patch.set_facecolor(color)
@@ -98,10 +98,10 @@ def gen():
     # ax.spines['top'].set_visible(True)
     # ax.spines['top'].set_linewidth(2)
     # ax.spines['right'].set_visible(True)
-    ax.set_ylabel('Miss Rate lower than LRU(%)', fontsize=14)
+    ax.set_ylabel('Miss Rate lower than LRU (%)', fontsize=14)
     ax.tick_params(axis='x', labelsize=14)
     ax.tick_params(axis='y', labelsize=14)
-    ax.set_ylim((-15, 48))
+    ax.set_ylim((-20, 48))
     # ax.set_xlabel()
     # ax.legend()
     fig.tight_layout()
